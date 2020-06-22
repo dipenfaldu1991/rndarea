@@ -90,3 +90,12 @@ def add_questions(request):
         # print(title,technology,description,skill,screenshort)
     return render(request,'Add_Question.html')
 
+@login_required(login_url="/")     
+def show_question_list(request):
+    # que = Questions.objects.get(id=myid)
+    # print(myid)
+    que = Questions.objects.all()
+    return render(request,'show_question_list.html',{'items': que})
+
+def ShowQuestion(request):
+    return render(request,'ShowQuestion.html')    
