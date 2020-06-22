@@ -134,4 +134,3 @@ EMAIL_HOST_PASSWORD = 'dipen@1991'
 EMAIL_PORT = 587
 
 
-# akjshcakjchkchklchjaskls

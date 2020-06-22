@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Projects_add,Projects_add_documents
+from .models import Projects_add,Projects_add_documents,Questions
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -76,4 +76,17 @@ def ReadyProjectShow(request):
     posts = paginator.get_page(page)
     return render(request,'ReadyProjectShow.html',{'items': posts})
  
- 
+
+@login_required(login_url="/")     
+def add_questions(request):
+    if request.method=='POST' :
+        title = request.POST.get('HeadLine')
+        technology = request.POST.get('Technology')
+        description = request.POST.get('Description')
+        skill = request.POST.get('skill')
+        screenshort = request.FILES.get('Screenshort')
+        que=Questions.objects.create(title=title,technology=technology,skill=skill,description=description,screenshort=screenshort,created_user=request.user)
+        que.save()
+        # print(title,technology,description,skill,screenshort)
+    return render(request,'Add_Question.html')
+

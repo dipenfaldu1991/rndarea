@@ -11,4 +11,5 @@ urlpatterns = [
     path('pages_order_confirmation',views.pages_order_confirmation,name='pages_order_confirmation'),
     path('ReadyProjectDetails/<int:pk>',views.ReadyProjectDetails,name='ReadyProjectDetails'),
     path('ReadyProjectShow',views.ReadyProjectShow,name='ReadyProjectShow'),
+    path('add_questions',views.add_questions,name='add_questions'),
 ]

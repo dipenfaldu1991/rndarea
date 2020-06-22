@@ -46,6 +46,18 @@ class Projects_add_documents(models.Model):
     deleted = models.DateTimeField(auto_now=True,blank=True,null=True)
 
 
+class Questions(models.Model):
+    title=models.CharField(max_length=10000)
+    description=models.CharField(max_length=10000)
+    technology=models.CharField(max_length=1000)
+    skill=models.CharField(max_length=1000)
+    screenshort=models.FileField(upload_to='proje/')
+    created_user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createquestionsuser')
+    date_posted = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated_user=models.OneToOneField(User,on_delete=models.CASCADE,blank=True,null=True,related_name='updatquestionsuser')
+    updated = models.DateTimeField(auto_now=True,blank=True,null=True)
+
 
 
 
