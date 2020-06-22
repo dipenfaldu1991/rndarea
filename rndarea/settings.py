@@ -132,3 +132,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'faldu.faldu1991@gmail.com'
 EMAIL_HOST_PASSWORD = 'dipen@1991'
 EMAIL_PORT = 587
+
+
+# akjshcakjchkchklchjaskls
