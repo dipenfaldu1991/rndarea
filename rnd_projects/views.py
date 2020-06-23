@@ -100,7 +100,9 @@ def show_question_list(request):
 
 @login_required(login_url="/")     
 def ShowQuestion(request,pk):
+    # posts = Post.objects.filter(published=True).order_by('date_posted')
+    que1 = Questions.objects.all().order_by('title')[:3]
     que = Questions.objects.get(pk=pk)
     print(pk)
     # que = Questions.objects.all()
-    return render(request,'ShowQuestion.html',{'question': que})
+    return render(request,'ShowQuestion.html',{'question': que,'que1':que1})

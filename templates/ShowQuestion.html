@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block script %}
-
+<script>
+	
+</script>
 {% endblock script %}
 {% block content %}
 
@@ -60,8 +62,16 @@
 						<a href="#"  class="blog-post-info">5 Answer</a>
 					</div>
 
+					
 					<p>{{question.description}}</p>
 
+					<div class="one">
+					<a href="{{ question.screenshort.url }}">
+						
+						<img id="" src="{{ question.screenshort.url }}" height='100' weight='200' />
+					</a>
+					</div>
+					
 					<!-- <blockquote class="margin-top-20 margin-bottom-20"> -->
 						<!-- Mauris aliquet ultricies ante, non faucibus ante gravida sed. Sed ultrices pellentesque purus, vulputate volutpat ipsum hendrerit sed neque sed sapien rutrum. -->
 					<!-- </blockquote> -->
@@ -69,20 +79,23 @@
 					<!-- <p>In ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Cras suscipit, quam vitae adipiscing faucibus, risus nibh laoreet odio, a porttitor metus eros ut enim. Morbi augue velit, tempus mattis dignissim nec, porta sed risus. Donec eget magna eu lorem tristique pellentesque eget eu dui. Fusce lacinia tempor malesuada. Ut lacus sapien, placerat a ornare nec, elementum sit amet felis. Maecenas pretium lorem hendrerit eros sagittis fermentum.</p> -->
 
 					<!-- <p></p> -->
-
+					
+						
+						
+				
 					<!-- Share Buttons -->
-					<div class="share-buttons margin-top-25">
+					<!-- <div class="share-buttons margin-top-25">
 						<div class="share-buttons-trigger"><i class="icon-feather-share-2"></i></div>
-						<div class="share-buttons-content">
+						<div class="share-buttons-content"> -->
 						<!--	<span>Interesting? <strong>Share It!</strong></span>-->
-							<ul class="share-buttons-icons">
+							<!-- <ul class="share-buttons-icons">
 								<li><a href="#" data-button-color="#3b5998" title="Share on Facebook" data-tippy-placement="top"><i class="icon-brand-facebook-f"></i></a></li>
 								<li><a href="#" data-button-color="#1da1f2" title="Share on Twitter" data-tippy-placement="top"><i class="icon-brand-twitter"></i></a></li>
 								<li><a href="#" data-button-color="#dd4b39" title="Share on Google Plus" data-tippy-placement="top"><i class="icon-brand-google-plus-g"></i></a></li>
 								<li><a href="#" data-button-color="#0077b5" title="Share on LinkedIn" data-tippy-placement="top"><i class="icon-brand-linkedin-in"></i></a></li>
-							</ul>
-						</div>
-					</div>
+							</ul> -->
+						<!-- </div>
+					</div> -->
 				</div>
 			</div>
 
@@ -229,7 +242,7 @@
 
 					<!-- Form -->
 					<form method="post" id="add-comment">
-
+						{% csrf_token %}
 						<!--<div class="row">
 							<div class="col-xl-6">
 								<div class="input-with-icon-left no-border">
@@ -245,7 +258,7 @@
 							</div>
 						</div>-->
 
-						<textarea  name="comment-content" cols="30" rows="5" placeholder="Solution here"></textarea>
+						<textarea  name="answer" cols="30" rows="5" placeholder="Solution here"></textarea>
 					</form>
 					
 					<!-- Button -->
@@ -273,22 +286,22 @@
 				<!-- Widget -->
 				<div class="sidebar-widget">
 
-					<h3>Trending Posts</h3>
+					<h3>Trending Questions</h3>
 					<ul class="widget-tabs">
-
+						{% for i in que1 %}
 						<!-- Post #1 -->
 						<li>
 							<a href="#" class="widget-content active">
-								<img src="images/blog-02a.jpg" alt="">
+								<img src="{% static 'theam/images/blog-02a.jpg' %}" alt="">
 								<div class="widget-text">
-									<h5>How to "Woo" a Recruiter and Land Your Dream Job</h5>
-									<span>29 June 2019</span>
+									<h5>{{i.description}}</h5>
+									<span>{{i.date_posted}}</span>
 								</div>
 							</a>
 						</li>
-
+						{% endfor %}
 						<!-- Post #2 -->
-						<li>
+						<!-- <li>
 							<a href="#" class="widget-content">
 								<img src="images/blog-07a.jpg" alt="">
 								<div class="widget-text">
@@ -296,9 +309,9 @@
 									<span>3 June 2019</span>
 								</div>
 							</a>
-						</li>
+						</li> -->
 						<!-- Post #3 -->
-						<li>
+						<!-- <li>
 							<a href="#" class="widget-content">
 								<img src="images/blog-04a.jpg" alt="">
 								<div class="widget-text">
@@ -307,7 +320,7 @@
 								</div>
 							</a>
 						</li>
-					</ul>
+					</ul> -->
 
 				</div>
 				<!-- Widget / End-->
