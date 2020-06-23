@@ -81,7 +81,7 @@ def ReadyProjectShow(request):
 def add_questions(request):
     if request.method=='POST' :
         title = request.POST.get('HeadLine')
-        technology = request.POST.get('Technology')
+        technology = request.POST.get('dropdown')
         description = request.POST.get('Description')
         skill = request.POST.get('skill')
         screenshort = request.FILES.get('Screenshort')
@@ -97,5 +97,10 @@ def show_question_list(request):
     que = Questions.objects.all()
     return render(request,'show_question_list.html',{'items': que})
 
-def ShowQuestion(request):
-    return render(request,'ShowQuestion.html')    
+
+@login_required(login_url="/")     
+def ShowQuestion(request,pk):
+    que = Questions.objects.get(pk=pk)
+    print(pk)
+    # que = Questions.objects.all()
+    return render(request,'ShowQuestion.html',{'question': que})

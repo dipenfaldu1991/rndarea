@@ -13,6 +13,6 @@ urlpatterns = [
     path('ReadyProjectShow',views.ReadyProjectShow,name='ReadyProjectShow'),
     path('add_questions',views.add_questions,name='add_questions'),
     path('show_question_list',views.show_question_list,name='show_question_list'),
-    path('ShowQuestion',views.ShowQuestion,name='ShowQuestion'),
+    path('ShowQuestion/<int:pk>',views.ShowQuestion,name='ShowQuestion'),
    
 ]
