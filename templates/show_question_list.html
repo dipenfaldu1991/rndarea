@@ -162,7 +162,7 @@
 				
 				<!-- Job Listing -->
 				{% for que in items  %}
-				<a href="ShowQuestion.html" class="job-listing">
+				<a href="{% url 'rnd_projects:ShowQuestion' que.id %}" class="job-listing">
 					
 					<!-- Job Listing Details -->
 					<div class="job-listing-details">
