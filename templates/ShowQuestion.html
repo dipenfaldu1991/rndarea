@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block script %}
-<script>
-	
-</script>
+
 {% endblock script %}
 {% block content %}
 
@@ -165,22 +163,23 @@
 				
 
 			<!-- Comments -->
-			<!-- <div class="row">
+			 <!-- <div class="row">
 				<div class="col-xl-12">
 					<section class="comments">
 						<h3 class="margin-top-45 margin-bottom-0">Comments <span class="comments-amount">(5)</span></h3>
-
-						<ul>
-							<li>
-								<div class="avatar"><img src="images/user-avatar-placeholder.png" alt=""></div>
+						 -->
+						<!-- <ul>
+							<li> -->
+								<!-- <div class="avatar"><img src="images/user-avatar-placeholder.png" alt=""></div>
 								<div class="comment-content"><div class="arrow-comment"></div>
-									<div class="comment-by">Kathy Brown<span class="date">12th, June 2019</span>
+									<div class="comment-by">fdd<span class="date">12th, June 2019</span>
 										<a href="#" class="reply"><i class="fa fa-reply"></i> Reply</a>
 									</div>
 									<p>Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus</p>
-								</div>
+								</div> -->
+							
 
-								<ul>
+								<!-- <ul>
 									<li>
 										<div class="avatar"><img src="images/user-avatar-placeholder.png" alt=""></div>
 										<div class="comment-content"><div class="arrow-comment"></div>
@@ -214,9 +213,9 @@
 									</li>
 								</ul> -->
 
-							<!-- </li>
+							<!-- </li> -->
 
-							<li>
+							<!-- <li>
 								<div class="avatar"><img src="images/user-avatar-placeholder.png" alt=""> </div>
 								<div class="comment-content"><div class="arrow-comment"></div>
 									<div class="comment-by">John Doe<span class="date">15th, May 2015</span>
@@ -225,13 +224,13 @@
 									<p>Commodo est luctus eget. Proin in nunc laoreet justo volutpat blandit enim. Sem felis, ullamcorper vel aliquam non, varius eget justo. Duis quis nunc tellus sollicitudin mauris.</p>
 								</div>
 
-							</li>
-						 </ul> -->
+							</li> -->
+						<!-- </ul> 
 
-					<!-- </section> -->
-				<!-- </div>
-			</div> -->
-			<!-- Comments / End -->
+					</section>
+				</div> -->
+			<!-- </div> -->
+			 <!-- Comments / End  -->
 
 
 			<!-- Leava a Comment -->
@@ -241,7 +240,7 @@
 					<h3 class="margin-top-35 margin-bottom-30">Give Answer</h3>
 
 					<!-- Form -->
-					<form method="post" id="add-comment">
+					<form method="post" action="{% url 'rnd_projects:getanswer' %}" %}>
 						{% csrf_token %}
 						<!--<div class="row">
 							<div class="col-xl-6">
@@ -259,11 +258,12 @@
 						</div>-->
 
 						<textarea  name="answer" cols="30" rows="5" placeholder="Solution here"></textarea>
-					</form>
+						
 					
+						<button type='submit' class="button dark ripple-effect button-sliding-icon">Add Answer<i class="icon-feather-check"></i></button>
 					<!-- Button -->
-					<button class="button button-sliding-icon ripple-effect margin-bottom-40" type="submit" form="add-comment">Add Answer <i class="icon-material-outline-arrow-right-alt"></i></button>
-					
+					<!-- <button class="button button-sliding-icon ripple-effect margin-bottom-40" type="submit" form="add-comment">Add Answer <i class="icon-material-outline-arrow-right-alt"></i></button> -->
+				</form>
 				</div>
 			</div>
 			<!-- Leava a Comment / End -->
@@ -291,12 +291,15 @@
 						{% for i in que1 %}
 						<!-- Post #1 -->
 						<li>
+							
 							<a href="#" class="widget-content active">
-								<img src="{% static 'theam/images/blog-02a.jpg' %}" alt="">
-								<div class="widget-text">
-									<h5>{{i.description}}</h5>
-									<span>{{i.date_posted}}</span>
-								</div>
+								
+							<img src="{% static 'theam/images/blog-02a.jpg' %}" alt="">
+							<div class="widget-text">
+								<h5>{{i.description}}</h5>
+								<span>{{i.date_posted}}</span>
+							</div>
+							
 							</a>
 						</li>
 						{% endfor %}
@@ -340,6 +343,8 @@
 				</div>-->
 
 				<!-- Widget -->
+				
+
 				<div class="sidebar-widget">
 					<h3>skills</h3>
 					<div class="task-tags">
