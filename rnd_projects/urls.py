@@ -16,4 +16,5 @@ urlpatterns = [
     path('ShowQuestion/<int:pk>',views.ShowQuestion,name='ShowQuestion'),
     path('getanswer',views.getanswer,name='getanswer'),
     
+    
 ]

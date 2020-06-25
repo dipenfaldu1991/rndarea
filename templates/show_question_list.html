@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block script %}
-<script>
 
-</script>
 
-{% endblock script %}
 {% block content %}
 
 
@@ -164,7 +160,7 @@
 			<div class="listings-container margin-top-35">
 				
 				<!-- Job Listing -->
-				{% for que in items  %}
+				{% for que in page_obj  %}
 				<a href="{% url 'rnd_projects:ShowQuestion' que.id %}" class="job-listing">
 					
 					<!-- Job Listing Details -->
@@ -196,6 +192,11 @@
 					
 				</a>		
 				{% endfor %}
+
+				
+				
+				
+
 				<!-- Job Listing -->
 				<!-- <a href="single-job-page.html" class="job-listing"> -->
 
@@ -295,27 +296,50 @@
 
 
 				<!-- Pagination -->
-
 				
-				
-
-				<div class="clearfix"></div>
-				<div class="row">
+				<div class="row">					
 					<div class="col-md-12">
-						<!-- Pagination -->
 						<div class="pagination-container margin-top-30 margin-bottom-60">
+										
+							<div class="pagination">
+								<ul>
+								{% if page_obj.has_previous %}
+								
+								
+								<a class="pagination-action" href="?page=1">
+										<i class="icon-material-outline-keyboard-arrow-left"></i>
+								</a>
+								{% endif %}
+								{% for num in page_obj.paginator.page_range %}
+									{% if page_obj.number == num %}
+										<span class="pagination-number pagination-current">{{ num }}</span>
+									{% elif num > page_obj.number|add:'-4' and num < page_obj.number|add:'4' %}
+										<a class="pagination-number" href="?page={{ num }}">{{ num }}</a>
+									{% endif %}
+								{% endfor %}
+								{% if page_obj.has_next %}
+									
+									<a class="pagination-action" href="?page={{ page_obj.paginator.num_pages }}">
+										<i class="icon-material-outline-keyboard-arrow-right" ></i>
+									</a>
+								{% endif %}
+							</ul>	
+							</div>
+							
+						</div>
+						<!-- Pagination -->
+						<!-- <div class="pagination-container margin-top-30 margin-bottom-60">
 							<nav class="pagination">
 								<ul>
-									<li class="pagination-arrow"><a href="#"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
-									<li><a href="#" class="current-page">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li class="pagination-arrow"><a href="#"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
+									
+									<li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
+									
+									<li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
 								</ul>
 							</nav>
-						</div>
+						</div> -->
 					</div>
+				</div> 
 				</div>
 				<!-- Pagination / End -->
 

@@ -87,29 +87,36 @@ def add_questions(request):
         screenshort = request.FILES.get('Screenshort')
         que=Questions.objects.create(title=title,technology=technology,skill=skill,description=description,screenshort=screenshort,created_user=request.user)
         que.save()
-        return redirect('show_question_list')
+        # return redirect('show_question_list')
     return render(request,'Add_Question.html')
 
 @login_required(login_url="/")     
 def show_question_list(request):
-    # que = Questions.objects.get(id=myid)
-    # print(myid)
     que = Questions.objects.all()
-    return render(request,'show_question_list.html',{'items': que})
+    paginator = Paginator(que, 3) 
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'show_question_list.html',{'items': que,'page_obj':page_obj})
 
 
 @login_required(login_url="/")     
 def ShowQuestion(request,pk):
+    ans1= Answer.objects.all()
+    print(ans1)
     que1 = Questions.objects.all().order_by('title')[:3]
     que = Questions.objects.get(pk=pk)
+    str=que.skill
+    l1 = str.split (",")
+    print(l1)
     request.session["question_id"] =pk
     print(pk)
-    return render(request,'ShowQuestion.html',{'question': que,'que1':que1})
+    return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1})
 
 
 
 @login_required(login_url="/")     
-def getanswer(request):
+def getanswer(request):    
     que1 = Questions.objects.get(pk=int(request.session["question_id"]))
     que_id=que1.id
     que_create_user=que1.created_user_id
@@ -117,4 +124,7 @@ def getanswer(request):
         answer = request.POST.get('answer')
         ans=Answer.objects.create(answer=answer,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,updated_user_id=request.user.id)
         ans.save()
+        return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request,'ShowQuestion.html')
+
+

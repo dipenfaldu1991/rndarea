@@ -62,13 +62,14 @@
 
 					
 					<p>{{question.description}}</p>
-
+					{% if  question.screenshort %}
 					<div class="one">
 					<a href="{{ question.screenshort.url }}">
 						
 						<img id="" src="{{ question.screenshort.url }}" height='100' weight='200' />
 					</a>
 					</div>
+					{% endif %}
 					
 					<!-- <blockquote class="margin-top-20 margin-bottom-20"> -->
 						<!-- Mauris aliquet ultricies ante, non faucibus ante gravida sed. Sed ultrices pellentesque purus, vulputate volutpat ipsum hendrerit sed neque sed sapien rutrum. -->
@@ -163,22 +164,26 @@
 				
 
 			<!-- Comments -->
-			 <!-- <div class="row">
+			<div class="row">
 				<div class="col-xl-12">
 					<section class="comments">
 						<h3 class="margin-top-45 margin-bottom-0">Comments <span class="comments-amount">(5)</span></h3>
-						 -->
-						<!-- <ul>
-							<li> -->
-								<!-- <div class="avatar"><img src="images/user-avatar-placeholder.png" alt=""></div>
+						 {% for i in ans1 %}
+						<ul>
+							<li>
+								<div class="avatar"><img src="{% static 'theam/images/user-avatar-placeholder.png' %}" alt=""></div>
 								<div class="comment-content"><div class="arrow-comment"></div>
-									<div class="comment-by">fdd<span class="date">12th, June 2019</span>
+									<div class="comment-by">{{i.answer}}<span class="date">12th, June 2019</span>
 										<a href="#" class="reply"><i class="fa fa-reply"></i> Reply</a>
 									</div>
-									<p>Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus</p>
-								</div> -->
-							
-
+									<p>Great template!</p>
+								</div>
+							</li>
+						</ul>
+						{% endfor %}
+					</section>
+				</div>		
+			</div>					
 								<!-- <ul>
 									<li>
 										<div class="avatar"><img src="images/user-avatar-placeholder.png" alt=""></div>
@@ -229,7 +234,7 @@
 
 					</section>
 				</div> -->
-			<!-- </div> -->
+			<!-- </div>  -->
 			 <!-- Comments / End  -->
 
 
@@ -348,13 +353,11 @@
 				<div class="sidebar-widget">
 					<h3>skills</h3>
 					<div class="task-tags">
-						<a href="#"><span>{{question.skill}}</span></a>
-						<a href="#"><span>recruiting</span></a>
-						<a href="#"><span>work</span></a>
-						<a href="#"><span>salary</span></a>
-						<a href="#"><span>tips</span></a>
-						<a href="#"><span>income</span></a>
-						<a href="#"><span>application</span></a>
+						{% for i in l1 %}
+						
+						<span>{{i}}</span>
+	
+						{% endfor %}
 					</div>
 				</div>
 
