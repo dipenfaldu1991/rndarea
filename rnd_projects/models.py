@@ -65,6 +65,7 @@ class Answer(models.Model):
     question_id=models.ForeignKey(Questions,on_delete=models.CASCADE,related_name='createquestionsid')
     question_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createquestionsuserid')
     created_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createuserid')  
+    reply=models.ForeignKey('Answer',on_delete=models.CASCADE,null=True, related_name='replies')
     created = models.DateTimeField(auto_now_add=True)
     updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='updateuser',null="True")
     updated = models.DateTimeField(auto_now=True,blank=True,null=True)

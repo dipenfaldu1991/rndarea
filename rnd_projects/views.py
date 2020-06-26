@@ -102,10 +102,9 @@ def show_question_list(request):
 
 @login_required(login_url="/")     
 def ShowQuestion(request,pk):
-    ans1= Answer.objects.all()
-    print(ans1)
-    que1 = Questions.objects.all().order_by('title')[:3]
+    que1 = Questions.objects.all().order_by('date_posted')[:3]
     que = Questions.objects.get(pk=pk)
+    ans1= Answer.objects.filter(question_id=que.id)
     str=que.skill
     l1 = str.split (",")
     print(l1)
@@ -122,6 +121,10 @@ def getanswer(request):
     que_create_user=que1.created_user_id
     if request.method=='POST' :
         answer = request.POST.get('answer')
+        reply_id=request.POST.get('question_id')
+        comments_qs=None
+        if reply_id:
+            comments_qs=Answer.objects.get(id=reply_id)
         ans=Answer.objects.create(answer=answer,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,updated_user_id=request.user.id)
         ans.save()
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
