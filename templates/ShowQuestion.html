@@ -164,9 +164,22 @@
 
 			<!-- Comments -->
 			<script>
-				
-				
-				
+				// $(function () {
+				// $(".like").click(function () {
+				// 	var input = $(this).find('.qty1');
+				// 	input.val(parseInt(input.val())+ 1);
+				// });
+
+				// $(".dislike").click(function () {
+				// 	var input = $(this).find('.qty2');
+				// 	input.val(input.val() - 1);
+				// });
+				// });
+
+
+
+
+
 				$(document).ready(function() {
 				$('.replybutton').click(function() {
 					$(this).next('.reply').toggle();
@@ -182,51 +195,67 @@
 								
 				
 			</script>
-			<form method="post" action="">
-				{% csrf_token %}
+			
 				<div class="row">
 					<div class="col-xl-12">
 						<section class="comments">
 						<h3 class="margin-top-45 margin-bottom-0">Comments <span class="comments-amount">(5)</span></h3>
-						 {% for i in ans1 %}
+						{% for answer in ans1 %}
 						<ul>
 							<li>
 								<div class="avatar"><img src="{% static 'theam/images/user-avatar-placeholder.png' %}" alt=""></div>
 								<div class="comment-content"><div class="arrow-comment"></div>
-									<div class="comment-by">{{i.answer}}<span class="date">12th, June 2019</span>	
+									<div class="comment-by">{{answer.answer}}<span class="date">12th, June 2019</span>	
 											
 																	
 										<a href="#" id="replyb" class="btn reply"><i class="fa fa-reply"></i> Reply
 										</a> 
 										
 										
-									<p>{{i.created_user_id}}</p>
-									<input type="hidden" name="question_id" value="{{question.id}}">
+									<p>{{answer.created_user_id}}</p>
+									<!-- <a class="like"><i class="icon-thumbs-up" aria-hidden="true"></i>  
+										Like <input class="qty1"  readonly="readonly" type="text" value="0" />
+									</a>
+									 -->
+									
 									<div class="replybutton btn4 like">
 										<a span class="btn reply" id="replyb">Reply</a> 
 									</div>
 									<div class="col-lg-12 reply" style="display:none">
+										
+										<form method="post" action="{% url 'rnd_projects:getreply' %}">
+											{% csrf_token %}
+											<input type="text" name="answer_id" value="{{answer.id}}" hidden>
+										{% for reply in reply1 %}		
+										
+										
+												{% ifequal answer.id reply.answer_id_id%}
+												<li>
+													<div class="avatar"><img src="{% static 'theam/images/user-avatar-placeholder.png' %}" alt=""></div>
+													<div class="comment-content"><div class="arrow-comment"></div>
+													<div class="comment-by">{{reply.reply}}<span class="date">12th, June 2019</span></div>
+												</div>
+												</li>	
+												{% endifequal %}
+											
+										{% endfor %}
+
 									<input type="text" name ="reply" class="form-control pull-right" placeholder="Write a reply..."/>
-									{% if request.user.is_authenticated %}
-									<input type="text" value="submit" class="btn btn-outline-success">
-									{% else %}
-									<input type="text" value="submit" class="btn btn-outline-success" disabled> 
-									{% endif %}
-
-
-
-
 									
-									<button id="heart" onclick="onClick()">like</button>
+									<input type="submit" value="submit" class="btn btn-outline-success">
+								</form>	
 								</div>		
 							</li>
 						</ul>
 						{% endfor %}
+						
+						
 
 						</section>
 					</div>		
 				</div>
-			</form>	
+				
+					
 			<!-- <div id="like">
 
 				<input alt="Like" title="Like" width= "" height="" id="heart" onClick="onClick()">

@@ -15,6 +15,7 @@ urlpatterns = [
     path('show_question_list',views.show_question_list,name='show_question_list'),
     path('ShowQuestion/<int:pk>',views.ShowQuestion,name='ShowQuestion'),
     path('getanswer',views.getanswer,name='getanswer'),
+    path('getreply',views.getreply,name='getreply'),
     
     
 ]

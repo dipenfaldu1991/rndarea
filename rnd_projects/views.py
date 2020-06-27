@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Projects_add,Projects_add_documents,Questions,Answer
+from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -105,12 +105,13 @@ def ShowQuestion(request,pk):
     que1 = Questions.objects.all().order_by('date_posted')[:3]
     que = Questions.objects.get(pk=pk)
     ans1= Answer.objects.filter(question_id=que.id)
+    reply1=Reply.objects.filter(question_id=que.id)
     str=que.skill
     l1 = str.split (",")
     print(l1)
     request.session["question_id"] =pk
-    print(pk)
-    return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1})
+    # print(pk)
+    return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1,'reply1':reply1})
 
 
 
@@ -121,13 +122,28 @@ def getanswer(request):
     que_create_user=que1.created_user_id
     if request.method=='POST' :
         answer = request.POST.get('answer')
-        reply_id=request.POST.get('question_id')
-        comments_qs=None
-        if reply_id:
-            comments_qs=Answer.objects.get(id=reply_id)
-        ans=Answer.objects.create(answer=answer,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,updated_user_id=request.user.id)
-        ans.save()
+        Answer.objects.create(answer=answer,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,
+        updated_user_id=request.user.id)
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request,'ShowQuestion.html')
 
 
+@login_required(login_url="/")     
+def getreply(request):    
+    que1 = Questions.objects.get(pk=int(request.session["question_id"]))
+    que_id=que1.id
+    que_create_user=que1.created_user_id
+    if request.method=='POST' :
+        reply = request.POST.get('reply')
+        answerid=request.POST.get('answer_id')
+        ans=Answer.objects.get(pk=answerid)
+        print(ans.id)
+        Reply.objects.create(reply=reply,answer_id_id=ans.id,question_id_id=que_id,created_user_id_id=request.user.id,updated_user_id=request.user.id)
+        return redirect('rnd_projects:ShowQuestion',pk=que_id)
+    return render(request,'ShowQuestion.html')
+
+# new_team = Team(
+#     nickname = team_name,
+#     employee_id = employee_id,
+#     department_id = Department.objects.get(password = password, department_name = department_name)
+# )
