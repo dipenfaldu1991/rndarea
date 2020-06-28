@@ -164,5 +164,3 @@ def dashboard_settings(request):
 @login_required(login_url="/")    
 def dashboard(request):
     return render(request,'dashboard.html')
-
-

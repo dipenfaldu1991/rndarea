@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply
+from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply,AddPostdatas,Bidding,BidCount,Plans
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -142,8 +142,88 @@ def getreply(request):
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request,'ShowQuestion.html')
 
-# new_team = Team(
-#     nickname = team_name,
-#     employee_id = employee_id,
-#     department_id = Department.objects.get(password = password, department_name = department_name)
-# )
+@login_required(login_url="/")     
+def add_task(request):
+    if request.method=='POST' and request.FILES:
+        project_name = request.POST.get('projectname')
+        Category = request.POST.get('category')
+        Location = request.POST.get('location')
+        your_estimated_budget_minimum = request.POST.get('your_estimated_budget_minimum')
+        your_estimated_budget_maximum = request.POST.get('your_estimated_budget_maximum')
+        skills_are_required = request.POST.get('skillsarerequired')
+        Describe_Your_Post=request.POST.get('describeyourpost')
+        upload_file=request.FILES.get('uploadfile')
+        addpost=AddPostdatas.objects.create(project_name=project_name,Category=Category,Location=Location,your_estimated_budget_minimum=your_estimated_budget_minimum,your_estimated_budget_maximum=your_estimated_budget_maximum,skills_are_required=skills_are_required,Describe_Your_Post=Describe_Your_Post,upload_file=upload_file,created_user=request.user)
+   
+    return render(request,'addpost.html')
+
+ 
+
+@login_required(login_url="/")     
+def viewtask(request):
+    viewpost=AddPostdatas.objects.all().order_by('-id') 
+    l1=[]
+    dic={}
+    for i in viewpost:
+        str=i.skills_are_required
+        l=[]
+        a=int(i.id)
+        l2= str.split (",")
+        for i in l2: 
+            l.append(i)
+        dic[a]=l
+    # print(dic)
+    paginator = Paginator(viewpost,5) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'tasks_list_layout_2.html',{'viewpost':viewpost,'l1':dic,'page_obj':page_obj})
+
+
+from django.contrib.auth.models import User
+@login_required(login_url="/")  
+def taskdetails(request,id):
+    bidcount=BidCount.objects.get(user_id=request.user.id)
+    count=bidcount.number_of_bid
+    show_task=AddPostdatas.objects.get(pk=id)
+    task_id=show_task.id
+    request.session["taskid_bid"]=id
+    str=show_task.skills_are_required
+    l1 = str.split (",")
+    # print(l1)
+    return render(request,'single-task-page.html',{'show_task':show_task,'l1':l1,'count_bid':count})
+
+
+@login_required(login_url="/")
+def bidding(request):
+    bidcount=BidCount.objects.get(user_id=request.user.id)
+    count=bidcount.number_of_bid
+    if request.method=='POST':
+        bid_price = request.POST.get('minimaxirate')
+        bid_type = request.POST.get('deliverydayhourstype')
+        delivery_time = request.POST.get('qtyInput')
+        biddingdata=Bidding.objects.create(task_id_id=request.session["taskid_bid"],bid_price=int(bid_price),bid_user_id_id=request.user.id,bid_type=bid_type,delivery_time=int(delivery_time)) 
+        count=count-1
+        bidcount.number_of_bid=count
+        bidcount.save()
+    
+    return render(request,'single-task-page.html')
+
+@login_required(login_url="/")
+def buybid(request):
+    plansdata=Plans.objects.all()
+    print('test')
+    print(plansdata)
+    return render(request,'pages-pricing-plans.html',{'plansdata':plansdata})
+
+
+
+@login_required(login_url="/")
+def pagecheckout_bynow(request,mid):
+    pagecheckout_data=Plans.objects.get(pk=mid)
+    plan_id=pagecheckout_data.id
+    plan_price=pagecheckout_data.price
+    prices=plan_price
+    gst=prices*18/100
+    total=prices+gst
+    print(total)
+    return render(request,'pages-checkout-page.html',{'pagecheckout_data':pagecheckout_data,'gst':gst,'total':total})

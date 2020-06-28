@@ -77,3 +77,48 @@ class Reply(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='updateedduser',null="True")
     updated = models.DateTimeField(auto_now=True,blank=True,null=True)
+
+
+class AddPostdatas(models.Model):
+    project_name=models.CharField(max_length=200)
+    Category=models.CharField(max_length=200)
+    Location =models.CharField(max_length=200)
+    your_estimated_budget_minimum=models.CharField(max_length=200)
+    your_estimated_budget_maximum=models.CharField(max_length=200)
+    skills_are_required = models.CharField(max_length=200)
+    Describe_Your_Post=models.TextField(max_length=20000) 
+    upload_file=models.FileField (upload_to='proje/')
+    created_user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createdaddostsuser')
+    date_posted = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated_user=models.OneToOneField(User,on_delete=models.CASCADE,blank=True,null=True,related_name='updataddpostuser')
+    updated = models.DateTimeField(auto_now=True,blank=True,null=True)
+    def __str__(self):
+        return str(self.id)
+
+
+class Bidding(models.Model):
+    task_id=models.ForeignKey(AddPostdatas,on_delete=models.CASCADE,related_name='bid_task_id')
+    bid_price=models.IntegerField()
+    bid_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='biduser')
+    create_bid_time=models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    bid_type=models.CharField(max_length=200)
+    delivery_time=models.IntegerField()
+    update_time=models.DateTimeField(null=True)
+
+
+class BidCount(models.Model):
+    number_of_bid=models.IntegerField()
+    user_id=models.IntegerField(unique=True,null=False)
+    created_time=models.DateTimeField(auto_now_add=True)
+    update_time=models.DateTimeField(null=True)
+
+
+class Plans(models.Model):
+    plan_name=models.CharField(max_length=100)
+    Description=models.TextField(max_length=2000)
+    price=models.IntegerField()
+    bid=models.IntegerField()
+    features1=models.CharField(max_length=500)
+    features2=models.CharField(max_length=500)
+    othersfeatures3=models.CharField(max_length=500)

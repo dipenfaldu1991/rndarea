@@ -16,6 +16,10 @@ urlpatterns = [
     path('ShowQuestion/<int:pk>',views.ShowQuestion,name='ShowQuestion'),
     path('getanswer',views.getanswer,name='getanswer'),
     path('getreply',views.getreply,name='getreply'),
-    
-    
+    path('addtask',views.add_task,name='addtask'),
+    path('viewtask',views.viewtask,name='viewtask'),
+    path('taskdetails/<int:id>',views.taskdetails,name='taskdetails'),
+    path('bidding',views.bidding,name='bidding'),
+    path('buybid',views.buybid,name='buybid'),
+    path('pagecheckout_bynow/<int:mid>',views.pagecheckout_bynow,name='pagecheckout_bynow'),
 ]
