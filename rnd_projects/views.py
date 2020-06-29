@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply,AddPostdatas,Bidding,BidCount,Plans
+from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply,Replyreply,AddPostdatas,Bidding,BidCount,Plans
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -106,7 +106,7 @@ def ShowQuestion(request,pk):
     que = Questions.objects.get(pk=pk)
     ans1= Answer.objects.filter(question_id=que.id)
     reply1=Reply.objects.filter(question_id=que.id)
-    reply2=Reply.objects.filter(question_id=que.id)
+    reply2=Replyreply.objects.filter(question_id=que.id)
     str=que.skill
     l1 = str.split (",")
     print(l1)
@@ -131,18 +131,31 @@ def getanswer(request):
 
 @login_required(login_url="/")     
 def getreply(request):    
+    print('=====================================================================')
     que1 = Questions.objects.get(pk=int(request.session["question_id"]))
     que_id=que1.id
     que_create_user=que1.created_user_id
     if request.method=='POST' :
+        replyreply = request.POST.get('replyreply')
         reply = request.POST.get('reply')
-        answerid=request.POST.get('answer_id')
-        # reply2=request.POST.get('reply2')
-        ans=Answer.objects.get(pk=answerid)
-        print(ans.id)
-        Reply.objects.create(reply=reply,answer_id_id=ans.id,question_id_id=que_id,created_user_id_id=request.user.id,updated_user_id=request.user.id)
+        
+        if reply:
+            answerid=request.POST.get('answer_id')        
+            ans=Answer.objects.get(pk=answerid)
+            print('ans to reply')
+            Reply.objects.create(reply=reply,answer_id_id=ans.id,question_id_id=que_id,created_user_id_id=request.user.id,updated_user_id=request.user.id)
+        if replyreply:
+            que1 = Questions.objects.get(pk=int(request.session["question_id"]))
+            que_id=que1.id
+            que_create_user=que1.created_user_id
+        
+            replyid=request.POST.get('reply_id') 
+            rel=Reply.objects.get(pk=replyid)
+            print('reply to reply')
+            Replyreply.objects.create(replyreply=replyreply,reply_id_id=rel.id,answer_id_id=rel.answer_id_id,question_id_id=que_id,created_user_id_id=request.user.id,updated_user_id=request.user.id)
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request,'ShowQuestion.html')
+
 
 @login_required(login_url="/")     
 def add_task(request):
