@@ -210,8 +210,8 @@ def bidding(request):
 
 @login_required(login_url="/")
 def buybid(request):
-    print('=======================================================================================================================')
     plansdata=Plans.objects.all()
+    print('test')
     print(plansdata)
     return render(request,'pages-pricing-plans.html',{'plansdata':plansdata})
 
