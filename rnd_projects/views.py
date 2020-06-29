@@ -106,12 +106,13 @@ def ShowQuestion(request,pk):
     que = Questions.objects.get(pk=pk)
     ans1= Answer.objects.filter(question_id=que.id)
     reply1=Reply.objects.filter(question_id=que.id)
+    reply2=Reply.objects.filter(question_id=que.id)
     str=que.skill
     l1 = str.split (",")
     print(l1)
     request.session["question_id"] =pk
     # print(pk)
-    return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1,'reply1':reply1})
+    return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1,'reply1':reply1,'reply2':reply2})
 
 
 
@@ -136,6 +137,7 @@ def getreply(request):
     if request.method=='POST' :
         reply = request.POST.get('reply')
         answerid=request.POST.get('answer_id')
+        # reply2=request.POST.get('reply2')
         ans=Answer.objects.get(pk=answerid)
         print(ans.id)
         Reply.objects.create(reply=reply,answer_id_id=ans.id,question_id_id=que_id,created_user_id_id=request.user.id,updated_user_id=request.user.id)
