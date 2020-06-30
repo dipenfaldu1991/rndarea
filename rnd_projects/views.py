@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.views.generic import RedirectView
 from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply,Replyreply,AddPostdatas,Bidding,BidCount,Plans
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -111,6 +112,7 @@ def ShowQuestion(request,pk):
     l1 = str.split (",")
     print(l1)
     request.session["question_id"] =pk
+    
     # print(pk)
     return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1,'reply1':reply1,'reply2':reply2})
 
@@ -123,15 +125,30 @@ def getanswer(request):
     que_create_user=que1.created_user_id
     if request.method=='POST' :
         answer = request.POST.get('answer')
-        Answer.objects.create(answer=answer,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,
+        like = request.Post.get('like')
+        Answer.objects.create(answer=answer,like=like,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,
         updated_user_id=request.user.id)
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request,'ShowQuestion.html')
 
+class PostLikeToggle(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        obj = get_object_or_404(Post)
+        url_ = obj.get_absolute_url()
+        user = self.request.user
+        if user.is_authenticated():
+            if user in obj.like.all():
+                obj.like.remove(user)
+            else:
+                obj.like.add(user)
+        return url_
+
+
+
+
 
 @login_required(login_url="/")     
 def getreply(request):    
-    print('=====================================================================')
     que1 = Questions.objects.get(pk=int(request.session["question_id"]))
     que_id=que1.id
     que_create_user=que1.created_user_id

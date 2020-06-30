@@ -62,6 +62,7 @@ class Questions(models.Model):
 
 class Answer(models.Model):
     answer=models.CharField(max_length=500000)
+    like=models.ManyToManyField(User,default=None, blank=True)
     question_id=models.ForeignKey(Questions,on_delete=models.CASCADE,related_name='createquestionsid')
     question_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createquestionsuserid')
     created_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createuserid')  
@@ -69,9 +70,6 @@ class Answer(models.Model):
     updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='updateuser',null="True")
     updated = models.DateTimeField(auto_now=True,blank=True,null=True)
 
-class Like(models.Model):
-    number_of_like=models.IntegerField()
-    answer_id=models.ForeignKey(Answer,on_delete=models.CASCADE,related_name='answerlikeid')
 
 
 class Reply(models.Model):

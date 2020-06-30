@@ -11,6 +11,8 @@
 <!-- Content
 ================================================== -->
 
+
+
 <div id="titlebar" class="gradient">
 	<div class="container">
 		<div class="row">
@@ -163,24 +165,12 @@
 				
 
 			<!-- Comments -->
+
+			
+			
+
+
 			<script>
-				$('.like').click(function(){
-				var pk = $(this).attr('name');
-				$.ajax({
-						type: "POST",
-						url: "",
-						data: "",
-						dataType: "json",
-						success: function(response) {
-								alert('Company likes count is now ' + response.count_likes);
-							},
-						error: function(rs, e) {
-								alert('Something went wrong.'); 
-						}
-				});
-				})
-
-
 
 
 
@@ -196,16 +186,30 @@
 				});
 				});
 
-				var clicks = 0;
-				function onClick() 
-				{
-					clicks += 1;
-					document.getElementById("output").innerHTML = clicks;
-				};					
-								
+				
+				$('.like-btn').click(function(e) {
+					e.preventDefault()
+					var this_ = $(this)
+					var likeUrl = this_.attr("data-href")
+					$.ajax({
+						url:likeUrl,
+						method:"GET",
+						data: {},
+						success: function(data){
+							console.log(data)
+						},error: function(error){
+							console.log(error)
+							console.log("error")
+						}
+					})
+				});
+				
+				
 				
 			</script>
 			
+			
+
 				<div class="row">
 					<div class="col-xl-12">
 						<section class="comments">
@@ -218,8 +222,41 @@
 									<div class="comment-by">{{answer.answer}}<span class="date">12th, June 2019</span>	
 																																																																	
 									<p>{{answer.created_user_id}}</p>
-									<!-- <input type="button"  name="" value="Like" /> -->
-									<button type=submit name="" value=''>like</button>
+
+									<p><a class='like-btn' data-href='{{ instance.answer_id }}' data-likes='{{ instance.like.count }}' href='{{ instance.get_like_url }}'>{{ instance.like.count }} Like</a></p>
+									
+
+									<p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+									<hr/>
+									</p>
+																	
+									<strong id="like_count">{{ answer.likes }}</strong>
+									<button id="likes{{answer.id}}" data-catid="{{answer.id}}" class="btn btn-primary" type="button">
+    								<span class="glyphicon glyphicon-thumbs-up"></span>
+    								Like
+   								 	</button>
+									
+								
+									<script>
+										$(document).ready(function() {
+										$('#likes{{answer.id}}').click(function() {
+					
+												var catid;
+												catid = $(this).attr("data-catid");							
+												
+												alert(catid);
+												var url ="{% url 'rnd_projects:add_projects' %}";
+												document.location.href = url ;
+											});
+											
+											});
+									</script>
+
+									
+
+
+
+
 									
 									<div class="replybutton btn4 like">
 										<a span class="btn reply" id="replyb">Reply</a> 
@@ -256,8 +293,9 @@
 												<div class="col-lg-12 reply" style="display:none">	
 												<input type="text" name ="replyreply" class="form-control pull-right" placeholder="Write a reply..."/>											
 												<input type="hidden" name='' value="submit">
-												<button class="ui button positive" type='submit'>Like</button>	
-												<strong>likessss</strong>																																		
+
+												
+																																										
 											</form>
 											{% for replyreply in reply2 %}
 										<ul>	
@@ -288,12 +326,7 @@
 				</div>
 				
 				
-			<!-- <div id="like">
-
-				<input alt="Like" title="Like" width= "" height="" id="heart" onClick="onClick()">
-				<div>
-					<span id="output"></span>
-				</div>   -->
+			
 
 
 			
