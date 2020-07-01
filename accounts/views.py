@@ -11,15 +11,19 @@ from django.http import HttpResponse,HttpResponseRedirect
 from rndarea import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from rnd_projects.models import Projects_add,Questions
+from rnd_projects.models import Projects_add,Questions,AddPostdatas
 # Create your views here.
 
 def ragister(request):
+    que = Questions.objects.all()
+    AddPostdatas_c=AddPostdatas.objects.all().count()
     questions_c=Questions.objects.all().count()
     poject_c=Projects_add.objects.all().count()
     alert = {
         'project_count':poject_c,
         'questions_count':questions_c,
+        'que':que,
+        'AddPostdatas_count':AddPostdatas_c
     }
         
     if request.method=='POST':

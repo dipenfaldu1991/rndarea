@@ -14,6 +14,7 @@ urlpatterns = [
     path('add_questions',views.add_questions,name='add_questions'),
     path('show_question_list',views.show_question_list,name='show_question_list'),
     path('ShowQuestion/<int:pk>',views.ShowQuestion,name='ShowQuestion'),
+    path('like',views.answer_like,name='like'),
     path('ShowQuestion/<int:pk>/like',views.PostLikeToggle, name='like-toggle'),   
     path('getanswer',views.getanswer,name='getanswer'),
     path('getreply',views.getreply,name='getreply'),

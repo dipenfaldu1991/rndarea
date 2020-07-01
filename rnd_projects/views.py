@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import RedirectView
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply,Replyreply,AddPostdatas,Bidding,BidCount,Plans
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -125,11 +127,28 @@ def getanswer(request):
     que_create_user=que1.created_user_id
     if request.method=='POST' :
         answer = request.POST.get('answer')
-        like = request.Post.get('like')
         Answer.objects.create(answer=answer,like=like,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,
         updated_user_id=request.user.id)
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request,'ShowQuestion.html')
+
+
+@login_required(login_url="/")
+@require_POST
+def answer_like(request):
+    answer_id=request.POST.get('id')
+    action = request.POST.get('action')
+    if answer_id and action:
+        try:
+            answer=Answer.objects.get(id=answer_id)
+            if action == 'like':
+                answer.users_like.add(request.user)
+            else:
+                image.users_like.remove(request.user)    
+            return JsonResponse({'status':'ok'})
+        except:
+            pass 
+        return JsonResponse({'status':'error'})   
 
 class PostLikeToggle(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
