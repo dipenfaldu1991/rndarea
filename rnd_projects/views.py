@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.views.generic import RedirectView
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply,Replyreply,AddPostdatas,Bidding,BidCount,Plans
+from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply,Replyreply,Like,AddPostdatas,Bidding,BidCount,Plans
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -113,7 +113,7 @@ def ShowQuestion(request,pk):
     str=que.skill
     l1 = str.split (",")
     print(l1)
-    request.session["question_id"] =pk
+    request.session["question_id"] =que.id
     
     # print(pk)
     return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1,'reply1':reply1,'reply2':reply2})
@@ -127,40 +127,36 @@ def getanswer(request):
     que_create_user=que1.created_user_id
     if request.method=='POST' :
         answer = request.POST.get('answer')
-        Answer.objects.create(answer=answer,like=like,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,
+        Answer.objects.create(answer=answer,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,
         updated_user_id=request.user.id)
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request,'ShowQuestion.html')
 
 
 @login_required(login_url="/")
-@require_POST
-def answer_like(request):
-    answer_id=request.POST.get('id')
-    action = request.POST.get('action')
-    if answer_id and action:
-        try:
-            answer=Answer.objects.get(id=answer_id)
-            if action == 'like':
-                answer.users_like.add(request.user)
-            else:
-                image.users_like.remove(request.user)    
-            return JsonResponse({'status':'ok'})
-        except:
-            pass 
-        return JsonResponse({'status':'error'})   
+def like_post(request):
+    que = Questions.objects.get(pk=request.session["question_id"])
+    user = request.user
+    a=que.id
+    if request.method == "POST":
+        answer_id = request.POST.get('answer_id')
+        answer = Answer.objects.get(pk=answer_id)
 
-class PostLikeToggle(RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        obj = get_object_or_404(Post)
-        url_ = obj.get_absolute_url()
-        user = self.request.user
-        if user.is_authenticated():
-            if user in obj.like.all():
-                obj.like.remove(user)
+        # it means that the user like the post already so we gonna remve them if the user going to hit the like again
+        if user in answer.liked.all():
+            answer.liked.remove(user)
+        else:
+            answer.liked.add(user)
+        
+        like, created = Like.objects.get_or_create(user=user, answer_id=answer_id)
+        
+        if not created:
+            if like.value == "Like":
+                like.value = "Like"
             else:
-                obj.like.add(user)
-        return url_
+                like.value = "Unlike"
+        like.save()
+        return redirect('rnd_projects:ShowQuestion',pk=a)
 
 
 

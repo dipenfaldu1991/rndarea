@@ -64,13 +64,37 @@ class Questions(models.Model):
 
 class Answer(models.Model):
     answer=models.CharField(max_length=500000)
-    like=models.ManyToManyField(User,default=None, blank=True)
+    liked=models.ManyToManyField(User,default=None, blank=True,related_name='liked')
     question_id=models.ForeignKey(Questions,on_delete=models.CASCADE,related_name='createquestionsid')
     question_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createquestionsuserid')
     created_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createuserid')  
     created = models.DateTimeField(auto_now_add=True)
     updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='updateuser',null="True")
     updated = models.DateTimeField(auto_now=True,blank=True,null=True)
+
+    def __str__(self):
+        return str(self.answer)
+
+    @property
+    def num_likes(self):
+        return self.liked.all().count()
+
+
+LIKE_CHOICES = (
+    ('Like', 'Like'),
+    ('Unlike', 'Unlike'),
+)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    value = models.CharField(choices=LIKE_CHOICES,
+                             default='Like', max_length=10)
+
+    def __str__(self):
+        return str(self.answer)
+
 
 
 class Reply(models.Model):

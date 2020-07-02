@@ -222,56 +222,19 @@
 									<div class="comment-by">{{answer.answer}}<span class="date">12th, June 2019</span>	
 																																																																	
 									<p>{{answer.created_user_id}}</p>
-
-									<!-- <p><a class='like-btn' data-href='{{ instance.answer_id }}' data-likes='{{ instance.like.count }}' href='{{ instance.get_like_url }}'>{{ instance.like.count }} Like</a></p>
-									 -->
-
-									<!-- <p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-									<hr/> -->
-									</p>
-									{% with total_likes=answer.users_like.count users_like=answer.users_like.all %}
-
-									<span class="count">
-										<span class="total">{{ total_likes }}</span>
-										like {{total_likes|pluralize }}</span>
-										<a href="#" data-catid="{{answer.id}}" data-action="{% if request.user in users_like %}un{% endif %}like"
-										class="like button">
-										{% if request.user not in users_like %}
-										like
+									
+									<form action="{% url 'rnd_projects:like' %}" method="POST" class="ui form">
+										{% csrf_token %}
+										<input type="hidden" name="answer_id" value="{{answer.id}}">
+										{% if user not in answer.liked.all %}
+											<button class="ui button positive" type="submit">Like</button>
 										{% else %}
-										unlike
+											<button class="ui button negative">Unlike</button>
 										{% endif %}
-										</a>
-										
-
-									{% endwith %}
-
-									<!-- <button id="likes{{answer.id}}" data-catid="{{answer.id}}" class="btn btn-primary" type="button">
-    								<span class="glyphicon glyphicon-thumbs-up"></span>
-    								Like
-   								 	</button> -->
+									</form>
+									<strong>{{ answer.liked.all.count }} likes</strong>
 									
-								
-									<script>
-										$(document).ready(function() {
-										$('#likes{{answer.id}}').click(function() {
-					
-												var catid;
-												catid = $(this).attr("data-catid");							
-												
-												alert(catid);
-												var url ="{% url 'rnd_projects:add_projects' %}";
-												document.location.href = url ;
-											});
-											
-											});
-									</script>
-
-									
-
-
-
-
+																																																		
 									
 									<div class="replybutton btn4 like">
 										<a span class="btn reply" id="replyb">Reply</a> 
