@@ -131,22 +131,25 @@ def getanswer(request):
         updated_user_id=request.user.id)
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request,'ShowQuestion.html')
-
-
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
 @login_required(login_url="/")
 def like_post(request):
     que = Questions.objects.get(pk=request.session["question_id"])
     user = request.user
     a=que.id
-    if request.method == "POST":
-        answer_id = request.POST.get('answer_id')
+    if request.method == "POST" and request.is_ajax():
+        answer_id = request.POST.get('name')
+        print(answer_id)
         answer = Answer.objects.get(pk=answer_id)
 
         # it means that the user like the post already so we gonna remve them if the user going to hit the like again
         if user in answer.liked.all():
             answer.liked.remove(user)
+            # answer.liked.save()
         else:
             answer.liked.add(user)
+            # answer.liked.save()
         
         like, created = Like.objects.get_or_create(user=user, answer_id=answer_id)
         
@@ -262,6 +265,9 @@ def buybid(request):
     print(plansdata)
     return render(request,'pages-pricing-plans.html',{'plansdata':plansdata})
 
+@login_required(login_url="/")
+def dashboard(request):
+    return render(request,'dashboard.html')
 
 
 @login_required(login_url="/")

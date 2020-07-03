@@ -204,6 +204,8 @@
 					})
 				});
 				
+
+				
 				
 				
 			</script>
@@ -214,22 +216,70 @@
 					<div class="col-xl-12">
 						<section class="comments">
 						<h3 class="margin-top-45 margin-bottom-0">Comments <span class="comments-amount">(5)</span></h3>
+						
 						{% for answer in ans1 %}
+						<script>
+							$(document).ready(function() {
+								$("#like{{answer.id}}").click(function(){
+									
+								  $.ajax({
+									type: "POST",
+									url: "/rnd_projects/like",
+									
+									data: {
+									  name: $('#ans_id{{answer.id}}').val(), // from form
+									  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+									},
+									
+									error: function(data){
+											alert(data);
+									}
+								  });
+
+								  return false; //<---- move it here
+								});
+							});
+							  
+							</script>
+							<script>
+								$(document).ready(function() {
+									$("#unlike{{answer.id}}").click(function(){
+									  $.ajax({
+										type: "POST",
+										url: "/rnd_projects/like",
+										
+										data: {
+										  name: $('#ans_id{{answer.id}}').val(), // from form
+										  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+										},
+										error: function(data){
+												alert(data);
+										}
+									  });
+	
+									  return false; //<---- move it here
+									});
+								});
+								  
+								</script>
 						<ul>
 							<li>
+								
 								<div class="avatar"><img src="{% static 'theam/images/user-avatar-placeholder.png' %}" alt=""></div>
 								<div class="comment-content"><div class="arrow-comment"></div>
 									<div class="comment-by">{{answer.answer}}<span class="date">12th, June 2019</span>	
 																																																																	
 									<p>{{answer.created_user_id}}</p>
 									
-									<form action="{% url 'rnd_projects:like' %}" method="POST" class="ui form">
+									
+									<form class="ui form" id='post_form'>
 										{% csrf_token %}
-										<input type="hidden" name="answer_id" value="{{answer.id}}">
+										
+										<input type="text" hidden id='ans_id{{answer.id}}' name="answer_id" value="{{answer.id}}">
 										{% if user not in answer.liked.all %}
-											<button class="ui button positive" type="submit">Like</button>
+											<p class="ui button positive" id='like{{answer.id}}' >Like</p>
 										{% else %}
-											<button class="ui button negative">Unlike</button>
+											<p class="ui button negative" id='unlike{{answer.id}}'>Unlike</p>
 										{% endif %}
 									</form>
 									<strong>{{ answer.liked.all.count }} likes</strong>
