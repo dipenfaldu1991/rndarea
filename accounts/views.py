@@ -109,7 +109,9 @@ def user_logout(request):
     logout(request)
     return redirect('accounts:register')
 
-
+@login_required(login_url="/")    
+def dashboard(request):
+    return render(request,'dashboard.html')
 
 
 
@@ -163,8 +165,5 @@ def dashboard_settings(request):
             u.last_name=last_name
             u.save()
             return redirect('accounts:dashboard_settings')
-    return render(request,'dashboard-settings.html',context)
+    return render(request,'dashboard_settings.html',context)
 
-@login_required(login_url="/")    
-def dashboard(request):
-    return render(request,'dashboard.html')

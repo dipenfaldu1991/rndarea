@@ -15,16 +15,7 @@
 <link rel="stylesheet" href="{% static 'theam/css/style.css' %}">
 <link rel="stylesheet" href="{% static 'theam/css/colors/blue.css' %}">
 <link rel="stylesheet" href="{% static 'theam/css/pagination.css' %}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css"/>
-    <!--Chart js-->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
 
 
@@ -370,7 +361,7 @@
 						</div>
 						
 						<ul class="user-menu-small-nav">
-							<li><a href="{% url 'rnd_projects:dashboard' %}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+							<li><a href="{% url 'accounts:dashboard' %}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
 							<li><a href="{% url 'accounts:dashboard_settings' %}"><i class="icon-material-outline-settings"></i> Settings</a></li>
 							<li><a href="{% url 'accounts:user_logout' %}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 						</ul>
@@ -736,12 +727,7 @@ $('#snackbar-user-status label').click(function() {
 	    }, 300);
 	}
 
-	
-
 </script>
-
-
-
 
 <!-- Google API & Maps -->
 <!-- Geting an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key -->

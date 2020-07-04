@@ -8,7 +8,7 @@ urlpatterns = [
         views.activate, name='activate'),
     url(r'^user_login/$',views.user_login,name='user_login'),
     url(r'^user_logout/$',views.user_logout,name='user_logout'),
-    path('dashboard_settings/',views.dashboard_settings,name='dashboard_settings'),
-    path('dashboard/',views.dashboard,name='dashboard'),
+    path('dashboard_settings',views.dashboard_settings,name='dashboard_settings'),
+    path('dashboard',views.dashboard,name='dashboard'),
     
 ]

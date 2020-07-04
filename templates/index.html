@@ -66,7 +66,7 @@
 						<span>Jobs Posted</span>
 					</li>
 					<li>
-						<strong class="counter">{{AddPostdatas_count}}</strong>
+						<strong class="counter">3,543</strong>
 						<span>Tasks Posted</span>
 					</li>
 					<li>
@@ -722,7 +722,6 @@
 <div class="section gray">
 	<div class="container">
 		<div class="row">
-			
 			<div class="col-xl-12 col-lg-12">
 
 				<!-- Section Headline -->
@@ -731,8 +730,7 @@
 				</div>
 
 				<!-- Blog Post -->
-				{% for i in que %}
-				<a href="{% url 'rnd_projects:ShowQuestion' i.id %}" class="blog-post">
+				<a href="pages-blog-post.html" class="blog-post">
 					<!-- Blog Post Thumbnail -->
 					<div class="blog-post-thumbnail">
 						<div class="blog-post-thumbnail-inner">
@@ -742,16 +740,65 @@
 					</div>
 					<!-- Blog Post Content -->
 					<div class="blog-post-content">
-						<span class="blog-post-date">{{i.date_posted}}</span>
-						<h3>{{i.title}}</h3>
-						<p>{{i.description}} </p>
+						<span class="blog-post-date">22 July 2019</span>
+						<h3>16 Ridiculously Easy Ways to Find & Keep a Remote Job</h3>
+						<p>Efficiently myocardinate market-driven innovation via open-source alignments. Dramatically engage high-payoff infomediaries rather than. </p>
 					</div>
 					<!-- Icon -->
 					<div class="entry-icon"></div>
 				</a>
-				{% endfor %}
-								
 				
+				<!-- Blog Post -->
+				<a href="pages-blog-post.html" class="blog-post">
+					<!-- Blog Post Thumbnail -->
+					<div class="blog-post-thumbnail">
+						<div class="blog-post-thumbnail-inner">
+							<span class="blog-item-tag">Python</span>
+							<img src="{% static 'theam/images/blog-02a.jpg' %}" alt="">
+						</div>
+					</div>
+					<!-- Blog Post Content -->
+					<div class="blog-post-content">
+						<span class="blog-post-date">29 June 2019</span>
+						<h3>How to "Woo" a Recruiter and Land Your Dream Job</h3>
+						<p>Efficiently myocardinate market-driven innovation via open-source alignments. Dramatically engage high-payoff infomediaries rather than. </p>
+					</div>
+				</a>
+
+				<!-- Blog Post -->
+				<a href="pages-blog-post.html" class="blog-post">
+					<!-- Blog Post Thumbnail -->
+					<div class="blog-post-thumbnail">
+						<div class="blog-post-thumbnail-inner">
+							<span class="blog-item-tag">Digital Marketing</span>
+							<img src="{% static 'theam/images/blog-03a.jpg' %}" alt="">
+						</div>
+					</div>
+					<!-- Blog Post Content -->
+					<div class="blog-post-content">
+						<span class="blog-post-date">10 June 2019</span>
+						<h3>11 Tips to Help You Get New Clients Through Cold Calling</h3>
+						<p>Efficiently myocardinate market-driven innovation via open-source alignments. Dramatically engage high-payoff infomediaries rather than. </p>
+					</div>
+				</a>
+
+				<!-- Blog Post -->
+				<a href="pages-blog-post.html" class="blog-post">
+					<!-- Blog Post Thumbnail -->
+					<div class="blog-post-thumbnail">
+						<div class="blog-post-thumbnail-inner">
+							<span class="blog-item-tag">Android</span>
+							<img src="{% static 'theam/images/blog-04a.jpg' %}" alt="">
+						</div>
+					</div>
+					<!-- Blog Post Content -->
+					<div class="blog-post-content">
+						<span class="blog-post-date">5 June 2019</span>
+						<h3>5 Myths That Prevent Job Seekers from Overcoming Failure</h3>
+						<p>Efficiently myocardinate market-driven innovation via open-source alignments. Dramatically engage high-payoff infomediaries rather than. </p>
+					</div>
+				</a>
+
 				<!-- Pagination -->
 				<!--<div class="clearfix"></div>
 				<div class="row">

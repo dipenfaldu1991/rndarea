@@ -23,5 +23,7 @@ urlpatterns = [
     path('bidding',views.bidding,name='bidding'),
     path('buybid',views.buybid,name='buybid'),
     path('pagecheckout_bynow/<int:mid>',views.pagecheckout_bynow,name='pagecheckout_bynow'),
-    path('dashboard',views.dashboard,name='dashboard'),
+    
+    
+
 ]

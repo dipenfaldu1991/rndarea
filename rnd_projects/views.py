@@ -131,6 +131,8 @@ def getanswer(request):
         updated_user_id=request.user.id)
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request,'ShowQuestion.html')
+
+    
 from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 @login_required(login_url="/")
@@ -160,7 +162,7 @@ def like_post(request):
                 like.value = "Unlike"
         like.save()
         return redirect('rnd_projects:ShowQuestion',pk=a)
-
+    return render(request,'ShowQuestion.html')
 
 
 
@@ -265,9 +267,8 @@ def buybid(request):
     print(plansdata)
     return render(request,'pages-pricing-plans.html',{'plansdata':plansdata})
 
-@login_required(login_url="/")
-def dashboard(request):
-    return render(request,'dashboard.html')
+
+
 
 
 @login_required(login_url="/")
