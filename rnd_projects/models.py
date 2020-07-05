@@ -161,3 +161,37 @@ class Plans(models.Model):
     features1=models.CharField(max_length=500)
     features2=models.CharField(max_length=500)
     othersfeatures3=models.CharField(max_length=500)
+
+
+class PaymentDetails(models.Model):
+    payment_id=models.CharField(max_length=100)
+    amount=models.FloatField()
+    gst=models.FloatField()
+    total=models.FloatField()
+    payment_date=models.DateTimeField(auto_now_add=True)
+    order_id=models.IntegerField()
+    status=models.CharField(max_length=300)
+    user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='payment_user_id')
+    created_time=models.DateTimeField(auto_now_add=True)
+    back_name=models.CharField(max_length=200)
+    back_txnid=models.CharField(max_length=200)
+    payment_mode=models.CharField(max_length=200)
+
+class Order(models.Model):
+    plan_id=models.ForeignKey(Plans,on_delete=models.CASCADE,related_name='plan_user_id')
+    user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='order_user_id')
+    plan_price=models.FloatField()
+    gst=models.FloatField()
+    total=models.FloatField()
+    created_orde_time=models.DateTimeField(auto_now_add=True)
+    status=models.CharField(max_length=300,default='pending')
+
+
+class ProjectOrder(models.Model):
+    plan_id=models.ForeignKey(Plans,on_delete=models.CASCADE,related_name='project_user_id')
+    user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='projectorder_user_id')
+    plan_price=models.FloatField()
+    gst=models.FloatField()
+    total=models.FloatField()
+    created_orde_time=models.DateTimeField(auto_now_add=True)
+    status=models.CharField(max_length=300,default='pending')

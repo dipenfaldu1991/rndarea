@@ -10,7 +10,11 @@ urlpatterns = [
     path('pages_invoice_template',views.pages_invoice_template,name='pages_invoice_template'),
     path('pages_order_confirmation',views.pages_order_confirmation,name='pages_order_confirmation'),
     path('ReadyProjectDetails/<int:pk>',views.ReadyProjectDetails,name='ReadyProjectDetails'),
+
     path('ReadyProjectShow',views.ReadyProjectShow,name='ReadyProjectShow'),
+    path('project_pagecheckout_bynow/<int:pid>',views.project_pagecheckout_bynow,name='project_pagecheckout_bynow'),
+    path('project_order_plan',views.project_order_plan,name='project_order_plan'),
+
     path('add_questions',views.add_questions,name='add_questions'),
     path('show_question_list',views.show_question_list,name='show_question_list'),
     path('ShowQuestion/<int:pk>',views.ShowQuestion,name='ShowQuestion'),
@@ -23,6 +27,11 @@ urlpatterns = [
     path('bidding',views.bidding,name='bidding'),
     path('buybid',views.buybid,name='buybid'),
     path('pagecheckout_bynow/<int:mid>',views.pagecheckout_bynow,name='pagecheckout_bynow'),
+
+    path('paymentpage',views.paymentpage,name='paymentpage'),
+    path('order_plan/<int:mids>',views.order_plan,name='order_plan'),
+    path('handlerequest', views.handlerequest, name='handlerequest'),
+    path('paymentdetail',views.paymentdetail,name='paymentdetail'),
     
     
 

@@ -6,6 +6,17 @@ from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply,R
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
+from .paytm import Checksum
+MERCHANT_KEY='dRqXXn5!k6v&EA6f'
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+import json
+
+@csrf_exempt
+def paymentpage(request):
+    return render(request,'pages-invoice-template.html')
+
 @login_required(login_url="/")   
 def add_projects(request):
     if request.method=='POST':
@@ -79,6 +90,21 @@ def ReadyProjectShow(request):
     posts = paginator.get_page(page)
     return render(request,'ReadyProjectShow.html',{'items': posts})
  
+@login_required(login_url="/")
+def project_pagecheckout_bynow(request,pid):
+    projectcheckout_data=Plans.objects.get(pk=pid)
+    plan_id=projectcheckout_data.id
+    plan_price=projectcheckout_data.price
+    prices=plan_price
+    gst=prices*18/100
+    total=prices+gst
+    request.session["plan_price"] =prices
+    request.session["plan_gst"] =gst
+    request.session["plan_total_price"] =total
+    return render(request,'projectpage-checkout-page.html',{'projectcheckout_data':projectcheckout_data,'gst':gst,'total':total})
+
+def project_order_plan(request):
+    pass
 
 @login_required(login_url="/")     
 def add_questions(request):
@@ -281,3 +307,72 @@ def pagecheckout_bynow(request,mid):
     total=prices+gst
     print(total)
     return render(request,'pages-checkout-page.html',{'pagecheckout_data':pagecheckout_data,'gst':gst,'total':total})
+
+
+@login_required(login_url="/")
+def order_plan(request,mids):   
+    plan_id=Plans.objects.get(pk=mids)
+    user_id=request.user.id
+    email=request.user.email
+
+    request.session["users_id"] =user_id
+    plan_price=request.session["plan_price"]
+    gst=request.session["plan_gst"]
+    total=request.session["plan_total_price"]
+
+    orderdata=Order.objects.create(plan_price=request.session["plan_price"],gst=request.session["plan_gst"],total=request.session["plan_total_price"],user_id_id=request.user.id,plan_id_id=plan_id.id)
+    orderdata.save()
+    id=orderdata.id
+    print(id)
+    param_dict={
+                'MID': 'fTOzOj03592353839843',
+                'ORDER_ID': str(id),
+                'TXN_AMOUNT': str(total),
+                'CUST_ID': email,
+                'INDUSTRY_TYPE_ID': 'Retail',
+                'WEBSITE': 'WEBSTAGING',
+                'CHANNEL_ID': 'WEB',
+                'CALLBACK_URL': 'http://127.0.0.1:8000/rnd_projects/handlerequest',
+        }
+    param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+    return render(request,'paytm.html', {'param_dict':param_dict})
+
+    return render(request,'single-task-page.html')
+
+
+
+# paytm hendeler code
+@csrf_exempt
+def handlerequest(request):
+    form=request.POST
+    responce_dict={}
+    for i in form.keys():
+        responce_dict[i]=form[i]
+        if i =='CHECKSUMHASH':
+            checksum=form[i]
+            print(checksum,end='\n')
+    varify=Checksum.verify_checksum(responce_dict,MERCHANT_KEY,checksum)
+    if varify:
+        if responce_dict['RESPCODE']=='01':
+            print('order successfull')
+        else:
+            print('order was not successfull because' + responce_dict['RESPMSG'])
+    ord1=Order.objects.get(id=responce_dict['ORDERID'])
+    user_id=User.objects.get(id=ord1.user_id_id)
+    plan_price=ord1.plan_price
+    gst=ord1.gst  
+    PaymentDetails.objects.create(amount=plan_price,gst=gst,payment_id=responce_dict['TXNID'],total=responce_dict['TXNAMOUNT'],payment_date=responce_dict['TXNDATE'],order_id=responce_dict['ORDERID'],status=responce_dict['STATUS'],user_id=user_id,back_name=responce_dict['BANKNAME'],back_txnid=responce_dict['BANKTXNID'],payment_mode=responce_dict['PAYMENTMODE'])
+    return render(request,'pages-order-confirmation.html',{'responce':responce_dict,'paymentdetail':paymentdetail})
+
+@login_required(login_url="/")
+def paymentdetail(request):
+    getpamentdetail=PaymentDetails.objects.get(id=1)
+    oderdata=Order.objects.get(id=getpamentdetail.order_id)
+    planname=Plans.objects.get(id=oderdata.plan_id_id)
+    pal_name=planname.plan_name
+    uname=getpamentdetail.user_id
+    firstname =uname.first_name
+    lastname =uname.last_name
+    email =uname.email
+    return render(request,'pages-invoice-template.html',{'getpamentdetail':getpamentdetail,'pal_name':pal_name,'firstname':firstname,'lastname':lastname,'email':email })
+
