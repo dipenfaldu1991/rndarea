@@ -121,18 +121,18 @@ def dashboard_settings(request):
     user_p=profile.objects.filter(user=request.user).count()
     u=User.objects.get(username=request.user)
     if user_p==0:
-        if request.method == "POST":
-            image = request.FILES.get('user_image')
-            first_name=request.POST.get('First_name')
+        if request.method == "POST" and request.FILES:
+            image = request.FILES.get('image')
+            first_name=request.POST.get('first_name')
             last_name=request.POST.get('Last_name')
-            email=request.POST.get('Email')
+            email=request.POST.get('email')
             rate=request.POST.get('rate')
-            cover = request.FILES.get('cover')
+            cover_letter=request.FILES.get('cover_letter')
             tagline=request.POST.get('tagline')
-            nationality=request.POST.get('Nationality')
-            yourself=request.POST.get('Yourself')
+            Nationality=request.POST.get('dropdown1')
+            introduce_yourself=request.POST.get('introduce_yourself')
             skill=request.POST.get('skill')
-            profile.objects.create(hourly_rate=int(rate),skill=skill,cover_letter=cover,tagline=tagline,Nationality=nationality,image=image,introduce_yourself=yourself,user=request.user)
+            profile.objects.create(hourly_rate=int(rate),skill=skill,cover_letter=cover_letter,tagline=tagline,Nationality=Nationality,image=image,introduce_yourself=introduce_yourself,user=request.user)
             u.first_name=first_name
             u.last_name=last_name
             u.save()
@@ -140,30 +140,31 @@ def dashboard_settings(request):
     else:
         pro=profile.objects.get(user=request.user)
         context['profile']=pro
-        if request.method == "POST":
-            image = request.FILES.get('user_image')
-            first_name=request.POST.get('First_name')
+        if request.method == "POST" and request.FILES:
+            image = request.FILES.get('image')
+            first_name=request.POST.get('first_name')
             last_name=request.POST.get('Last_name')
-            email=request.POST.get('Email')
+            email=request.POST.get('email')
             rate=request.POST.get('rate')
-            cover = request.FILES.get('cover')
+            cover_letter=request.FILES.get('cover_letter')
             tagline=request.POST.get('tagline')
-            nationality=request.POST.get('Nationality')
-            yourself=request.POST.get('Yourself')
+            nationality=request.POST.get('dropdown1')
+            introduce_yourself=request.POST.get('introduce_yourself')
             skill=request.POST.get('skill')
             if image==None:
-                image=pro.image
+                image=pro.image    
             pro.hourly_rate=int(rate)
             pro.skill=skill
-            pro.cover_letter=cover
+            pro.cover_letter=cover_letter
             pro.tagline=tagline
             pro.Nationality=nationality
             pro.image=image
-            pro.introduce_yourself=yourself
+            pro.introduce_yourself=introduce_yourself
             pro.save()
             u.first_name=first_name
             u.last_name=last_name
             u.save()
+            
             return redirect('accounts:dashboard_settings')
     return render(request,'dashboard_settings.html',context)
 
