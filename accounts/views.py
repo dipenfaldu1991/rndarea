@@ -111,13 +111,36 @@ def user_logout(request):
 
 @login_required(login_url="/")    
 def dashboard(request):
-    return render(request,'dashboard.html')
+    user_count = Questions.objects.filter(created_user_id=request.user).count()    
+    return render(request,'dashboard.html',{'user_count':user_count})
 
+def show_list_dash(request):
+    show_questions = Questions.objects.filter(created_user_id=request.user)
+    return render(request,'show_list_dash.html',{'show_questions':show_questions})
+
+
+def edit_questions(request,id):
+    question=Questions.objects.get(id=id)
+    if request.method=='POST':
+        title = request.POST.get('HeadLine')
+        print(title)
+        technology = request.POST.get('dropdown')
+        description = request.POST.get('Description')
+        skill = request.POST.get('skill')
+        screenshort = request.FILES.get('Screenshort')
+        question.title=title
+        question.technology=technology
+        question.description=description
+        question.skill=skill
+        question.screenshort=screenshort
+        question.save()
+    return render(request,'edit_questions.html',{'question':question})    
 
 
 @login_required(login_url="/")    
 def dashboard_settings(request):
     context={}
+    user_count = Questions.objects.filter(created_user_id=request.user).count() 
     user_p=profile.objects.filter(user=request.user).count()
     u=User.objects.get(username=request.user)
     if user_p==0:

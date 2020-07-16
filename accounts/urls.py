@@ -10,5 +10,8 @@ urlpatterns = [
     url(r'^user_logout/$',views.user_logout,name='user_logout'),
     path('dashboard_settings',views.dashboard_settings,name='dashboard_settings'),
     path('dashboard',views.dashboard,name='dashboard'),
+    path('show_list_dash',views.show_list_dash,name='show_list_dash'),
+    path('edit_questions/<int:id>',views.edit_questions,name='edit_questions'),
+
     
 ]

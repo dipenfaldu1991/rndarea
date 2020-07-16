@@ -1,0 +1,143 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block script %}
+
+{% endblock script %}
+{% block content %}
+
+
+			
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+
+<!-- Page Content
+================================================== -->
+<!-- Container -->
+<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+			
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Problematic Solution</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Dashboard</a></li>
+						<li>Problematic Solution</li>
+					</ul>
+				</nav>
+			</div>
+	
+			<!-- Row -->
+			<div class="row">
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box">
+					<form method='POST' action="" enctype="multipart/form-data">
+					{% csrf_token %}
+						<!-- Headline -->
+						
+						<div class="headline">
+							<h3><i class="icon-material-outline-face"></i> Add Question and Problem Here</h3>
+						</div>
+						<div class="content">
+							<ul class="fields-ul">
+							<li>
+								<div class="row">
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>HeadLine</h5>
+											<input type="text" name='HeadLine' placeholder="Enter Title" required="required" class="with-border" value="{{question.title}}">
+										</div>
+									</div>
+
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Question/Problems Related</h5>
+											<select  name="dropdown" class="selectpicker with-border" data-size="7" title="Select here" value="{{question.dropdown}}" data-live-search="true">
+												<option value="Code Error">Code Error</option>
+												<option value="Task Guide">Task Guide</option>
+												<option value="Technology">Technology</option>
+												<option value="Database">Database</option>
+											
+											</select>
+										</div>
+									</div>
+
+									<div class="col-xl-12">
+										<div class="submit-field">
+											<h5>Write in Details</h5>
+											<textarea placeholder="Enter Description Details here" cols="30" rows="5" class="with-border" name='Description' value="{{question.Description}}"></textarea>
+										</div>
+									</div>
+								</div>
+							</li>	
+			
+							<li>
+							<div class="row">
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Skills <i class="help-icon" data-tippy-placement="right" title="Add up to 10 skills"></i></h5>
+											<!-- Skills List -->
+										<div class="keywords-container">
+											<div class="keyword-input-container">
+												<input type="text" class="keyword-input with-border" name='skill' value="{{question.skill}}" placeholder="e.g. Angular, Laravel"/>
+												
+												</div>
+											
+												<div class="clearfix"></div>
+											</div>
+											
+											
+										</div>
+									</div>
+
+									<div class="col-xl-4">
+										<div class="submit-field">
+										<h5>Attachments</h5>
+										<input type="file"  name='Screenshort' style="height:10%" value="{{question.screenshort}}">	
+											<!-- Attachments -->
+											<!-- <div class="attachments-container margin-top-0 margin-bottom-0">
+												<div class="attachment-box ripple-effect">
+													<span>Screenshort/Support Documents</span>					
+													
+												</div>	
+											</div> -->
+											<!-- <div class="clearfix"></div>
+											 -->
+											<!-- Upload Button -->
+										</div>
+										</div>
+									</div>
+
+									
+								</div>
+									
+						</ul>
+						<tr>
+							<td colspan="20" text-align="center" ><button type='submit' class="button dark ripple-effect button-sliding-icon">Save<i class="icon-feather-check"></i></button></td>
+						</tr>		
+						
+					</form>	
+					
+						 </div>
+				    		 
+						</div>
+				    		 
+					</div>
+				</div>
+
+				
+				
+			</div></div>
+			
+        </div>
+    </div>
+</div>
+<!-- Container / End -->
+{% endblock %}
