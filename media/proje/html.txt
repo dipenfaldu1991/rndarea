@@ -1,0 +1,35 @@
+subject = 'Thank you for registering to our site'
+       messages='welcome'
+       email_from = settings.EMAIL_HOST_USER
+       send_mail(subject, reason, email_from, [department], fail_silently=False)
+       print("user successfully")
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+border: 1px solid black;
+border-collapse: collapse;
+}
+th, td {
+padding: 5px;
+text-align: left;
+}
+</style>
+</head>
+<body>
+<table style="width:75%">
+<tr>
+<th>Name:</th>
+<td>Sivaraman</td>
+</tr>
+<tr>
+<th>Mobile:</th>
+<td>123456789</td>
+</tr>
+<tr>
+</table>
+</body>
+</html>

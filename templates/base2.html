@@ -14,6 +14,7 @@
 ================================================== -->
 <link rel="stylesheet" href="{% static 'theam/css/style.css' %}">
 <link rel="stylesheet" href="{% static 'theam/css/colors/blue.css' %}">
+<link rel="stylesheet" href="{% static 'theam/css/pagination.css' %}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <style>
@@ -437,10 +438,10 @@
 							</li>
 							<li><a href="#"><i class="icon-material-outline-assignment"></i> Tasks</a>
 								<ul>
-									<li><a href="dashboard-manage-tasks.html">Manage Tasks <span class="nav-tag">2</span></a></li>
+									<li><a href="{% url 'accounts:show_task' %}">Manage Tasks <span class="nav-tag">2</span></a></li>
 									<li><a href="dashboard-manage-bidders.html">Manage Bidders</a></li>
 									<li><a href="dashboard-my-active-bids.html">My Active Bids <span class="nav-tag">4</span></a></li>
-									<li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+									<li><a href="{% url 'rnd_projects:addtask' %}">Post a Task</a></li>
 								</ul>	
 							</li>
 							<li><a href="{% url 'rnd_projects:add_questions' %}"><i class="icon-material-outline-assignment"></i> Questions</a>

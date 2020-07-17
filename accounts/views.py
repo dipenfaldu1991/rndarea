@@ -12,6 +12,7 @@ from rndarea import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from rnd_projects.models import Projects_add,Questions,AddPostdatas
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 def ragister(request):
@@ -114,20 +115,39 @@ def dashboard(request):
     user_count = Questions.objects.filter(created_user_id=request.user).count()    
     return render(request,'dashboard.html',{'user_count':user_count})
 
+@login_required(login_url="/")  
 def show_list_dash(request):
     show_questions = Questions.objects.filter(created_user_id=request.user)
-    return render(request,'show_list_dash.html',{'show_questions':show_questions})
+    paginator = Paginator(show_questions, 3) 
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'show_list_dash.html',{'show_questions':show_questions,'page_obj':page_obj})
 
 
+
+
+def count_data(request):
+    user_count = Questions.objects.filter(created_user_id=request.user).count() 
+    dic={user_count}
+    request.session["pvr"] =user_count
+    print(dic)
+    return render(request,'edit_questions.html',{'user_count':user_count})
+
+
+@login_required(login_url="/")    
 def edit_questions(request,id):
     question=Questions.objects.get(id=id)
     if request.method=='POST':
         title = request.POST.get('HeadLine')
-        print(title)
         technology = request.POST.get('dropdown')
         description = request.POST.get('Description')
         skill = request.POST.get('skill')
         screenshort = request.FILES.get('Screenshort')
+        if screenshort==None:
+            screenshort=question.screenshort  
+        if technology==None:
+            technology=question.technology     
         question.title=title
         question.technology=technology
         question.description=description
@@ -135,6 +155,40 @@ def edit_questions(request,id):
         question.screenshort=screenshort
         question.save()
     return render(request,'edit_questions.html',{'question':question})    
+
+
+@login_required(login_url="/")  
+def show_task(request): 
+    show_task = AddPostdatas.objects.filter(created_user_id=request.user)
+    paginator = Paginator(show_task, 3) 
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'show_task.html',{'show_task':show_task,'page_obj':page_obj})
+
+def edit_task(request,id): 
+    edit_task=AddPostdatas.objects.get(id=id)
+    if request.method=='POST':
+        project_name = request.POST.get('projectname')
+        Category = request.POST.get('category')
+        Location = request.POST.get('location')
+        your_estimated_budget_minimum = request.POST.get('your_estimated_budget_minimum')
+        your_estimated_budget_maximum = request.POST.get('your_estimated_budget_maximum')
+        skills_are_required = request.POST.get('skillsarerequired')
+        Describe_Your_Post=request.POST.get('describeyourpost')
+        upload_file=request.FILES.get('uploadfile')
+        if upload_file==None:
+            upload_file=edit_task.upload_file      
+        edit_task.project_name=project_name
+        edit_task.Category=Category
+        edit_task.Location=Location
+        edit_task.your_estimated_budget_minimum=your_estimated_budget_minimum
+        edit_task.your_estimated_budget_maximum=your_estimated_budget_maximum
+        edit_task.skills_are_required=skills_are_required
+        edit_task.Describe_Your_Post=Describe_Your_Post
+        edit_task.upload_file=upload_file
+        edit_task.save()
+    return render(request,'edit_task.html',{'edit_task':edit_task})
 
 
 @login_required(login_url="/")    
@@ -163,7 +217,7 @@ def dashboard_settings(request):
     else:
         pro=profile.objects.get(user=request.user)
         context['profile']=pro
-        if request.method == "POST" and request.FILES:
+        if request.method == "POST":
             image = request.FILES.get('image')
             first_name=request.POST.get('first_name')
             last_name=request.POST.get('Last_name')
@@ -175,17 +229,20 @@ def dashboard_settings(request):
             introduce_yourself=request.POST.get('introduce_yourself')
             skill=request.POST.get('skill')
             if image==None:
-                image=pro.image    
-            pro.hourly_rate=int(rate)
+                image=pro.image 
+            if cover_letter==None:
+                cover_letter=pro.cover_letter        
+            pro.rate=int(rate)
             pro.skill=skill
             pro.cover_letter=cover_letter
             pro.tagline=tagline
-            pro.Nationality=nationality
+            pro.nationality=nationality
             pro.image=image
             pro.introduce_yourself=introduce_yourself
             pro.save()
             u.first_name=first_name
             u.last_name=last_name
+            u.email=email
             u.save()
             
             return redirect('accounts:dashboard_settings')

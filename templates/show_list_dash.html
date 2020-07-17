@@ -12,34 +12,12 @@
 	<!-- Dashboard Content
 	================================================== -->
 	<div class="dashboard-content-container" data-simplebar>
-		<div class="dashboard-content-inner" >
-			
-			
-			
+		<div class="dashboard-content-inner" >									
 		<div class="col-xl-9 col-lg-8 content-left-offset">
-
-			<h3 class="page-title">Search Results</h3>
-
-			<div class="notify-box margin-top-15">
-				<div class="switch-container">
-					<label class="switch"><input type="checkbox"><span class="switch-button"></span><span class="switch-text">Turn on email alerts for this search</span></label>
-				</div>
-
-				<div class="sort-by">
-					<span>Sort by:</span>
-					<select class="selectpicker hide-tick">
-						<option>Relevance</option>
-						<option>Newest</option>
-						<option>Oldest</option>
-						<option>Random</option>
-					</select>
-				</div>
-			</div>
-
 			<div class="listings-container margin-top-35">
 				
 				<!-- Job Listing -->
-				{% for que in show_questions  %}
+				{% for que in page_obj  %}
 				<a href="{% url 'accounts:edit_questions' que.id%}" class="job-listing">
 					
 					<!-- Job Listing Details -->

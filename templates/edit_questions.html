@@ -59,7 +59,8 @@
 									<div class="col-xl-6">
 										<div class="submit-field">
 											<h5>Question/Problems Related</h5>
-											<select  name="dropdown" class="selectpicker with-border" data-size="7" title="Select here" value="{{question.dropdown}}" data-live-search="true">
+											<select  name="dropdown" class="selectpicker with-border" data-size="7">
+												<option value="{{question.technology}}">{{question.technology}}</option>
 												<option value="Code Error">Code Error</option>
 												<option value="Task Guide">Task Guide</option>
 												<option value="Technology">Technology</option>
@@ -72,7 +73,7 @@
 									<div class="col-xl-12">
 										<div class="submit-field">
 											<h5>Write in Details</h5>
-											<textarea placeholder="Enter Description Details here" cols="30" rows="5" class="with-border" name='Description' value="{{question.Description}}"></textarea>
+											<input type="text" placeholder="Enter Description Details here" cols="30" rows="5" class="with-border" name='Description' value="{{question.description}}">
 										</div>
 									</div>
 								</div>
@@ -96,11 +97,18 @@
 											
 										</div>
 									</div>
-
 									<div class="col-xl-4">
 										<div class="submit-field">
 										<h5>Attachments</h5>
-										<input type="file"  name='Screenshort' style="height:10%" value="{{question.screenshort}}">	
+										<div class="uploadButton margin-top-30">
+											<input class="uploadButton-input" name='Screenshort' type="file" accept="image/*, application/pdf" id="upload" multiple/>
+											<label class="uploadButton-button ripple-effect" for="upload">Upload Files</label>
+											<span class="uploadButton-file-name">{{question.screenshort}}</span>
+										</div>
+										
+										<!-- <input id="files" style="visibility:hidden;" name='Screenshort' value="{{question.screenshort}}" type="file"> -->
+										
+										
 											<!-- Attachments -->
 											<!-- <div class="attachments-container margin-top-0 margin-bottom-0">
 												<div class="attachment-box ripple-effect">
