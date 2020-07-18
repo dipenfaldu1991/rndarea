@@ -154,7 +154,45 @@ def edit_questions(request,id):
         question.skill=skill
         question.screenshort=screenshort
         question.save()
-    return render(request,'edit_questions.html',{'question':question})    
+    return render(request,'edit_questions.html',{'question':question})   
+
+def update_show_project(request):
+    posts = Projects_add.objects.filter(created_user_id=request.user)
+    paginator = Paginator(posts, 3)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    return render(request,'update_show_project.html',{'items': posts})     
+
+@login_required(login_url="/") 
+def edit_project(request,id):
+    project = Projects_add.objects.get(id=id)
+    print(project)
+    if request.method=='POST':
+        headline = request.POST.get('Project Headline')
+        Description = request.POST.get('Project Description')
+        Technology = request.POST.get('Used Technology')
+        documents = request.POST.get('sd_txt')
+        duration = request.POST.get('Time duration')
+        relevant_project = request.POST.get('rp_txt')
+        Support = request.POST.get('Support')
+        Cost = request.POST.get('Project Cost') 
+        if documents==None:
+            documents=project.documents  
+        if Support==None:
+            Support=project.Support    
+        project.headline=headline
+        project.Description=Description
+        project.Technology=Technology
+        project.documents=documents
+        project.duration=duration
+        project.relevant_project=relevant_project
+        project.Support=Support
+        project.Cost=Cost
+        project.save()
+    return render(request,'edit_project.html',{'project':project})
+
+def edit_project_file(request):
+    return render(request,'edit_project_file.html')
 
 
 @login_required(login_url="/")  
@@ -190,6 +228,8 @@ def edit_task(request,id):
         edit_task.save()
     return render(request,'edit_task.html',{'edit_task':edit_task})
 
+# def edit_project(request):
+#     return render(request,'edit_project.html')
 
 @login_required(login_url="/")    
 def dashboard_settings(request):
@@ -225,7 +265,7 @@ def dashboard_settings(request):
             rate=request.POST.get('rate')
             cover_letter=request.FILES.get('cover_letter')
             tagline=request.POST.get('tagline')
-            nationality=request.POST.get('dropdown1')
+            Nationality=request.POST.get('dropdown1')
             introduce_yourself=request.POST.get('introduce_yourself')
             skill=request.POST.get('skill')
             if image==None:
@@ -236,7 +276,7 @@ def dashboard_settings(request):
             pro.skill=skill
             pro.cover_letter=cover_letter
             pro.tagline=tagline
-            pro.nationality=nationality
+            pro.Nationality=Nationality
             pro.image=image
             pro.introduce_yourself=introduce_yourself
             pro.save()

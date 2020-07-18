@@ -80,24 +80,24 @@
 	
 
 <div class="container">
-<form method='POST' action="{% url 'rnd_projects:add_projects' %}">
+<form method='POST' action="" enctype="multipart/form-data">
 {% csrf_token %}
 	<div class="row">
 		<div class="col-xl-12">
 			<table border="0" width="100%"> 
 				<tr>
 					<td style="width:15%">Project Headline : </td>
-					<td><input placeholder="Enter Project Healine here" name='Project Headline' required="required"></td>
+					<td><input type="text" name='Project Headline' required="required" value="{{project.headline}}"></td>
 				</tr>
 				<tr>
 					<td style="width:15%">Project Description : </td>
-					<td><textarea placeholder="Enter Project Details here" name='Project Description' required="required"></textarea></td>
+					<td><input type="text" name='Project Description' required="required" value="{{project.Description}}"></td>
 				</tr>
 				<tr>
 					<td style="width:15%">Used Technology :</td>
 					<td><div class="keywords-container">
 				<div class="keyword-input-container">
-					<input type="text" class="keyword-input with-border" name='Used Technology' placeholder="Add Project Technology" required="required"/>	
+					<input type="text" class="keyword-input with-border" name='Used Technology'  value="{{project.Technology}}">	
 				</div>
 			</div></td>
 				</tr>
@@ -112,15 +112,15 @@
 							<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>
 							<input type="checkbox" id="sd3" class='sd' value='Diagrame' >
 							<label for="sd3"><span class="checkbox-icon"></span> Diagrame</label>
-							<input type="text" name='sd_txt' id='sd_txt' class="keyword-input with-border" hidden/>
+							<input type="text" name='sd_txt'  id='sd_txt' class="keyword-input with-border" value="{{project.documents}}" hidden/>
 						</div>
 					</td>
 				</tr>
 					<tr>
 						<td style="width:15%">Time duration : </td>
-						<td><input placeholder="Time Duration In Weeks Like: 4 Weeks" name='Time duration' required="required"></td>
-				</tr>
-									<tr>
+						<td><input placeholder="Time Duration In Weeks Like: 4 Weeks" name='Time duration' required="required" value="{{project.duration}}"></td>
+					</tr>
+					<tr>
 						<td style="width:15%">Relevant Project for  : </td>
 						<td><div class="checkbox">
 							<input type="checkbox" id="rp1" value='BCA' class='rp' name='bca' >
@@ -136,20 +136,20 @@
 						
 				</tr>
 				<tr>
-						<td style="width:15%">Project Support : </td>
-						<td>
-						<div class="radio">
-						<input id="radio-1" name="Support" type="radio" value='Available' >
-						<label for="radio-1"><span class="radio-label"></span> Available</label>
-						
-						<input id="radio-2" name="Support" type="radio" value='Not Available' checked>
-						<label for="radio-2"><span class="radio-label"></span> Not Available</label>
-						</div>
+					<td style="width:15%">Project Support : </td>
+					<td>
+					<div class="radio">
+					<input id="radio-1" name="Support" type="radio" value='Available' >
+					<label for="radio-1"><span class="radio-label"></span> Available</label>
+					
+					<input id="radio-2" name="Support" type="radio" value='Not Available' value="{{project.Support}}">
+					<label for="radio-2"><span class="radio-label"></span> Not Available</label>
+					</div>
 					</td>
 				</tr>
 					<tr>
 						<td style="width:15%">Project Cost : </td>
-						<td><input placeholder="Enter Project Cost In Rupees" name='Project Cost' required="required"></td>
+						<td><input placeholder="Enter Project Cost In Rupees" name='Project Cost' required="required" value="{{project.Cost}}"></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right"><button type='submit' class="button dark ripple-effect button-sliding-icon">Save & Next <i class="icon-feather-check"></i></button></td>

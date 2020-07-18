@@ -429,11 +429,11 @@
 						</ul>
 						
 						<ul data-submenu-title="Organize and Manage">
-							<li><a href="#"><i class="icon-material-outline-business-center"></i> Jobs</a>
+							<li><a href="#"><i class="icon-material-outline-business-center"></i> Projects</a>
 								<ul>
-									<li><a href="dashboard-manage-jobs.html">Manage Jobs <span class="nav-tag">3</span></a></li>
+									<li><a href="{% url 'accounts:update_show_project' %}">Manage Projects<span class="nav-tag">3</span></a></li>
 									<li><a href="dashboard-manage-candidates.html">Manage Candidates</a></li>
-									<li><a href="dashboard-post-a-job.html">Post a Job</a></li>
+									<li><a href="{% url 'rnd_projects:add_projects' %}">Post a Projects</a></li>
 								</ul>	
 							</li>
 							<li><a href="#"><i class="icon-material-outline-assignment"></i> Tasks</a>
