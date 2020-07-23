@@ -104,68 +104,143 @@
 				<tr>
 					
 					<td style="width:15%">Support Documents : </td>
+					
 					<td><br><br>
+					
 						<div class="checkbox">
-							<input type="checkbox" class='sd' id="sd1" value='Project Documents' >
-							<label for="sd1"><span class="checkbox-icon"></span> Project Documents</label>
 							
-							<input type="checkbox" id="sd2" class='sd' value='Abstract Report' >
-							<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>
-							<input type="checkbox" id="sd3" class='sd' value='Diagrame' >
-							<label for="sd3"><span class="checkbox-icon"></span> Diagrame</label>
-							<input type="text" name='sd_txt'  id='sd_txt' class="keyword-input with-border" value="{{project.documents}}" hidden/>
+							
+									
+									
+							
+							
+
+
+					
+							{% ifequal l1.0 'Project Documents' %}
+									<input type="checkbox" class='sd' id="sd1" value='Project Documents' checked>
+									<label for="sd1"><span class="checkbox-icon"></span> Project Documents</label>
+							{% endifequal %}
+							{% ifequal l1.1 'Project Documents' %}
+										<input type="checkbox" class='sd' id="sd1" value='Project Documents' checked>
+										<label for="sd1"><span class="checkbox-icon"></span> Project Documents</label>	
+							{% endifequal %}
+							{% ifequal l1.2 'Project Documents' %}
+									<input type="checkbox" class='sd' id="sd1" value='Project Documents' checked>
+									<label for="sd1"><span class="checkbox-icon"></span> Project Documents</label>
+							{% else %}
+									<input type="checkbox" class='sd' id="sd1" value='Project Documents' >
+									<label for="sd1"><span class="checkbox-icon"></span> Project Documents</label>
+							{% endifequal %}
+						
+
+							{% ifequal l1.0 'Abstract Report'%}
+									<input type="checkbox" id="sd2" class='sd' value='Abstract Report' checked>
+									<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>
+							
+							{% endifequal %}
+
+							{% ifequal l1.1 'Abstract Report'%}
+									<input type="checkbox" id="sd2" class='sd' value='Abstract Report' checked>
+									<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>
+							
+							{% endifequal %}
+
+							{% ifequal l1.2 'Abstract Report'%}
+									<input type="checkbox" id="sd2" class='sd' value='Abstract Report' checked>
+									<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>
+							{% else %}
+									<input type="checkbox" id="sd2" class='sd' value='Abstract Report' >
+									<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>
+							{% endifequal %}
+							
+
+							{% ifequal l1.0 'Diagrame' %}
+									<input type="checkbox" id="sd3" class='sd' value='Diagrame' checked>
+									<label for="sd3"><span class="checkbox-icon"></span> Diagrame</label>
+							
+							{% endifequal %}
+
+
+							{% ifequal l1.1 'Diagrame' %}
+									<input type="checkbox" id="sd3" class='sd' value='Diagrame' checked>
+									<label for="sd3"><span class="checkbox-icon"></span> Diagrame</label>
+							
+							{% endifequal %}
+							
+							{% ifequal l1.2 'Diagrame' %}
+									<input type="checkbox" id="sd3" class='sd' value='Diagrame' checked>
+									<label for="sd3"><span class="checkbox-icon"></span> Diagrame</label>
+							{% else %}
+									<input type="checkbox" id="sd2" class='sd' value='Abstract Report' >
+									<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>
+							{% endifequal %}
+						
+
+							<input type="text" name='sd_txt' id='sd_txt' class="keyword-input with-border" hidden/>
+							
 						</div>
+						
 					</td>
+				
 				</tr>
 					<tr>
 						<td style="width:15%">Time duration : </td>
 						<td><input placeholder="Time Duration In Weeks Like: 4 Weeks" name='Time duration' required="required" value="{{project.duration}}"></td>
 					</tr>
-					
+					<!-- <script>
+					$("input:checkbox[name=rp_txt]:checked").each(function(){
+						yourArray.push($(this).val());
+					});
+					</script> -->
 					<tr>
 						<td style="width:15%">Relevant Project for  : </td>
 						<td><div class="checkbox">
-							<input type="checkbox" id="rp1" value='BCA' class='rp' name='bca' >
+						
+							 
+							
+							
+							
+							
+							
+							<input type="checkbox" id="rp2" value='MCA' class='rp' name='mca' {% ifequal MCA l3 %} checked="checked"{% endifequal %}>
+							<label for="rp2"><span class="checkbox-icon"></span> MCA</label>
+							
+							<input type="checkbox" id="rp1" value='BCA' class='rp' name='bca'>
 							<label for="rp1"><span class="checkbox-icon"></span> BCA</label>
 							
-							<input type="checkbox" id="rp2" value='MCA' class='rp' name='mca' >
-							<label for="rp2"><span class="checkbox-icon"></span> MCA</label>
-							<input type="checkbox" id="rp3" value='MScIT' class='rp' >
-							<label for="rp3"><span class="checkbox-icon"></span> MScIT </label>
-							<input type="text" name='rp_txt'  value="{{project.relevant_project}}" class="keyword-input with-border" hidden />
+							<input type="checkbox" id="rp3" value='MScIT' class='rp' name='mscit'>
+							<label for="rp3"><span class="checkbox-icon"></span> MScIT </label>	
+							
+							
+																																	
+							<input type="text" name='rp_txt'  id='rp_txt' class="keyword-input with-border" hidden />
+							
 						</div>
 						</td>
 						
 				</tr>
-				<tr><script> 
-					function display() {  
-						var checkRadio = document.querySelector( 
-							'input[name="Support"]:checked'); 
-						  
-						if(checkRadio != null) { 
-							document.getElementById("disp").innerHTML 
-								= checkRadio.value 
-								+ " radio button checked"; 
-						} 
-						else { 
-							document.getElementById("disp").innerHTML 
-								= "No one selected"; 
-						} 
-					} 
-				</script> 
+				</tr>
+				
+					
 					
 					<td style="width:15%">Project Support : </td>
 					<td>
+						
 					<div class="radio">
-					
-					<!-- <th><input type="radio" name="Support_completed_{req_id}}" id="{{ req_id }}" value="Available"{% if not req.completed %} checked{% endif %}> Available
-						<input type="radio" name="Support_completed_{req_id}}" id="{{ req_id }}" value="Not Available"{% if req.completed %} checked{% endif %}> Not Available</th> -->
-					
-					<input id="radio_1" name="Support" type="radio" value='Available' >
+				{% for i in l2 %}	
+					{% ifequal 'Available' i %} 	
+					<input id="radio_1" name="Support" type="radio" value='Available' checked="checked" />
 					<label for="radio_1"><span class="radio-label"></span> Available</label>
-					
-					<input id="radio-2" name="Support" type="radio" value='Not Available'>
-					<label for="radio-2"><span class="radio-label"></span> Not Available</label>
+					<input id="radio-2" name="Support" type="radio"  value='Not Available'/>
+					<label for="radio-2"><span class="radio-label"></span> Not Available</label>	
+					{% else %}
+					<input id="radio_1" name="Support" type="radio" value='Available'/>
+					<label for="radio_1"><span class="radio-label"></span> Available</label>
+					<input id="radio-2" name="Support" type="radio"  value='Not Available' checked="checked"/>
+					<label for="radio-2"><span class="radio-label"></span> Not Available</label>					
+					{% endifequal %}
+				{% endfor %}	
 					</div>
 					</td>
 					
@@ -175,7 +250,7 @@
 						<td><input placeholder="Enter Project Cost In Rupees" name='Project Cost' required="required" value="{{project.Cost}}"></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="right"><button type='submit' class="button dark ripple-effect button-sliding-icon">Save & Next <i class="icon-feather-check"></i></button></td>
+					<td colspan="2" align="right"><button type='submit'  class="button dark ripple-effect button-sliding-icon">Save & Next <i class="icon-feather-check"></i></button></td>
 				</tr>
 			</table>
 				

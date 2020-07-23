@@ -167,31 +167,47 @@ def update_show_project(request):
 def edit_project(request,id):
     project = Projects_add.objects.get(id=id)
     request.session["Projects_add"]=project.id
+    str=project.Documents
+    l1 = str.split (",")
+    len_l1=len(l1)
+    l1.pop()
+    support=[]
+    Support_Documents =['Project Documents','Abstract Report','Diagrame']
+    print(l1)
+    str=project.Support
+    l2 = str.split (",")
+    print(l2)
+    str=project.Relevant_Project
+    l3 = str.split (",")
+    l3.pop()
+    print(l3)
     print(project.id)
     if request.method=='POST':
         headline = request.POST.get('Project Headline')
         Description = request.POST.get('Project Description')
         Technology = request.POST.get('Used Technology')
-        documents = request.POST.get('sd_txt')
+        Documents = request.POST.get('sd_txt')
         duration = request.POST.get('Time duration')
-        relevant_project = request.POST.get('rp_txt')
+        Relevant_Project = request.POST.get('rp_txt')
         Support = request.POST.get('Support')
         Cost = request.POST.get('Project Cost') 
-        if documents==None:
-            documents=project.documents  
+        if Documents==None:
+            Documents=project.Documents  
         if Support==None:
-            Support=project.Support    
+            Support=project.Support 
+        if Relevant_Project==None:
+            Relevant_Project=project.rp_txt        
         project.headline=headline
         project.Description=Description
         project.Technology=Technology
-        project.documents=documents
+        project.Documents=Documents
         project.duration=duration
-        project.relevant_project=relevant_project
+        project.Relevant_Project=Relevant_Project
         project.Support=Support
         project.Cost=Cost
         project.save()
         return redirect('accounts:edit_project_file', id=project.id)
-    return render(request,'edit_project.html',{'project':project})
+    return render(request,'edit_project.html',{'project':project,'l1':l1,'len_l1':len(l1),'l2':l2,'l3':l3})
 
 def edit_project_file(request,id):
     project1 = Projects_add_documents.objects.get(project_add=int(request.session["Projects_add"]))
