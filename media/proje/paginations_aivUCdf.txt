@@ -1,0 +1,127 @@
+#########################################################pagination
+
+<script>
+var current_page = 1;
+var records_per_page = 2;
+
+var objJson = [
+    { adName: "AdName 1"},
+    { adName: "AdName 2"},
+    { adName: "AdName 3"},
+    { adName: "AdName 4"},
+    { adName: "AdName 5"},
+    { adName: "AdName 6"},
+    { adName: "AdName 7"},
+    { adName: "AdName 8"},
+    { adName: "AdName 9"},
+    { adName: "AdName 10"}
+]; // Can be obtained from another source, such as your objJson variable
+
+function prevPage()
+{
+    if (current_page > 1) {
+        current_page--;
+        changePage(current_page);
+    }
+}
+
+function nextPage()
+{
+    if (current_page < numPages()) {
+        current_page++;
+        changePage(current_page);
+    }
+}
+
+function changePage(page)
+{
+    var btn_next = document.getElementById("btn_next");
+    var btn_prev = document.getElementById("btn_prev");
+    var listing_table = document.getElementById("listingTable");
+    var page_span = document.getElementById("page");
+
+    // Validate page
+    if (page < 1) page = 1;
+    if (page > numPages()) page = numPages();
+
+    listing_table.innerHTML = "";
+
+    for (var i = (page-1) * records_per_page; i < (page * records_per_page); i++) {
+        listing_table.innerHTML += objJson[i].adName + "<br>";
+    }
+    page_span.innerHTML = page;
+
+    if (page == 1) {
+        btn_prev.style.visibility = "hidden";
+    } else {
+        btn_prev.style.visibility = "visible";
+    }
+
+    if (page == numPages()) {
+        btn_next.style.visibility = "hidden";
+    } else {
+        btn_next.style.visibility = "visible";
+    }
+}
+
+function numPages()
+{
+    return Math.ceil(objJson.length / records_per_page);
+}
+
+window.onload = function() {
+    changePage(1);
+};	
+</script>
+
+
+
+<div id="listingTable"></div>
+<a href="javascript:prevPage()" id="btn_prev">Prev</a>
+<a href="javascript:nextPage()" id="btn_next">Next</a>
+page: <span id="page">
+						
+	</span>
+
+
+
+
+
+
+score = models.FloatField(max_length=1, default=0)
+
+Rating_CHOICES = (
+    (1, 'Poor'),
+    (2, 'Average'),
+    (3, 'Good'),
+    (4, 'Very Good'),
+    (5, 'Excellent')
+)
+
+is_favorite = models.IntegerField(choices=Rating_CHOICES, default=1)
+
+{# javascripts and css required by SliderVoteForm #}
+<script src="path/to/jquery.js" type="text/javascript"></script>
+<script src="path/to/jquery-ui.js" type="text/javascript"></script>
+script type="text/javascript" src="/path/to/ratings.js"></script>
+
+{% load ratings_tags %}
+
+{% get_rating_form for object as rating_form %}
+
+<form action="{% url ratings_vote %}" class="ratings" method="post">
+    {% csrf_token %}
+    {{ rating_form }}
+    <p>
+        {# only authenticated users can vote #}
+        {% if user.is_authenticated %}
+            <input type="submit" value="Vote"></p>
+        {% else %}
+            <a href="{% url login %}?next={{ request.path }}">Vote</a>
+        {% endif %}
+    </p>
+    <span class="success" style="display: none;">Vote registered!</span>
+    <span class="error" style="display: none;">Errors...</span>
+</form>
+
+

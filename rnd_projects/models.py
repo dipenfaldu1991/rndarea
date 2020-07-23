@@ -39,6 +39,7 @@ class Projects_add_documents(models.Model):
     screenshort_4=models.FileField(upload_to='proje/')
     screenshort_5=models.FileField(upload_to='proje/')
     screenshort_6=models.FileField(upload_to='proje/')
+    zip_file=models.FileField(upload_to='proje/',blank=True,null=True)
     project_add=models.PositiveIntegerField()
     created_user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createdocumentsuser')
     created = models.DateTimeField(auto_now_add=True)

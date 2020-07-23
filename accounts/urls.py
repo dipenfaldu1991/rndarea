@@ -15,7 +15,7 @@ urlpatterns = [
     path('show_task',views.show_task,name='show_task'),
     path('edit_task/<int:id>',views.edit_task,name='edit_task'),
     path('edit_project/<int:id>/',views.edit_project,name='edit_project'),
-    path('edit_project_file',views.edit_project_file,name='edit_project_file'),
+    path('edit_project_file/<int:id>',views.edit_project_file,name='edit_project_file'),
     path('update_show_project',views.update_show_project,name='update_show_project'),
     
     

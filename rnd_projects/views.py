@@ -50,8 +50,9 @@ def Upload_Project_2(request):
         screenshort_4=request.FILES.get('screenshort_4')
         screenshort_5=request.FILES.get('screenshort_5')
         screenshort_6=request.FILES.get('screenshort_6')
+        zip_file=request.FILES.get('zip_file')
         p_id=request.session["priject_add_get"]
-        pro_doc=Projects_add_documents.objects.create(project_icon=icon,project_banner=project_banner,documentation=documentation,intraction_document=intraction_document,other_reports=other_reports,upload_video=upload_video,screenshort_1=screenshort_1,screenshort_2=screenshort_2,screenshort_3=screenshort_3,screenshort_4=screenshort_4,screenshort_5=screenshort_5,screenshort_6=screenshort_6,project_add=request.session["priject_add_get"],created_user=request.user)
+        pro_doc=Projects_add_documents.objects.create(project_icon=icon,project_banner=project_banner,documentation=documentation,intraction_document=intraction_document,other_reports=other_reports,upload_video=upload_video,screenshort_1=screenshort_1,screenshort_2=screenshort_2,screenshort_3=screenshort_3,screenshort_4=screenshort_4,screenshort_5=screenshort_5,screenshort_6=screenshort_6,project_add=request.session["priject_add_get"],created_user=request.user,zip_file=zip_file)
         pro_doc.save()
     return render(request,'Upload_Project_2.html')
 

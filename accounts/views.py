@@ -11,7 +11,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from rndarea import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from rnd_projects.models import Projects_add,Questions,AddPostdatas
+from rnd_projects.models import Projects_add,Questions,AddPostdatas,Projects_add_documents
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
@@ -166,7 +166,8 @@ def update_show_project(request):
 @login_required(login_url="/") 
 def edit_project(request,id):
     project = Projects_add.objects.get(id=id)
-    print(project)
+    request.session["Projects_add"]=project.id
+    print(project.id)
     if request.method=='POST':
         headline = request.POST.get('Project Headline')
         Description = request.POST.get('Project Description')
@@ -189,10 +190,66 @@ def edit_project(request,id):
         project.Support=Support
         project.Cost=Cost
         project.save()
+        return redirect('accounts:edit_project_file', id=project.id)
     return render(request,'edit_project.html',{'project':project})
 
-def edit_project_file(request):
-    return render(request,'edit_project_file.html')
+def edit_project_file(request,id):
+    project1 = Projects_add_documents.objects.get(project_add=int(request.session["Projects_add"]))
+    if request.method=='POST':
+        icon=request.FILES.get('project_icon')
+        project_banner=request.FILES.get('project_banner')
+        documentation=request.FILES.get('documentation')
+        intraction_document=request.FILES.get('intraction_document')
+        other_reports=request.FILES.get('other_reports')
+        upload_video=request.FILES.get('upload_video')
+        screenshort_1=request.FILES.get('screenshort_1')
+        screenshort_2=request.FILES.get('screenshort_2')
+        screenshort_3=request.FILES.get('screenshort_3')
+        screenshort_4=request.FILES.get('screenshort_4')
+        screenshort_5=request.FILES.get('screenshort_5')
+        screenshort_6=request.FILES.get('screenshort_6')
+        zip_file=request.FILES.get('zip_file')
+        if icon==None:
+            icon=project1.project_icon 
+        if documentation==None:
+            documentation=project1.documentation 
+        if intraction_document==None:
+            intraction_document=project1.intraction_document
+        if project_banner==None:
+            project_banner=project1.project_banner 
+        if other_reports==None:
+            other_reports=project1.other_reports 
+        if upload_video==None:
+            upload_video=project1.upload_video                  
+        if screenshort_1==None:
+            screenshort_1=project1.screenshort_1 
+        if screenshort_2==None:
+            screenshort_2=project1.screenshort_2 
+        if screenshort_3==None:
+            screenshort_3=project1.screenshort_3 
+        if screenshort_4==None:
+            screenshort_4=project1.screenshort_4 
+        if screenshort_5==None:
+            screenshort_5=project1.screenshort_5
+        if screenshort_6==None:
+            screenshort_6=project1.screenshort_6
+        if zip_file==None:
+            zip_file=project1.zip_file                         
+        project1.project_icon=icon    
+        project1.project_banner=project_banner
+        project1.documentation=documentation
+        project1.intraction_document=intraction_document
+        project1.other_reports=other_reports
+        project1.upload_video=upload_video
+        project1.screenshort_1=screenshort_1
+        project1.screenshort_2=screenshort_2
+        project1.screenshort_3=screenshort_3
+        project1.screenshort_4=screenshort_4
+        project1.screenshort_5=screenshort_5
+        project1.screenshort_6=screenshort_6
+        project1.zip_file=zip_file
+        project1.save()
+    return render(request,'edit_project_file.html',{'project1':project1})
 
 
 @login_required(login_url="/")  

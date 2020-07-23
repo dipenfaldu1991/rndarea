@@ -102,6 +102,7 @@
 			</div></td>
 				</tr>
 				<tr>
+					
 					<td style="width:15%">Support Documents : </td>
 					<td><br><br>
 						<div class="checkbox">
@@ -120,6 +121,7 @@
 						<td style="width:15%">Time duration : </td>
 						<td><input placeholder="Time Duration In Weeks Like: 4 Weeks" name='Time duration' required="required" value="{{project.duration}}"></td>
 					</tr>
+					
 					<tr>
 						<td style="width:15%">Relevant Project for  : </td>
 						<td><div class="checkbox">
@@ -129,23 +131,44 @@
 							<input type="checkbox" id="rp2" value='MCA' class='rp' name='mca' >
 							<label for="rp2"><span class="checkbox-icon"></span> MCA</label>
 							<input type="checkbox" id="rp3" value='MScIT' class='rp' >
-							<label for="rp3"><span class="checkbox-icon"></span> MScIT</label>
-							<input type="text" name='rp_txt' id='rp_txt' class="keyword-input with-border" hidden />
+							<label for="rp3"><span class="checkbox-icon"></span> MScIT </label>
+							<input type="text" name='rp_txt'  value="{{project.relevant_project}}" class="keyword-input with-border" hidden />
 						</div>
 						</td>
 						
 				</tr>
-				<tr>
+				<tr><script> 
+					function display() {  
+						var checkRadio = document.querySelector( 
+							'input[name="Support"]:checked'); 
+						  
+						if(checkRadio != null) { 
+							document.getElementById("disp").innerHTML 
+								= checkRadio.value 
+								+ " radio button checked"; 
+						} 
+						else { 
+							document.getElementById("disp").innerHTML 
+								= "No one selected"; 
+						} 
+					} 
+				</script> 
+					
 					<td style="width:15%">Project Support : </td>
 					<td>
 					<div class="radio">
-					<input id="radio-1" name="Support" type="radio" value='Available' >
-					<label for="radio-1"><span class="radio-label"></span> Available</label>
 					
-					<input id="radio-2" name="Support" type="radio" value='Not Available' value="{{project.Support}}">
+					<!-- <th><input type="radio" name="Support_completed_{req_id}}" id="{{ req_id }}" value="Available"{% if not req.completed %} checked{% endif %}> Available
+						<input type="radio" name="Support_completed_{req_id}}" id="{{ req_id }}" value="Not Available"{% if req.completed %} checked{% endif %}> Not Available</th> -->
+					
+					<input id="radio_1" name="Support" type="radio" value='Available' >
+					<label for="radio_1"><span class="radio-label"></span> Available</label>
+					
+					<input id="radio-2" name="Support" type="radio" value='Not Available'>
 					<label for="radio-2"><span class="radio-label"></span> Not Available</label>
 					</div>
 					</td>
+					
 				</tr>
 					<tr>
 						<td style="width:15%">Project Cost : </td>

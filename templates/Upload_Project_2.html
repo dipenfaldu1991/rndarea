@@ -371,10 +371,24 @@
 				
 					<tr>
 						<td style="width:15%">Project Icon : </td>
-						<td><input type="file"  name='project_icon' style="width:90%; font-size:12px" required="required"></td>
+						<td>
+						<div class="uploadButton margin-top-30">
+							<input class="uploadButton-input" name='project_icon' type="file"  id="upload" multiple/>
+							<label class="uploadButton-button ripple-effect" for="upload">Upload Files</label>
+							<span class="uploadButton-file-name">{{project_icon}}</span>
+						</div>
+						</td>
+						<!-- <td><input type="file"  name='project_icon' style="width:90%; font-size:12px" required="required"></td> -->
 						
 						<td style="width:15%">Screenshort 1 : </td>
-						<td><input type="file" name='screenshort_1' style="width:90%; font-size:12px" ></td>
+						<td>
+							<div class="uploadButton margin-top-30">
+								<input class="uploadButton-input" name='screenshort_1' type="file"  id="upload" multiple/>
+								<label class="uploadButton-button ripple-effect" for="upload">Upload Files</label>
+								<span class="uploadButton-file-name">{{screenshort_1}}</span>
+							</div>
+							</td>
+						<!-- <td><input type="file" name='screenshort_1' style="width:90%; font-size:12px" ></td> -->
 				</tr>
 					<tr>
 						<td style="width:15%">Project Banner : </td>
@@ -411,6 +425,11 @@
 
 						<td style="width:15%">Screenshort 6 : </td>
 						<td><input type="file" name='screenshort_6' style="width:90%; font-size:12px"></td>
+				</tr>
+				<tr>
+					<td style="width:15%">zip files: </td>
+					<td><input type="file" name='zip_file' style="width:90%; font-size:12px">
+					<!-- <span class="uploadButton-file-name">Maximum file size: 10 MB</span></td> -->
 				</tr>
 				<tr>
 					<td colspan="2" align="right"><button type='submit'  class="button dark ripple-effect button-sliding-icon">Upload Files <i class="icon-feather-check"></i></button></td>
