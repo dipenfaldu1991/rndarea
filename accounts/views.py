@@ -156,6 +156,7 @@ def edit_questions(request,id):
         question.save()
     return render(request,'edit_questions.html',{'question':question})   
 
+@login_required(login_url="/")
 def update_show_project(request):
     posts = Projects_add.objects.filter(created_user_id=request.user)
     paginator = Paginator(posts, 3)
@@ -167,48 +168,65 @@ def update_show_project(request):
 def edit_project(request,id):
     project = Projects_add.objects.get(id=id)
     request.session["Projects_add"]=project.id
-    str=project.Documents
-    l1 = str.split (",")
-    len_l1=len(l1)
-    l1.pop()
-    support=[]
-    Support_Documents =['Project Documents','Abstract Report','Diagrame']
-    print(l1)
+    project_document1=project.Relevant_Project.split(',')
+    project_document=project.Documents.split(',')
+    project_document.pop()
+    project_document1.pop()
     str=project.Support
     l2 = str.split (",")
     print(l2)
-    str=project.Relevant_Project
-    l3 = str.split (",")
-    l3.pop()
-    print(l3)
-    print(project.id)
+    proj_check1=['','','']
+    print(project_document)
+    proj_check=['','','']
+
+    if 'Project Documents' in project_document:
+        proj_check[0]='Project Documents'
+    if 'Abstract Report' in project_document:
+        proj_check[1]='Abstract Report'
+    if 'Diagrame' in project_document:
+        proj_check[2]='Diagrame' 
+
+    if 'MCA' in project_document1:
+        proj_check1[0]='MCA'
+    if 'BCA' in project_document1:
+        proj_check1[1]='BCA'
+    if 'MScIT' in project_document1:
+        proj_check1[2]='MScIT'    
+
+
+
     if request.method=='POST':
         headline = request.POST.get('Project Headline')
         Description = request.POST.get('Project Description')
         Technology = request.POST.get('Used Technology')
-        Documents = request.POST.get('sd_txt')
+        doc = request.POST.get('sd_txt')
         duration = request.POST.get('Time duration')
         Relevant_Project = request.POST.get('rp_txt')
         Support = request.POST.get('Support')
-        Cost = request.POST.get('Project Cost') 
-        if Documents==None:
-            Documents=project.Documents  
+        Cost = request.POST.get('Project Cost')
+        print('---------------->',doc)
+        print('==================>',Relevant_Project) 
+        if doc==None:
+            Documents=project.Documents 
+            # print(Documents) 
         if Support==None:
             Support=project.Support 
         if Relevant_Project==None:
-            Relevant_Project=project.rp_txt        
+            Relevant_Project=project.Relevant_Project        
+            # print(Relevant_Project)
         project.headline=headline
         project.Description=Description
         project.Technology=Technology
-        project.Documents=Documents
+        project.Documents=doc
         project.duration=duration
         project.Relevant_Project=Relevant_Project
         project.Support=Support
         project.Cost=Cost
         project.save()
         return redirect('accounts:edit_project_file', id=project.id)
-    return render(request,'edit_project.html',{'project':project,'l1':l1,'len_l1':len(l1),'l2':l2,'l3':l3})
+    return render(request,'edit_project.html',{'project':project,'pro':proj_check,'pro1':proj_check1,'l2':l2})
 
+@login_required(login_url="/") 
 def edit_project_file(request,id):
     project1 = Projects_add_documents.objects.get(project_add=int(request.session["Projects_add"]))
     if request.method=='POST':
@@ -277,6 +295,7 @@ def show_task(request):
     page_obj = paginator.get_page(page_number)
     return render(request,'show_task.html',{'show_task':show_task,'page_obj':page_obj})
 
+@login_required(login_url="/")
 def edit_task(request,id): 
     edit_task=AddPostdatas.objects.get(id=id)
     if request.method=='POST':
