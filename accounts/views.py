@@ -129,15 +129,16 @@ def show_list_dash(request):
 
 def count_data(request):
     user_count = Questions.objects.filter(created_user_id=request.user).count() 
-    dic={user_count}
+    context={'user_count':user_count}
     request.session["pvr"] =user_count
-    print(dic)
-    return render(request,'edit_questions.html',{'user_count':user_count})
+    
+    return render(request,'base2.html',context)
 
 
 @login_required(login_url="/")    
 def edit_questions(request,id):
     question=Questions.objects.get(id=id)
+    
     if request.method=='POST':
         title = request.POST.get('HeadLine')
         technology = request.POST.get('dropdown')
