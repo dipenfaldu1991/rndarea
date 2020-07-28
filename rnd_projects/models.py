@@ -208,8 +208,8 @@ class Wallet(models.Model):
     updated = models.DateTimeField(auto_now=True,blank=True,null=True)
 
 
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Wallet.objects.create(created_user_id=instance)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Wallet.objects.create(created_user_id=instance)
 
-# post_save.connect(create_user_profile, sender=User)        
+post_save.connect(create_user_profile, sender=User)        
