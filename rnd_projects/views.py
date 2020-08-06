@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.views.generic import RedirectView
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from .models import Projects_add,Projects_add_documents,Questions,Answer,Reply,Replyreply,Like,AddPostdatas,Bidding,BidCount,Plans
+from .models import Projects_add,Projects_add_documents,Questions,Answer,AddPostdatas,Bidding,BidCount,Plans
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -135,15 +135,14 @@ def ShowQuestion(request,pk):
     que1 = Questions.objects.all().order_by('date_posted')[:3]
     que = Questions.objects.get(pk=pk)
     ans1= Answer.objects.filter(question_id=que.id)
-    reply1=Reply.objects.filter(question_id=que.id)
-    reply2=Replyreply.objects.filter(question_id=que.id)
+    
     str=que.skill
     l1 = str.split (",")
-    print(l1)
+    # print(l1)
     request.session["question_id"] =que.id
     
     # print(pk)
-    return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1,'reply1':reply1,'reply2':reply2})
+    return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1})
 
 
 
@@ -160,65 +159,6 @@ def getanswer(request):
     return render(request,'ShowQuestion.html')
 
     
-from django.views.decorators.csrf import csrf_exempt
-@csrf_exempt
-@login_required(login_url="/")
-def like_post(request):
-    que = Questions.objects.get(pk=request.session["question_id"])
-    user = request.user
-    a=que.id
-    if request.method == "POST" and request.is_ajax():
-        answer_id = request.POST.get('name')
-        print(answer_id)
-        answer = Answer.objects.get(pk=answer_id)
-
-        # it means that the user like the post already so we gonna remve them if the user going to hit the like again
-        if user in answer.liked.all():
-            answer.liked.remove(user)
-            # answer.liked.save()
-        else:
-            answer.liked.add(user)
-            # answer.liked.save()
-        
-        like, created = Like.objects.get_or_create(user=user, answer_id=answer_id)
-        
-        if not created:
-            if like.value == "Like":
-                like.value = "Like"
-            else:
-                like.value = "Unlike"
-        like.save()
-        return redirect('rnd_projects:ShowQuestion',pk=a)
-    return render(request,'ShowQuestion.html')
-
-
-
-
-@login_required(login_url="/")     
-def getreply(request):    
-    que1 = Questions.objects.get(pk=int(request.session["question_id"]))
-    que_id=que1.id
-    que_create_user=que1.created_user_id
-    if request.method=='POST' :
-        replyreply = request.POST.get('replyreply')
-        reply = request.POST.get('reply')
-        
-        if reply:
-            answerid=request.POST.get('answer_id')        
-            ans=Answer.objects.get(pk=answerid)
-            print('ans to reply')
-            Reply.objects.create(reply=reply,answer_id_id=ans.id,question_id_id=que_id,created_user_id_id=request.user.id,updated_user_id=request.user.id)
-        if replyreply:
-            que1 = Questions.objects.get(pk=int(request.session["question_id"]))
-            que_id=que1.id
-            que_create_user=que1.created_user_id
-        
-            replyid=request.POST.get('reply_id') 
-            rel=Reply.objects.get(pk=replyid)
-            print('reply to reply')
-            Replyreply.objects.create(replyreply=replyreply,reply_id_id=rel.id,answer_id_id=rel.answer_id_id,question_id_id=que_id,created_user_id_id=request.user.id,updated_user_id=request.user.id)
-        return redirect('rnd_projects:ShowQuestion',pk=que_id)
-    return render(request,'ShowQuestion.html')
 
 
 @login_required(login_url="/")     

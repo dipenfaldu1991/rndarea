@@ -77,81 +77,14 @@
 			
 
 			<!-- Comments -->
-			<script>
-				
-
-
-
-
-				$(document).ready(function() {
-				$('.replybutton').click(function() {
-					$(this).next('.reply').toggle();
-				});
-				});
-
-				$(document).ready(function() {
-				$('.replybutton1').click(function() {
-					$(this).next('.reply1').toggle();
-				});
-				});
-
-				
-				
-			</script>
+	
 			
 				<div class="row">
 					<div class="col-xl-12">
 						<section class="comments">
 						<h3 class="margin-top-45 margin-bottom-0">Comments <span class="comments-amount">(5)</span></h3>
 						{% for answer in ans1 %}
-						<script>
-							$(document).ready(function() {
-								$("#like{{answer.id}}").click(function(){
-									
-								  $.ajax({
-									type: "POST",
-									url: "/rnd_projects/like",
-									
-									data: {
-									  name: $('#ans_id{{answer.id}}').val(), // from form
-									  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-									},
-									
-									error: function(data){
-											alert(data);
-									}
-								  });
-
-								  return false; //<---- move it here
-								});
-							});
-							  
-							</script>
-							<script>
-								$(document).ready(function() {
-									$("#unlike{{answer.id}}").click(function(){
-									  $.ajax({
-										type: "POST",
-										url: "/rnd_projects/like",
-										
-										data: {
-										  name: $('#ans_id{{answer.id}}').val(), // from form
-										  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-										},
-										success: function(data) {
-											alert('sudess');
-											window.history.pushState('','','/rnd_projects/like')
-										},
-										error: function(data){
-												alert(data)
-										}
-									  });
-	
-									  return false; //<---- move it here
-									});
-								});
-								  
-								</script>
+						
 						<ul>
 							<li>
 								<div class="avatar"><img src="{% static 'theam/images/user-avatar-placeholder.png' %}" alt=""></div>
@@ -163,13 +96,9 @@
 											{% csrf_token %}
 											
 											<input type="text" hidden id='ans_id{{answer.id}}' name="answer_id" value="{{answer.id}}">
-											{% if user not in answer.liked.all %}
-											<button type="button" class="ui button positive" style="background-color: red" id='like{{answer.id}}' >Like</button>
-										{% else %}
-											<button type="button" class="ui button negative" style="background-color:green" id='unlike{{answer.id}}'>Unlike</button>
-										{% endif %}
+											
 										</form>
-										<strong>{{ answer.liked.all.count }} likes</strong>																																																		
+																																																										
 									
 									<!-- <input type="button"  name="" value="Like" /> -->
 									
@@ -180,7 +109,7 @@
 									<div class="col-lg-12 reply" style="display:none">
 									
 									
-									<form method="post" action="{% url 'rnd_projects:getreply' %}">
+									
 											{% csrf_token %}
 										<input type="text" name="answer_id" value="{{answer.id}}" hidden>
 									
@@ -189,25 +118,9 @@
 										
 										<input type="submit" span class="btn reply"> 
 								
-									{% for reply in reply1 %}	
-
-									{% ifequal answer.id reply.answer_id_id%}
-									<li>
-										<div class="avatar"><img src="{% static 'theam/images/user-avatar-placeholder.png' %}" alt=""></div>
-										<div class="comment-content"><div class="arrow-comment"></div>
-										<div class="comment-by">{{reply.reply}}<span class="date">12th, June 2020</span>
-											
-											
-										
-																				
-									</div>
-									
-									
-									{% endifequal %}
-												
-						 			{% endfor %}
 								
-									</form>	
+								
+								
 								</div>		
 							</li>
 						</ul>

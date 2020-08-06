@@ -18,9 +18,9 @@ urlpatterns = [
     path('add_questions',views.add_questions,name='add_questions'),
     path('show_question_list',views.show_question_list,name='show_question_list'),
     path('ShowQuestion/<int:pk>',views.ShowQuestion,name='ShowQuestion'),
-    path('like',views.like_post,name='like'),   
+    
     path('getanswer',views.getanswer,name='getanswer'),
-    path('getreply',views.getreply,name='getreply'),
+    
     path('addtask',views.add_task,name='addtask'),
     path('viewtask',views.viewtask,name='viewtask'),
     path('taskdetails/<int:id>',views.taskdetails,name='taskdetails'),

@@ -77,47 +77,12 @@ class Answer(models.Model):
     def __str__(self):
         return str(self.answer)
 
-    @property
-    def num_likes(self):
-        return self.liked.all().count()
-
-
-LIKE_CHOICES = (
-    ('Like', 'Like'),
-    ('Unlike', 'Unlike'),
-)
-
-
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-    value = models.CharField(choices=LIKE_CHOICES,
-                             default='Like', max_length=10)
-
-    def __str__(self):
-        return str(self.answer)
 
 
 
-class Reply(models.Model):
-    reply=models.CharField(max_length=10000)
-    answer_id=models.ForeignKey(Answer,on_delete=models.CASCADE,related_name='answerssssid')
-    question_id=models.ForeignKey(Questions,on_delete=models.CASCADE,related_name='createquestionssid')
-    created_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createddduser')
-    created = models.DateTimeField(auto_now_add=True)
-    updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='updateedduser',null="True")
-    updated = models.DateTimeField(auto_now=True,blank=True,null=True)
 
 
-class Replyreply(models.Model):
-    replyreply=models.CharField(max_length=500000)
-    reply_id=models.ForeignKey(Reply,on_delete=models.CASCADE,related_name='replyyyyyssssid')
-    answer_id=models.ForeignKey(Answer,on_delete=models.CASCADE,related_name='answerssssssssid')
-    question_id=models.ForeignKey(Questions,on_delete=models.CASCADE,related_name='createquestionssssid')
-    created_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createdddddduser')
-    created = models.DateTimeField(auto_now_add=True)
-    updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='updateeddddduser',null="True")
-    updated = models.DateTimeField(auto_now=True,blank=True,null=True)
+
 
 
 class AddPostdatas(models.Model):
