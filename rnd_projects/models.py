@@ -8,7 +8,7 @@ from accounts.models import profile
 from django.conf import settings
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
-
+from django.utils import timezone
 
 
 # Create your models here.
@@ -126,13 +126,14 @@ class AddPostdatas(models.Model):
 
 class Bidding(models.Model):
     task_id=models.ForeignKey(AddPostdatas,on_delete=models.CASCADE,related_name='bid_task_id')
+    proposal=models.TextField(max_length=3000,blank=True,null=True)
+    add_files=models.FileField(upload_to='rnd_proje/',blank=True,null=True)
     bid_price=models.IntegerField()
     bid_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='biduser')
     create_bid_time=models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    bid_type=models.CharField(max_length=200)
+    bid_type=models.CharField(max_length=200,null=True)
     delivery_time=models.IntegerField()
     update_time=models.DateTimeField(null=True)
-
 
 class BidCount(models.Model):
     number_of_bid=models.IntegerField()
@@ -149,6 +150,62 @@ class Plans(models.Model):
     features1=models.CharField(max_length=500)
     features2=models.CharField(max_length=500)
     othersfeatures3=models.CharField(max_length=500)
+
+
+class Paytm_history(models.Model):
+    user = models.ForeignKey(User, related_name='rel_payment_paytm', on_delete=models.CASCADE, null=True, default=None)
+    ORDERID = models.CharField('ORDER ID', max_length=30)
+    TXNDATE = models.DateTimeField('TXN DATE', default=timezone.now)
+    TXNID = models.CharField('TXN ID', max_length=100)
+    BANKTXNID = models.CharField('BANK TXN ID',max_length=100, null=True, blank=True)
+    BANKNAME = models.CharField('BANK NAME', max_length=50, null=True, blank=True)
+    RESPCODE = models.IntegerField('RESP CODE')
+    PAYMENTMODE = models.CharField('PAYMENT MODE', max_length=10, null=True, blank=True)
+    CURRENCY = models.CharField('CURRENCY', max_length=4, null=True, blank=True)
+    GATEWAYNAME = models.CharField("GATEWAY NAME", max_length=30, null=True, blank=True)
+    MID = models.CharField(max_length=40)
+    RESPMSG = models.TextField('RESP MSG', max_length=250)
+    TXNAMOUNT = models.FloatField('TXN AMOUNT')
+    PLANPRICE=models.FloatField()
+    GST=models.FloatField()
+    STATUS = models.CharField('STATUS', max_length=12)
+
+    # class Meta:
+    #     app_label = 'paytm'
+
+    def __str__(self):
+        return '%s  (%s)' % (self.user.username ,self.pk)
+
+
+    def __unicode__(self):
+        return self.STATUS
+
+
+    def __iter__(self):
+        for field_name in [f.name for f in self._meta.get_fields()]:
+            value = getattr(self, field_name, None)
+            yield (field_name, value)
+            
+
+class AcceptBiddata(models.Model):
+    taskid=models.ForeignKey(AddPostdatas,on_delete=models.CASCADE,related_name='task_id_id')
+    task_userid=models.ForeignKey(User,on_delete=models.CASCADE,related_name='task_userid')
+    bid_userid=models.ForeignKey(User,on_delete=models.CASCADE,related_name='bid_userid')
+    biddingid=models.IntegerField()
+    status=models.CharField(max_length=300,default=0)
+    created_datetime=models.DateTimeField(auto_now_add=True)
+
+
+
+class LikePlans(models.Model):
+    like_plan_name=models.CharField(max_length=100)
+    like_description=models.TextField(max_length=2000)
+    like_price=models.IntegerField()
+    like=models.IntegerField()
+    like_features1=models.CharField(max_length=500)
+    like_features2=models.CharField(max_length=500)
+    like_othersfeatures3=models.CharField(max_length=500)
+
 
 
 class PaymentDetails(models.Model):

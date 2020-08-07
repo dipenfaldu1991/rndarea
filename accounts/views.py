@@ -11,7 +11,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from rndarea import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from rnd_projects.models import Projects_add,Questions,Answer,AddPostdatas,Projects_add_documents
+from rnd_projects.models import Projects_add,Questions,Answer,AddPostdatas,BidCount,Projects_add_documents,LikePlans
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib import messages
@@ -103,11 +103,18 @@ def ragister(request):
     AddPostdatas_c=AddPostdatas.objects.all().count()
     questions_c=Questions.objects.all().count()
     poject_c=Projects_add.objects.all().count()
+    like_plansdata=LikePlans.objects.all()
+    if request.user.is_authenticated:
+        like_count=Answer.objects.filter(created_user_id_id=request.user.id).values_list('likes', flat=True)
+        print(like_count)
+        like_count=like_count.count()
+        print(like_count)
     alert = {
         'project_count':poject_c,
         'questions_count':questions_c,
         'que':que,
-        'AddPostdatas_count':AddPostdatas_c
+        'AddPostdatas_count':AddPostdatas_c,
+        'like_plansdata':like_plansdata,
     }
         
     if request.method=='POST':
@@ -139,6 +146,10 @@ def ragister(request):
                 # email = EmailMessage(mail_subject, message, from_email,to=[to_email])
                 msg.attach_alternative(html_content, "text/html")
                 msg.send()
+                userid=User.objects.get(email=email).pk
+                a=userid
+                print(type(a))
+                BidCount.objects.create(number_of_bid=10,user_id=a)
                 print('success')
             except  BadHeaderError:
                 print('erroe')

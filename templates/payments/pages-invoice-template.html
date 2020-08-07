@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Hireo Invoice</title>
+	<link rel="stylesheet" href="{% static 'theam/css/invoice.css' %}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head> 
+
+<body>
+
+<!-- Print Button -->
+<div class="print-button-container">
+	<a href="{% url 'accounts:register' %}" class="print-button">Go Home</a>
+	<a href="javascript:window.print()" class="print-button">Print this invoice</a>
+</div>
+
+<!-- Invoice -->
+
+ 
+<div id="invoice">
+
+
+	
+	<!-- Header -->
+	<div class="row">
+
+
+		<div class="col-xl-">
+			<div id="logo"><img src="{% static 'theam/images/logo.png' %}" alt=""></div>
+		</div>
+
+		<div class="col-xl-8">	
+
+			<p id="details">
+			
+				<strong>Transaction Id : </strong> {{paytmr.TXNID}}<br>
+				<strong>Date & Time : </strong> {{paytmr.TXNDATE}}<br>
+				<strong >Your Order Id : </strong> {{paytmr.ORDERID}}<br>
+			</p>
+		</div>
+	</div>
+
+	<!-- Client & Supplier -->
+	<div class="row">
+		<div class="col-xl-12">
+			<h2>Invoice</h2>
+		</div>
+
+		<div class="col-xl-6">	
+			<strong class="margin-bottom-5">Supplier</strong>
+			<p>
+				Hireo Ltd. <br>
+				21 St Andrews Lane <br>
+				London, CF44 6ZL, UK <br>
+			</p>
+		</div>
+
+
+		<div class="col-xl-6">	
+			<strong class="margin-bottom-5">Customer</strong>
+			<p>
+				First Name :{{request.user.first_name}}<br>
+				Last Name :{{request.user.last_name}}<br>
+				Email Id :{{request.user.email}} <br>
+			</p>
+	
+		</div>
+	</div>
+
+	<!-- Invoice -->
+	<div class="row">
+		<div class="col-xl-12">
+			<table class="margin-top-20">
+				<tr>
+					<th>Description</th>
+					<th>Price</th>
+					<th>VAT (18%)</th>
+					<th>Total</th>
+				</tr>
+
+				<tr>
+					<td>{{pal_name}}</td> 
+					<td>{{paytmr.PLANPRICE}}</td>
+					<td>{{paytmr.GST}}</td>
+					<td>{{paytmr.TXNAMOUNT}}</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="col-xl-4 col-xl-offset-8">	
+			<table id="totals">
+				<tr>
+					<th>Total Due</th> 
+					<th><span>{{paytmr.TXNAMOUNT}}</span></th>
+				</tr>
+			</table>
+		</div>
+		
+	</div>
+
+	<button type="button" class="btn btn-primary"><a href="{% url 'accounts:register' %}"  style="color: aliceblue;">Back to Profile</a></button>
+</div>
+
+
+
+
+
+</body>
+</html>

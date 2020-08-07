@@ -137,3 +137,17 @@ EMAIL_HOST_PASSWORD = 'dipen@1991'
 EMAIL_PORT = 587
 
 
+PAYTM_MERCHANT_KEY = 'dRqXXn5!k6v&EA6f'
+PAYTM_MERCHANT_ID = 'fTOzOj03592353839843'
+HOST_URL = "http://localhost:2222"
+PAYTM_WEBSITE = 'WEBSTAGING'
+PAYTM_CALLBACK_URL = "/payments/response/"
+
+
+import socket
+if socket.gethostname()=="Raouf-PC":
+    from local_settings import *
+
+
+CSRF_USE_SESSIONS = True
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
