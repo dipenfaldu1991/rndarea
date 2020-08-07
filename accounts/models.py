@@ -1,9 +1,13 @@
 import os
+from PIL import Image
 from django.db import models
 from django.utils.text import slugify
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.urls import reverse
+from sorl.thumbnail import ImageField, get_thumbnail
+
 # Create your models here.
 
 class profile(models.Model):
@@ -16,7 +20,20 @@ class profile(models.Model):
     introduce_yourself=models.TextField(max_length=1000)
     user=models.OneToOneField(User,on_delete=models.CASCADE)
 
-    
+    def get_absolute_url(self):
+        return reverse("accounts:profile_detail")
+
+    # def save(self, force_insert=False, force_update=False):
+        
+    #     super(profile, self).save(force_insert, force_update)
+
+    #     if self.id is not None:
+    #         previous = profile.objects.get(id=self.id)
+    #         if self.image and self.image != previous.image:
+    #             image = Image.open(self.image.path)
+    #             image = image.resize((13, 15), Image.ANTIALIAS)
+    #             image.save(self.image.path)
+   
 
 @receiver(models.signals.pre_save, sender=profile)
 def auto_delete_file_on_change(sender, instance, **kwargs):

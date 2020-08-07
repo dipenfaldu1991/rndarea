@@ -5,13 +5,20 @@ from django.views.decorators.http import require_POST
 from .models import Projects_add,Projects_add_documents,Questions,Answer,AddPostdatas,Bidding,BidCount,Plans
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from accounts.models import profile
 
 from .paytm import Checksum
 MERCHANT_KEY='dRqXXn5!k6v&EA6f'
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import json
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    redirect,
+)
+
+
 
 @csrf_exempt
 def paymentpage(request):
@@ -134,15 +141,14 @@ def show_question_list(request):
 def ShowQuestion(request,pk):
     que1 = Questions.objects.all().order_by('date_posted')[:3]
     que = Questions.objects.get(pk=pk)
-    ans1= Answer.objects.filter(question_id=que.id)
-    
+    ans1= Answer.objects.filter(question_id=que.id,parent=None) 
     str=que.skill
     l1 = str.split (",")
-    # print(l1)
+    print(l1)
     request.session["question_id"] =que.id
     
-    # print(pk)
     return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1})
+
 
 
 
@@ -156,9 +162,9 @@ def getanswer(request):
         Answer.objects.create(answer=answer,question_id_id=que_id,question_user_id_id=que_create_user,created_user_id_id=request.user.id,
         updated_user_id=request.user.id)
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
-    return render(request,'ShowQuestion.html')
 
-    
+    return render(request,'ShowQuestion.html', content)
+
 
 
 @login_required(login_url="/")     

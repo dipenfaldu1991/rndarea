@@ -1,8 +1,16 @@
+from __future__ import unicode_literals
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from mptt.models import MPTTModel, TreeForeignKey
+from accounts.models import profile
+from django.conf import settings
+from django.urls import reverse
+from django.shortcuts import get_object_or_404
+
+
+
 # Create your models here.
 
 class Projects_add(models.Model):
@@ -66,7 +74,8 @@ class Questions(models.Model):
 
 class Answer(models.Model):
     answer=models.CharField(max_length=500000)
-    liked=models.ManyToManyField(User,default=None, blank=True,related_name='liked')
+    likes=models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True,related_name='comment_likes')
+    parent = models.ForeignKey("self", null=True, blank="True",on_delete=models.CASCADE,related_name='parentsss')
     question_id=models.ForeignKey(Questions,on_delete=models.CASCADE,related_name='createquestionsid')
     question_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createquestionsuserid')
     created_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='createuserid')  
@@ -74,17 +83,29 @@ class Answer(models.Model):
     updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='updateuser',null="True")
     updated = models.DateTimeField(auto_now=True,blank=True,null=True)
 
+    class Meta:
+        ordering = ['-created']
+
     def __str__(self):
         return str(self.answer)
 
+    def children(self):
+        return Answer.objects.filter(parent=self)
 
+    def get_like_url(self):
+        return reverse("accounts:like_toggle", kwargs={"answer_id": self.id}) 
 
+    def get_like_instances(self):
+        return self.likes.all()
 
+    def get_user_object(self):
+        return get_object_or_404(profile, user=self.created_user_id)
 
+    def get_image_url(self):
+        user_ = get_object_or_404(profile, user=self.created_user_id)
+        return user_.image.url       
 
-
-
-
+    
 class AddPostdatas(models.Model):
     project_name=models.CharField(max_length=200)
     Category=models.CharField(max_length=200)

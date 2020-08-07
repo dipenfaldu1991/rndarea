@@ -11,9 +11,92 @@ from django.http import HttpResponse,HttpResponseRedirect
 from rndarea import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from rnd_projects.models import Projects_add,Questions,AddPostdatas,Projects_add_documents
+from rnd_projects.models import Projects_add,Questions,Answer,AddPostdatas,Projects_add_documents
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
+from django.contrib import messages
+from django.views.generic import RedirectView
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    redirect,
+)
+from django.contrib.auth import (
+    authenticate,
+    get_user_model,
+    login,
+    logout,
+)
 # Create your views here.
+
+
+
+def profile_detail(request):
+    que1 = Questions.objects.get(pk=int(request.session["question_id"]))
+    que_id=que1.id
+    que_create_user=que1.created_user_id
+    profile_instance = get_object_or_404(profile, user=request.user)
+    user_ = None
+    if request.user.is_authenticated:
+        user_ = get_object_or_404(profile, user=request.user)
+    
+    if request.method=='POST' :
+        answer = request.POST.get('answer')
+        parent = None
+        new_comment = Answer.objects.create(
+            answer=answer,
+            parent=parent,
+            question_id_id=que_id,
+            question_user_id_id=que_create_user,
+            created_user_id_id=request.user.id,
+            updated_user_id=request.user.id
+        )
+        try:
+            parent = int(request.POST.get("parent_id"))
+        except:
+            parent = None
+        if (parent):
+            new_comment.parent = Answer.objects.filter(id=parent).first()
+            new_comment.save()
+
+        return redirect('rnd_projects:ShowQuestion',pk=que_id)
+   
+    qs_comments = Answer.objects.filter(created_user_id=profile_instance.user,parent=None)
+    content = {
+        "profile":profile_instance,
+        "user_": user_,
+        "comments": qs_comments,
+      
+    }
+    return redirect('rnd_projects:ShowQuestion',pk=que_id)
+    return render(request, "ShowQuestion.html", content)
+
+
+
+class CommentLikeToggle(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        answer_id = self.kwargs.get("answer_id")
+        print (answer_id)
+        answer_instance = get_object_or_404(Answer, id=answer_id)
+        profile_instance = get_object_or_404(profile, user=answer_instance.created_user_id_id)
+        url_ = profile_instance.get_absolute_url()
+        user = self.request.user
+        if user.is_authenticated:
+            if user in answer_instance.likes.all():
+                answer_instance.likes.remove(user)
+            else:
+                answer_instance.likes.add(user)
+        else:
+            return "/login"
+        return url_
+
+
+
+
+
+
+
+
 
 def ragister(request):
     que = Questions.objects.all()
