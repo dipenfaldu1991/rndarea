@@ -9,7 +9,7 @@ from django.urls import reverse
 from sorl.thumbnail import ImageField, get_thumbnail
 
 # Create your models here.
-
+#jksdfhjksdfhsdjkf
 class profile(models.Model):
     hourly_rate=models.PositiveIntegerField()
     skill=models.CharField(max_length=200)
