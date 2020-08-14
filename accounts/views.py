@@ -27,6 +27,17 @@ from django.contrib.auth import (
     login,
     logout,
 )
+##chat model
+from chat.models import PrivateChat,Message,Chat,Warning
+import json
+import re
+import random
+from django.http import JsonResponse
+from hashlib import md5
+from django.core import serializers
+from chat import utility_functions as chat_utility_functions
+from django.db.models.query import QuerySet
+from django.db.models import Count
 # Create your views here.
 
 
@@ -104,6 +115,11 @@ def ragister(request):
     questions_c=Questions.objects.all().count()
     poject_c=Projects_add.objects.all().count()
     like_plansdata=LikePlans.objects.all()
+    
+    chat_list=['']    
+    if request.user.is_authenticated:
+        chat_list = chat_utility_functions.get_user_private_chats(request) 
+        print(chat_list[3])
     if request.user.is_authenticated:
         like_count=Answer.objects.filter(created_user_id_id=request.user.id).values_list('likes', flat=True)
         print(like_count)
@@ -115,6 +131,9 @@ def ragister(request):
         'que':que,
         'AddPostdatas_count':AddPostdatas_c,
         'like_plansdata':like_plansdata,
+        'private_chats': chat_list[0],
+        'private_chatss':chat_list,
+        'len_chats': len(chat_list),
     }
         
     if request.method=='POST':
@@ -189,6 +208,8 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
+                warning=Warning.objects.filter(sender_id=request.user).values_list('chat_id', flat=True)
+                ussss =Warning.objects.values('chat_id').annotate(warning_count=Count('chat_id')).filter(warning_count__gt=0)
                 return redirect('accounts:register')
             else:
                 return HttpResponse("Your account was inactive.")

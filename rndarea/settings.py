@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'rnd_projects',
     'sorl.thumbnail',
+    'chat',
     
     
 ]
