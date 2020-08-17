@@ -135,14 +135,12 @@
 				<h3 class="margin-bottom-25">Project Description</h3>
 				<p>{{show_task.project_name}}</p>
 
-				<p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
-
-				<p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
-			</div>
+						</div>
 
 			<!-- Atachments -->
 			<div class="single-page-section" >
 				<h3>Attachments</h3>
+
 				<div class="attachments-container">
 					<a href="/media/{{show_task.upload_file}}" class="attachment-box ripple-effect"><span >{{show_task.upload_file|cut:'proje/' }}</span><i>PDF</i></a>
 				</div>
@@ -160,8 +158,45 @@
 					{% endfor %}
 				</div>
 			</div>
-			<div class="clearfix"></div>
+
+
+
+<!-- Bid create codes start  -->
+			<div class="row">
+				<form method="POST" action="{% url 'rnd_projects:bidding' %}" enctype="multipart/form-data" >
+					{% csrf_token %}
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-feather-folder-plus"></i> Created Bid Task Submission Form</h3>
+						</div>						
+						
+						<div class="content with-padding padding-bottom-10">
+							<div class="row">			
+								<div class="col-xl-12">
+									<div class="submit-field">
+										<h5>Proposal Your Post</h5>
+										<textarea name="proposaleyourpost" cols="30" rows="5" class="with-border" required></textarea>
+										<div class="uploadButton margin-top-30">
+											<input class="uploadButton-input" name="uploadfiles" type="file" accept="image/*, application/pdf" required id="upload" id="img1" onchange="validateImage('img1')"  multiple/>
+											<label class="uploadButton-button ripple-effect" for="upload">Upload Files</label>
+											<span class="uploadButton-file-name" name=multiple_file_upload>Images or documents that might be helpful in describing your project</span>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
 			
+			</div>
+<!-- Bid create codes end  -->	
+
+		<div class="clearfix"></div>
 			<!-- Freelancers Bidding -->
 			<div class="boxed-list margin-bottom-60">
 				<div class="boxed-list-headline">
@@ -281,9 +316,8 @@
 					</li>
 				</ul>
 			</div>
-
 		</div>
-		
+	
 
 		<!-- Sidebar -->
 		<div class="col-xl-4 col-lg-4">
@@ -292,8 +326,7 @@
 				<div class="countdown green margin-bottom-35">{{show_task.created}}</div>
 
 				<div class="sidebar-widget">
-					<form method="POST" action="{% url 'rnd_projects:bidding' %}" enctype="multipart/form-data">
-						{% csrf_token %}
+				
 					<div class="bidding-widget">
 						<div class="bidding-headline"><h3>Bid on this Job!</h3></div>
 						<div class="bidding-inner">
@@ -498,8 +531,61 @@
 </div>
 <!-- Sign In Popup / End -->
 
+<script type="text/javascript">
+	function validateImage(id) {
+		var formData = new FormData();
+	 
+		var file = document.getElementById(id).files[0];
+	 
+		formData.append("Filedata", file);
+		var t = file.type.split('/').pop().toLowerCase();
+		if (t != "jpeg" && t != "jpg" && t != "png" && t != "bmp" && t != "gif") {
+			alert('Please select a valid image file');
+			document.getElementById(id).value = '';
+			return false;
+		}
+		if (file.size > 10485760) {
+			alert('Max Upload size is 10MB only');
+			document.getElementById(id).value = '';
+			return false;
+		}
+		return true;
+	}
 
+
+
+
+// upload multiple file
+
+	$(function () {
+  /* 1. OPEN THE FILE EXPLORER WINDOW */
+  $(".js-upload-photos").click(function () {
+    $("#fileupload").click();
+  });
+
+  /* 2. INITIALIZE THE FILE UPLOAD COMPONENT */
+  $("#fileupload").fileupload({
+    dataType: 'json',
+    done: function (e, data) {  /* 3. PROCESS THE RESPONSE FROM THE SERVER */
+      if (data.result.is_valid) {
+        $("#gallery tbody").prepend(
+          "<tr><td><a href='" + data.result.url + "'>" + data.result.name + "</a></td></tr>"
+        )
+      }
+    }
+  });
+
+});
+	</script>
+ <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+ <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+ <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
+
+ {# PHOTOS PAGE SCRIPTS #}
+ <script src="{% static 'photos/js/basic-upload.js' %}"></script>
 <!-- Scripts
+	 <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 ================================================== -->
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/jquery-migrate-3.1.0.min.js"></script>

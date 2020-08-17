@@ -134,13 +134,13 @@ EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'faldu.faldu1991@gmail.com'
-EMAIL_HOST_PASSWORD = 'dipen@1991'
+EMAIL_HOST_PASSWORD = 'dipen@2110'
 EMAIL_PORT = 587
 
 
 PAYTM_MERCHANT_KEY = 'dRqXXn5!k6v&EA6f'
 PAYTM_MERCHANT_ID = 'fTOzOj03592353839843'
-HOST_URL = "http://localhost:2222"
+HOST_URL = "http://localhost:5555"
 PAYTM_WEBSITE = 'WEBSTAGING'
 PAYTM_CALLBACK_URL = "/payments/response/"
 

@@ -35,6 +35,7 @@ class profile(models.Model):
     #             image.save(self.image.path)
    
 
+
 @receiver(models.signals.pre_save, sender=profile)
 def auto_delete_file_on_change(sender, instance, **kwargs):
     if not instance.pk:

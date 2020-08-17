@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import RedirectView
 from django.views.decorators.http import require_POST
-from .models import Projects_add,Projects_add_documents,Questions,Answer,LikePlans,AddPostdatas,Bidding,BidCount,Plans,Paytm_history
+from .models import Projects_add,Projects_add_documents,Questions,Answer,LikePlans,AddPostdatas,Bidding,BidCount,Plans,Paytm_history,Order,ProjectOrder
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from accounts.models import profile
@@ -62,6 +62,7 @@ def Upload_Project_2(request):
         p_id=request.session["priject_add_get"]
         pro_doc=Projects_add_documents.objects.create(project_icon=icon,project_banner=project_banner,documentation=documentation,intraction_document=intraction_document,other_reports=other_reports,upload_video=upload_video,screenshort_1=screenshort_1,screenshort_2=screenshort_2,screenshort_3=screenshort_3,screenshort_4=screenshort_4,screenshort_5=screenshort_5,screenshort_6=screenshort_6,project_add=request.session["priject_add_get"],created_user=request.user,zip_file=zip_file)
         pro_doc.save()
+        return redirect('rnd_projects:ReadyProjectShow')
     return render(request,'Upload_Project_2.html')
 
 
@@ -74,7 +75,7 @@ def ReadyProjectDetails(request,pk):
 
  
 def ReadyProjectShow(request):
-    posts = Projects_add.objects.all()
+    posts = Projects_add.objects.all().order_by('-id')
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
@@ -111,13 +112,13 @@ def add_questions(request):
         screenshort = request.FILES.get('Screenshort')
         que=Questions.objects.create(title=title,technology=technology,skill=skill,description=description,screenshort=screenshort,created_user=request.user)
         que.save()
-        # return redirect('show_question_list')
+        return redirect('rnd_projects:show_question_list')
     return render(request,'Add_Question.html')
 
 
 @login_required(login_url="/")     
 def show_question_list(request):
-    que = Questions.objects.all()
+    que = Questions.objects.all().order_by('-id')
     paginator = Paginator(que, 3) 
 
     page_number = request.GET.get('page')
@@ -167,7 +168,7 @@ def add_task(request):
         Describe_Your_Post=request.POST.get('describeyourpost')
         upload_file=request.FILES.get('uploadfile')
         addpost=AddPostdatas.objects.create(project_name=project_name,Category=Category,Location=Location,your_estimated_budget_minimum=your_estimated_budget_minimum,your_estimated_budget_maximum=your_estimated_budget_maximum,skills_are_required=skills_are_required,Describe_Your_Post=Describe_Your_Post,upload_file=upload_file,created_user=request.user)
-   
+        return redirect('rnd_projects:viewtask')
     return render(request,'addpost.html')
 
  
@@ -309,7 +310,7 @@ def paytm(request):
                     'INDUSTRY_TYPE_ID':'Retail',
                     'WEBSITE': settings.PAYTM_WEBSITE,
                     'CHANNEL_ID':'WEB',
-                    'CALLBACK_URL':'http://localhost:2222/rnd_projects/response',
+                    'CALLBACK_URL':'http://localhost:5555/rnd_projects/response',
                 }
         param_dict = data_dict
         

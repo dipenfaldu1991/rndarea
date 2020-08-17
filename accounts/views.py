@@ -11,7 +11,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from rndarea import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from rnd_projects.models import Projects_add,Questions,Answer,AddPostdatas,BidCount,Projects_add_documents,LikePlans
+from rnd_projects.models import Projects_add,Questions,Answer,AddPostdatas,BidCount,Projects_add_documents,LikePlans,Bidding
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib import messages
@@ -102,13 +102,6 @@ class CommentLikeToggle(RedirectView):
         return url_
 
 
-
-
-
-
-
-
-
 def ragister(request):
     que = Questions.objects.all()
     AddPostdatas_c=AddPostdatas.objects.all().count()
@@ -148,28 +141,33 @@ def ragister(request):
             email=request.POST.get('emailaddress-register')
             password=request.POST.get('password-register')
             usr=User.objects.create_user(username=username,email=email,is_active = False,password=password)
+            userid=User.objects.get(email=email).pk
+            a=userid
+            print(type(a))
+            abc=BidCount.objects.create(number_of_bid=10,user_id=a)
+            print('successsssssssssssssssssssssssssssssssssssssssssssssssssssssss')
             try:
-                mail_subject = 'Activate your account.'
-                current_site = get_current_site(request)
-                mail_subject = 'Activate your blog account.'
-                html_content = '<h1>This is an <strong>important</strong> message.</h1>'
-                message = render_to_string('acc_active_email.html', {
-                        'user': usr,
-                        'domain': current_site.domain,
-                        'uid':urlsafe_base64_encode(force_bytes(usr.pk)),
-                        'token':account_activation_token.make_token(usr),
-                })
-                to_email = usr.email
-                from_email=settings.EMAIL_HOST_USER
-                msg = EmailMultiAlternatives(mail_subject, message, from_email, to=[to_email])
-                # email = EmailMessage(mail_subject, message, from_email,to=[to_email])
-                msg.attach_alternative(html_content, "text/html")
-                msg.send()
+                # mail_subject = 'Activate your account.'
+                # current_site = get_current_site(request)
+                # mail_subject = 'Activate your blog account.'
+                # html_content = '<h1>This is an <strong>important</strong> message.</h1>'
+                # message = render_to_string('acc_active_email.html', {
+                #         'user': usr,
+                #         'domain': current_site.domain,
+                #         'uid':urlsafe_base64_encode(force_bytes(usr.pk)),
+                #         'token':account_activation_token.make_token(usr),
+                # })
+                # to_email = usr.email
+                # from_email=settings.EMAIL_HOST_USER
+                # msg = EmailMultiAlternatives(mail_subject, message, from_email, to=[to_email])
+                # # email = EmailMessage(mail_subject, message, from_email,to=[to_email])
+                # msg.attach_alternative(html_content, "text/html")
+                # msg.send()
                 userid=User.objects.get(email=email).pk
                 a=userid
                 print(type(a))
-                BidCount.objects.create(number_of_bid=10,user_id=a)
-                print('success')
+                abc=BidCount.objects.create(number_of_bid=10,user_id=a)
+                print('successsssssssssssssssssssssssssssssssssssssssssssssssssssssss')
             except  BadHeaderError:
                 print('erroe')
                 ins=User.objects.get(email__exact=request.POST.get('emailaddress-register')).delete()
@@ -405,11 +403,153 @@ def edit_project_file(request,id):
 @login_required(login_url="/")  
 def show_task(request): 
     show_task = AddPostdatas.objects.filter(created_user_id=request.user)
-    paginator = Paginator(show_task, 3) 
+    show_task_id = AddPostdatas.objects.filter(created_user_id=request.user).values_list('id', flat=True)
+    
+    print("show_task",show_task)
+    print("show_task_id",show_task_id)
 
+    bid_count_dict={}
+    for i in show_task_id:
+        bid_count=Bidding.objects.filter(task_id_id=i).count()
+        bid_count_dict[i]=bid_count
+        bididss=Bidding.objects.filter(task_id_id=i) 
+
+    # print("bid_count_dict",bid_count_dict)
+    # print("bid_idsssss",bididss)
+    # print("bid_count",bid_count)
+    # print('=============upload file2 ==photo=======================================')
+
+    addprice={}
+    for i in show_task_id:
+        # print(i)     
+        bidid=Bidding.objects.filter(task_id=i).values_list('bid_price', flat=True)
+        print("bidid----price ===========================",bidid)
+        sum=0
+        average_of_price=0
+        for s in bidid:
+            sum=sum+s
+        totalelen=len(bidid)
+        if(totalelen != 0):
+            average_of_price=sum/totalelen
+        else:
+            average_of_price=0
+        addprice[i]=average_of_price
+
+    paginator = Paginator(show_task,2) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request,'show_task.html',{'show_task':show_task,'page_obj':page_obj})
+    print("addprice",addprice)
+
+    return render(request,'dashboard-manage-tasks.html',{'show_task':show_task,'page_obj':page_obj,'bid_count_dict':bid_count_dict,'average_of_price':addprice})
+
+
+def managebidders(request,mid):
+    bid_userids=Bidding.objects.filter(task_id_id=mid).values_list('bid_user_id_id', flat=True)
+    bid_data=Bidding.objects.filter(task_id_id=mid)
+    bid_userlist={}
+        
+    for i in bid_userids:
+        
+        bid_user_name=User.objects.filter(pk=i).values_list('username', flat=True)
+        print(bid_user_name)        
+        for j in bid_user_name:
+            bid_userlist[i]=j
+                       
+    print(bid_userlist)
+
+    return render(request,'dashboard-manage-bidders.html',{'bid_userlist':bid_userlist,'bid_data':bid_data})
+
+@login_required
+def createsss_chat(request,id):    
+    other_user = User.objects.get(id=id)
+    request.session["id"]=id
+    private_chat = PrivateChat()
+    new_chat = PrivateChat.add_this(private_chat, request.user, other_user)
+    messages = Message.objects.all().filter(chat=new_chat)
+    return redirect('accounts:create_chat')
+    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
+
+
+
+@login_required
+def create_chat(request):    
+    other_user = User.objects.get(id=request.session["id"])
+    private_chat = PrivateChat()
+    new_chat = PrivateChat.add_this(private_chat, request.user, other_user)
+    messages = Message.objects.all().filter(chat=new_chat)
+    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
+
+@login_required
+def send_message(request):
+    chat_id = request.POST.get("id_chat")
+    chat = Chat.objects.get(id_chat=chat_id)
+    text_message = request.POST.get("text-message-input")
+    regex = '^(\+\d{1,3})?,?\s?\d{8,13}' 
+    regex1 = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'       
+    if len(text_message) > 0:
+        if(re.search(regex,text_message)) or (re.search(regex1,text_message)) :  
+            messaggio=Message.add_this(Message(), chat, request.user, text_message)
+            mes=Warning.add_this(Warning(), chat, request.user, text_message)
+            print("********************************************************************not store")  
+        else:    
+            messaggio=Message.add_this(Message(), chat, request.user, text_message)
+    response = HttpResponse("200")
+    return response
+
+# recupera un messaggio dato il suo id
+@login_required
+def get_message_by_id(id):
+    return Message.objects.all().get(id=id)
+
+
+@login_required
+def private_chat(request):
+    chat_id = request.POST.get("id_chat")
+    chat = PrivateChat.objects.get(id_chat=chat_id)
+    messages = Message.objects.all().filter(chat=chat)
+    print('++++++++++++++===========================================',messages)
+    if chat.participant1 == request.user:
+        participant = chat.participant2
+    else:
+        participant = chat.participant1
+    return render(request, 'chat.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages})
+
+
+
+
+@login_required()
+def chat_list(request):
+    chat_list = chat_utility_functions.get_user_private_chats(request)
+    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%',chat_list)
+    return render(request, 'private-chat-list.html',
+                  {'private_chats': chat_list, 'len_chats': len(chat_list)})
+
+
+
+
+def get_json_chat_messages(request):    
+    chat = Chat.objects.get(id_chat=request.session["id"])
+    messaggi_query = Message.objects.filter(chat=chat)
+    messaggi_json_array = []
+    for messaggio in messaggi_query:
+        msg = {'username': messaggio.sender.username, 'text': messaggio.text,
+               'timestamp': messaggio.timestamp.strftime('%Y-%m-%d %H:%M')}
+        messaggi_json_array.append(msg)
+    return JsonResponse(messaggi_json_array, safe=False)
+
+def acceptbids(request,pk):
+    print(pk)
+    if request.method=='POST':
+        biddingid=Bidding.objects.get(id=pk)
+        request.session["id"]=pk
+        print(pk)
+        taskuid=AddPostdatas.objects.get(id=biddingid.task_id_id)
+        print('=============upload file2 ==photo=======================================',taskuid)
+        taskuser=User.objects.get(id=taskuid.created_user_id)
+        AcceptBiddata.objects.create(taskid=taskuid,task_userid=taskuser,bid_userid=User.objects.get(id=biddingid.bid_user_id_id),biddingid=biddingid.id,created_datetime=request.user) 
+        
+    return render(request,'dashboard-manage-bidders.html')
+
 
 @login_required(login_url="/")
 def edit_task(request,id): 
