@@ -106,10 +106,11 @@
                                                 
                                                 
                                                 <a href="{% url 'accounts:createsss_chat' bid_datas.bid_user_id_id %}" class=""><i class="icon-feather-mail"></i>Send Message</a> 
-                                                
+                                                <!-- <a style="text-decoration:none;color:red" class="btn" href="{% url 'accounts:delete_biddata' bid_datas.id %}">Delete<i class='fa fa-trash'></i></a> -->
+
                                                 
                                                 <!-- <a href="#small-dialogss-{{bid_datas.bid_user_id_id}}" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message</a>  -->
-                                                <a href="#" class="button gray ripple-effect ico" title="Remove Bid" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                                <a href="{% url 'accounts:delete_biddata' bid_datas.id %}" class="button gray ripple-effect ico" title="Remove Bid" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                                             </div>
                                         </div>
                                        

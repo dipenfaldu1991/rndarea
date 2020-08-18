@@ -36,5 +36,6 @@ urlpatterns = [
     path('private_chat/', views.private_chat, name='private_chat'),
     path('get_private_chat_messages/', views.get_json_chat_messages, name='get_private_chat_messages'),
 
-    
+    path('delete_biddata/<int:pk2>/',views.delete_biddata,name='delete_biddata'),
+    path('delete_Taskdata/<int:pk3>/',views.delete_Taskdata,name='delete_Taskdata'),
 ]

@@ -87,7 +87,7 @@
 									<div class="buttons-to-right always-visible">
 										<a href="{% url 'accounts:managebidders' userpost.id %} " class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Bidders <span class="button-info">{{l}}</span></a>
 										<a href="{% url 'accounts:edit_task' userpost.id %}" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-										<a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+										<a href="{% url 'accounts:delete_Taskdata' userpost.id %}" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
 										{% endifequal %}
                                         {% endfor %} 
 									</div>

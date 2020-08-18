@@ -13,6 +13,7 @@ MERCHANT_KEY='dRqXXn5!k6v&EA6f'
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 from django.http import HttpResponse
 import json
+
 from django.shortcuts import (
     render,
     get_object_or_404,
@@ -64,8 +65,6 @@ def Upload_Project_2(request):
         pro_doc.save()
         return redirect('rnd_projects:ReadyProjectShow')
     return render(request,'Upload_Project_2.html')
-
-
 
 
 def ReadyProjectDetails(request,pk):
@@ -310,7 +309,7 @@ def paytm(request):
                     'INDUSTRY_TYPE_ID':'Retail',
                     'WEBSITE': settings.PAYTM_WEBSITE,
                     'CHANNEL_ID':'WEB',
-                    'CALLBACK_URL':'http://localhost:5555/rnd_projects/response',
+                    'CALLBACK_URL':'http://localhost:8000/rnd_projects/response',
                 }
         param_dict = data_dict
         
@@ -366,8 +365,6 @@ def response(request):
         else:
             return HttpResponse("checksum verify failed")
     return HttpResponse(status=200)
-
-
 
 
 

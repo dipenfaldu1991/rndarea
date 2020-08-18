@@ -11,11 +11,14 @@ from django.http import HttpResponse,HttpResponseRedirect
 from rndarea import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from rnd_projects.models import Projects_add,Questions,Answer,AddPostdatas,BidCount,Projects_add_documents,LikePlans,Bidding
+from rnd_projects.models import Projects_add,Questions,Answer,AddPostdatas,BidCount,Projects_add_documents,LikePlans,Bidding,AcceptBiddata,BidCount
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib import messages
 from django.views.generic import RedirectView
+from django.core.mail import send_mail,send_mass_mail,mail_admins,mail_managers
+
+
 from django.shortcuts import (
     render,
     get_object_or_404,
@@ -27,6 +30,14 @@ from django.contrib.auth import (
     login,
     logout,
 )
+
+
+import json
+
+#accept pivate chat message
+import random
+
+
 ##chat model
 from chat.models import PrivateChat,Message,Chat,Warning
 import json
@@ -147,31 +158,25 @@ def ragister(request):
             abc=BidCount.objects.create(number_of_bid=10,user_id=a)
             print('successsssssssssssssssssssssssssssssssssssssssssssssssssssssss')
             try:
-                # mail_subject = 'Activate your account.'
-                # current_site = get_current_site(request)
-                # mail_subject = 'Activate your blog account.'
-                # html_content = '<h1>This is an <strong>important</strong> message.</h1>'
-                # message = render_to_string('acc_active_email.html', {
-                #         'user': usr,
-                #         'domain': current_site.domain,
-                #         'uid':urlsafe_base64_encode(force_bytes(usr.pk)),
-                #         'token':account_activation_token.make_token(usr),
-                # })
-                # to_email = usr.email
-                # from_email=settings.EMAIL_HOST_USER
-                # msg = EmailMultiAlternatives(mail_subject, message, from_email, to=[to_email])
-                # # email = EmailMessage(mail_subject, message, from_email,to=[to_email])
-                # msg.attach_alternative(html_content, "text/html")
-                # msg.send()
+                mail_subject = 'Activate your account.'
+                current_site = get_current_site(request)    
+  
+                mail_subject = 'Activate your blog account.'
+                html_content = render_to_string('acc_active_email.html', {'user': usr,
+                        'domain': current_site.domain,
+                        'uid':urlsafe_base64_encode(force_bytes(usr.pk)),
+                        'token':account_activation_token.make_token(usr),})
+                to_email = usr.email
+                from_email=settings.EMAIL_HOST_USER       
+                msg = EmailMultiAlternatives(mail_subject, mail_subject, from_email, to=[to_email])
+                # email = EmailMessage(mail_subject, message, from_email,to=[to_email])
+                msg.attach_alternative(html_content, "text/html")
+                msg.send() 
                 userid=User.objects.get(email=email).pk
-                a=userid
-                print(type(a))
-                abc=BidCount.objects.create(number_of_bid=10,user_id=a)
-                print('successsssssssssssssssssssssssssssssssssssssssssssssssssssssss')
-            except  BadHeaderError:
-                print('erroe')
-                ins=User.objects.get(email__exact=request.POST.get('emailaddress-register')).delete()
-                print(ins)
+                a=userid              
+                BidCount.objects.create(number_of_bid=10,user_id=a)             
+            except  BadHeaderError:             
+                ins=User.objects.get(email__exact=request.POST.get('emailaddress-register')).delete()              
                 alert['message']="email not send"
             return redirect('accounts:register')
     return render(request,'index.html',alert)
@@ -400,6 +405,8 @@ def edit_project_file(request,id):
     return render(request,'edit_project_file.html',{'project1':project1})
 
 
+
+
 @login_required(login_url="/")  
 def show_task(request): 
     show_task = AddPostdatas.objects.filter(created_user_id=request.user)
@@ -447,7 +454,7 @@ def managebidders(request,mid):
     bid_userids=Bidding.objects.filter(task_id_id=mid).values_list('bid_user_id_id', flat=True)
     bid_data=Bidding.objects.filter(task_id_id=mid)
     bid_userlist={}
-        
+    request.session['mid']=mid    
     for i in bid_userids:
         
         bid_user_name=User.objects.filter(pk=i).values_list('username', flat=True)
@@ -458,6 +465,21 @@ def managebidders(request,mid):
     print(bid_userlist)
 
     return render(request,'dashboard-manage-bidders.html',{'bid_userlist':bid_userlist,'bid_data':bid_data})
+
+@login_required(login_url="/")
+def delete_biddata(request,pk2):
+    a=Bidding.objects.get(id=pk2)
+    a.delete()
+    # print('=============upload file2 ==photo=======================================',a)
+    return redirect('accounts:managebidders',mid=request.session['mid'])
+
+@login_required(login_url="/")
+def delete_Taskdata(request,pk3):
+    show_task_del = AddPostdatas.objects.get(id=pk3)
+    show_task_del.delete()   
+    return redirect('accounts:show_task')
+
+
 
 @login_required
 def createsss_chat(request,id):    
