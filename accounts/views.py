@@ -49,7 +49,7 @@ from django.core import serializers
 from chat import utility_functions as chat_utility_functions
 from django.db.models.query import QuerySet
 from django.db.models import Count
-# Create your views here.
+
 
 
 
