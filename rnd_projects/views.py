@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import RedirectView
 from django.views.decorators.http import require_POST
-from .models import Projects_add,Projects_add_documents,Questions,Answer,LikePlans,AddPostdatas,Bidding,BidCount,Plans,Paytm_history,Order,ProjectOrder
+from .models import Projects_add,Projects_add_documents,Questions,Answer,LikePlans,AddPostdatas,Bidding,BidCount,Plans,Paytm_history,Order,ProjectOrder,TaskBookmark,QuestionBookmark
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from accounts.models import profile
@@ -19,6 +19,27 @@ from django.shortcuts import (
     get_object_or_404,
     redirect,
 )
+
+@csrf_exempt
+def wishlist(request):
+    if request.method=='POST':
+        taskid = request.POST.get('taskid_id')
+        a=AddPostdatas.objects.get(id=taskid)
+        TaskBookmark.objects.create(taskid=a,created_user_id_id=request.user.id,updated_user_id=request.user.id)
+       
+        return render(request,'Upload_Project_2.html')
+    return render(request,'Upload_Project.html')
+
+@csrf_exempt
+def quebookmak(request):
+    if request.method=='POST':
+        question_id = request.POST.get('question_id_id')
+        a=Questions.objects.get(id=question_id)
+        QuestionBookmark.objects.create(question_id=a,created_user_id_id=request.user.id,updated_user_id=request.user.id)
+       
+        return render(request,'Upload_Project_2.html')
+    return render(request,'Upload_Project.html')
+
 
 
 

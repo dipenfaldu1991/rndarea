@@ -1,0 +1,305 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block script %}
+
+{% endblock script %}
+{% block content %}
+
+
+
+
+
+
+
+
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+	<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+			
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Bookmarks</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Dashboard</a></li>
+						<li>Bookmarks</li>
+					</ul>
+				</nav>
+			</div>
+	
+			<!-- Row -->
+			<div class="row">
+				
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-business-center"></i> Bookmarked Tasks</h3>
+						</div>
+
+						<div class="content">
+							{% for project in bid_data %}
+							
+							
+							{% for k,l in bid_userlist.items %}
+							{% ifequal k project.taskid_id %}
+							
+							
+							<ul class="dashboard-box-list">
+								<li>
+									<a href="" >
+									<!-- Job Listing -->
+									<div class="job-listing">
+
+										<!-- Job Listing Details -->
+										<div class="job-listing-details">
+
+											<!-- Logo -->
+											<a href="{% url 'rnd_projects:taskdetails' project.taskid %}" class="job-listing-company-logo">
+												<img src="images/company-logo-02.png" alt="">
+											</a>
+
+											<!-- Details -->
+											
+											
+											
+											<div class="job-listing-description">
+												<h3 class="job-listing-title"><a href="{% url 'rnd_projects:taskdetails' project.taskid %}">{{l.project_name}}</h3>
+											
+											
+												<!-- Job Listing Footer -->
+												<div class="job-listing-footer">
+													<ul>
+														<li><i class="icon-material-outline-business"></i> {{l.Category}}</li>
+														<li><i class="icon-material-outline-location-on"></i> {{l.Location}}</li>
+														<li><i class="icon-material-outline-business-center"></i> full time</li>
+														<li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+													</ul>
+												</div>
+												</a>
+											</div>
+										</div>
+									</div>
+									<!-- Buttons -->
+									<div class="buttons-to-right">
+										<a href="{% url 'accounts:bookmarkdlt' project.id %}" class="button red ripple-effect ico" title="Remove" data-tippy-placement="left"><i class="icon-feather-trash-2"></i></a>
+									</div>
+								</a>
+								</li>
+
+								
+							</ul>
+							{% endifequal %}{% endfor %}
+							{% endfor %}
+								
+						</div>	
+					</div>
+				
+				</div>
+				<div class="col-xl-12">
+					<div class="dashboard-box">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-face"></i> Bookmarked Jobs</h3>
+						</div>
+
+						<div class="content">
+							{% for project2 in bid_data2 %}
+							
+							
+							{% for k,l in job.items %}
+							{% ifequal k project2.jobid_id %}
+							
+							<ul class="dashboard-box-list">
+								<li>
+									<!-- Overview -->
+									<div class="freelancer-overview">
+										<div class="freelancer-overview-inner">
+
+											<!-- Avatar -->
+											<div class="freelancer-avatar">
+												<div class="verified-badge"></div>
+												<a href="{% url 'jobs:jobdetails_byid' project2.id %}"><img src="images/user-avatar-big-02.jpg" alt=""></a>
+											</div>
+
+											<!-- Name -->
+											<div class="freelancer-name">
+												<h4><a href="{% url 'jobs:jobdetails_byid' project2.id %}">{{l.job_title}} <img class="flag" src="images/flags/de.svg" alt="" title="Germany" data-tippy-placement="top"></a></h4>
+												<span></span>
+												<!-- Rating -->
+												<div class="freelancer-rating">
+													<div class="star-rating" data-rating="4.2"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Buttons -->
+									<div class="buttons-to-right">
+										<a href="{% url 'jobs:jobbookmarkdlt' project2.id %}" class="button red ripple-effect ico" title="Remove" data-tippy-placement="left"><i class="icon-feather-trash-2"></i></a>
+									</div>
+								</li>
+								
+							</ul>
+							{% endifequal %}
+							{% endfor %}
+						{% endfor %}
+						</div>
+					</div>
+				</div>
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-face"></i> Bookmarked Questions</h3>
+						</div>
+
+						<div class="content">
+							{% for project1 in us2 %}
+							
+							
+							{% for k,l in question.items %}
+							{% ifequal k project1.question_id_id %}
+							
+							<ul class="dashboard-box-list">
+								<li>
+									<!-- Overview -->
+									<div class="freelancer-overview">
+										<div class="freelancer-overview-inner">
+
+											<!-- Avatar -->
+											<div class="freelancer-avatar">
+												<div class="verified-badge"></div>
+												<a href="{% url 'rnd_projects:ShowQuestion' project1.question_id_id %}"><img src="images/user-avatar-big-02.jpg" alt=""></a>
+											</div>
+
+											<!-- Name -->
+											<div class="freelancer-name">
+												<h4><a href="{% url 'rnd_projects:ShowQuestion' project1.question_id_id %}">{{l.title}} <img class="flag" src="images/flags/de.svg" alt="" title="Germany" data-tippy-placement="top"></a></h4>
+												<span>{{l.title}}</span>
+												<!-- Rating -->
+												<div class="freelancer-rating">
+													<div class="star-rating" data-rating="4.2"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Buttons -->
+									<div class="buttons-to-right">
+										<a href="{% url 'accounts:quebookmarkdlt' project1.id %}" class="button red ripple-effect ico" title="Remove" data-tippy-placement="left"><i class="icon-feather-trash-2"></i></a>
+									</div>
+								</li>
+								
+							</ul>
+							{% endifequal %}
+							{% endfor %}
+						{% endfor %}
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- Row / End -->
+
+			<!-- Footer -->
+			<div class="dashboard-footer-spacer"></div>
+			
+				<div class="clearfix"></div>
+			</div>
+			<!-- Footer / End -->
+
+		</div>
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+
+<!-- Apply for a job popup
+================================================== -->
+<div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+	<!--Tabs -->
+	<div class="sign-in-form">
+
+		<ul class="popup-tabs-nav">
+			<li><a href="#tab">Add Note</a></li>
+		</ul>
+
+		<div class="popup-tabs-container">
+
+			<!-- Tab -->
+			<div class="popup-tab-content" id="tab">
+				
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Do Not Forget 😎</h3>
+				</div>
+					
+				<!-- Form -->
+				<form method="post" id="add-note">
+
+					<select class="selectpicker with-border default margin-bottom-20" data-size="7" title="Priority">
+						<option>Low Priority</option>
+						<option>Medium Priority</option>
+						<option>High Priority</option>
+					</select>
+
+					<textarea name="textarea" cols="10" placeholder="Note" class="with-border"></textarea>
+
+				</form>
+				
+				<!-- Button -->
+				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="add-note">Add Note <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- Apply for a job popup / End -->
+
+
+<!-- Scripts
+================================================== -->
+
+
+<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+// Snackbar for user status switcher
+$('#snackbar-user-status label').click(function() { 
+	Snackbar.show({
+		text: 'Your status has been changed!',
+		pos: 'bottom-center',
+		showAction: false,
+		actionText: "Dismiss",
+		duration: 3000,
+		textColor: '#fff',
+		backgroundColor: '#383838'
+	}); 
+}); 
+</script>
+
+</body>
+</html>
+{% endblock %}

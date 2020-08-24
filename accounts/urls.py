@@ -18,6 +18,8 @@ urlpatterns = [
     url(r'^user_logout/$',views.user_logout,name='user_logout'),
     path('profile_detail',views.profile_detail,name='profile_detail'),
     path('dashboard_settings',views.dashboard_settings,name='dashboard_settings'),
+    path('dashboard-bookmark-manage',views.dd,name='dashboard-bookmark-manage'),
+    path('dashboard_message',views.dashboard_message,name='dashboard_message'),
     path('dashboard',views.dashboard,name='dashboard'),
     path('show_list_dash',views.show_list_dash,name='show_list_dash'),
     path('edit_questions/<int:id>/',views.edit_questions,name='edit_questions'),
@@ -38,4 +40,6 @@ urlpatterns = [
 
     path('delete_biddata/<int:pk2>/',views.delete_biddata,name='delete_biddata'),
     path('delete_Taskdata/<int:pk3>/',views.delete_Taskdata,name='delete_Taskdata'),
+    path('bookmarkdlt/<int:pk4>/',views.bookmarkdlt,name='bookmarkdlt'),
+    path('quebookmarkdlt/<int:pk5>/',views.quebookmarkdlt,name='quebookmarkdlt'),
 ]

@@ -11,13 +11,13 @@ from django.http import HttpResponse,HttpResponseRedirect
 from rndarea import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from rnd_projects.models import Projects_add,Questions,Answer,AddPostdatas,BidCount,Projects_add_documents,LikePlans,Bidding,AcceptBiddata,BidCount
+from rnd_projects.models import Projects_add,Questions,Answer,AddPostdatas,BidCount,Projects_add_documents,LikePlans,Bidding,AcceptBiddata,BidCount,TaskBookmark,QuestionBookmark
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.contrib import messages
 from django.views.generic import RedirectView
 from django.core.mail import send_mail,send_mass_mail,mail_admins,mail_managers
-
+from jobs.models import JoobCatagery,JobsTypes,AddJobs,ApplyNow,jobsBookmark
 
 from django.shortcuts import (
     render,
@@ -657,4 +657,62 @@ def dashboard_settings(request):
             
             return redirect('accounts:dashboard_settings')
     return render(request,'dashboard_settings.html',context)
+
+def dd(request):
+    us=TaskBookmark.objects.filter(created_user_id_id=request.user).values_list('taskid_id', flat=True)
+    us1=QuestionBookmark.objects.filter(created_user_id_id=request.user).values_list('question_id_id', flat=True)
+    us3=jobsBookmark.objects.filter(created_user_id_id=request.user).values_list('jobid_id', flat=True)
+    bid_data2=jobsBookmark.objects.filter(created_user_id_id=request.user)
+    bid_data=TaskBookmark.objects.filter(created_user_id_id=request.user)
+    us2=QuestionBookmark.objects.filter(created_user_id_id=request.user)
+    question={}
+    for w in us1:
+        questionb=Questions.objects.get(id=w)
+        question[w]=questionb
+    print('jgkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',question)
+
+    job={}
+    for r in us3:
+        jobs=AddJobs.objects.get(id=r)
+        job[r]=jobs
+    print('jgkkkkkkkkk',job)
+
+
+    bid_userlist={}
+    for i in us:
+        bid=AddPostdatas.objects.get(id=i)
+        u_id=bid.id
+        print('u_id================',u_id)
+  
+        bid_userlist[i]=bid 
+                      
+    print('fffffffffffffffffffffff',bid_userlist)   
+           
+    return render(request,'dashboard-bookmarks.html',{'bid_data':bid_data,'bid_userlist':bid_userlist,'us2':us2,'question':question,'job':job,'bid_data2':bid_data2})
+
+
+def bookmarkdlt(request,pk4):
+    a=TaskBookmark.objects.get(id=pk4)
+    a.delete()
+    # print('=============upload file2 ==photo=======================================',a)
+    return redirect('accounts:dashboard-bookmark-manage')
+
+
+def quebookmarkdlt(request,pk5):
+    b=QuestionBookmark.objects.get(id=pk5)
+    b.delete()
+    # print('=============upload file2 ==photo=======================================',a)
+    return redirect('accounts:dashboard-bookmark-manage')
+
+def dashboard_message(request):
+    chat_list=['']    
+    if request.user.is_authenticated:
+        chat_list = chat_utility_functions.get_user_private_chats(request) 
+        print(chat_list[3])
+    alert = {
+        'private_chats': chat_list[0],
+        'private_chatss':chat_list,
+        'len_chats': len(chat_list),
+    }    
+    return render(request,'dashboard-messages.html',alert)
 

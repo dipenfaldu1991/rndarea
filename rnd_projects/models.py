@@ -251,6 +251,26 @@ class Wallet(models.Model):
     updated = models.DateTimeField(auto_now=True,blank=True,null=True)
 
 
+class TaskBookmark(models.Model):
+    taskid=models.ForeignKey(AddPostdatas,on_delete=models.CASCADE,related_name='tsk')
+    created_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='ci')
+    created = models.DateTimeField(auto_now_add=True)
+    updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='us',null="True")
+    updated = models.DateTimeField(auto_now=True,blank=True,null=True)
+    
+class QuestionBookmark(models.Model):
+    question_id=models.ForeignKey(Questions,on_delete=models.CASCADE,related_name='quii')
+    created_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='ciii')
+    created = models.DateTimeField(auto_now_add=True)
+    updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='usfff',null="True")
+    updated = models.DateTimeField(auto_now=True,blank=True,null=True)
+    
+    def get_QuestionBookmark_instances(self):
+        return self.question_id.all()
+
+
+
+
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Wallet.objects.create(created_user_id=instance)

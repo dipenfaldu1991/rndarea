@@ -35,6 +35,7 @@ class AddJobs(models.Model):
     def __str__(self):
         return str(self.job_type)
 
+
 class ApplyNow(models.Model):
     name=models.CharField(max_length=200)
     email=models.EmailField(max_length=200)
@@ -45,3 +46,10 @@ class ApplyNow(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
 
+class jobsBookmark(models.Model):
+    jobid=models.ForeignKey(AddJobs,on_delete=models.CASCADE,related_name='fg')
+    created_user_id=models.ForeignKey(User,on_delete=models.CASCADE,related_name='ggg')
+    created = models.DateTimeField(auto_now_add=True)
+    updated_user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='ffff',null="True")
+    updated = models.DateTimeField(auto_now=True,blank=True,null=True)
+    

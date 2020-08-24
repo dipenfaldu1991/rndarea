@@ -378,13 +378,21 @@
 					<h3>Bookmark or Share</h3>
 
 					<!-- Bookmark Button -->
-					<button class="bookmark-button margin-bottom-25">
-						<span class="bookmark-icon"></span>
+					<form method='POST'  action="{% url 'rnd_projects:wishlist'  %}" enctype="multipart/form-data">
+					{% csrf_token %}
+					
+					<!-- <button class="bookmark-button margin-bottom-25"> -->
+						<input type='number' hidden name='taskid_id' value="{{show_task.id}}">
+						<!-- <span class="bookmark-icon"></span>
 						<span class="bookmark-text">Bookmark</span>
-						<span class="bookmarked-text">Bookmarked</span>
-					</button>
+						<span class="bookmarked-text">Bookmarked</span> -->
+						<button class="bookmarked-text" type='submit' >Bookmark</button>
+						
+					<!-- </button> -->
+				    </form>
 					{% else %}
 					<div class="bidding-signup">Don't have an account? <a href="#sign-in-dialog" class="register-tab sign-in popup-with-zoom-anim">Sign Up</a></div>
+					
 					{% endif %}
 					<!-- Copy URL -->
 					<div class="copy-url">

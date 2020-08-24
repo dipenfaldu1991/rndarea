@@ -31,7 +31,8 @@ urlpatterns = [
     path('recipt', views.recipt, name='recipt'),
     path('payments_home', views.payments_home, name='payments_home'),
 
-   
+    path('wishlist/', views.wishlist, name='wishlist'),
+    path('quebookmak/', views.quebookmak, name='quebookmak'),
     # path('order_plan/<int:mids>',views.order_plan,name='order_plan'),
     # path('handlerequest', views.handlerequest, name='handlerequest'),
     # path('paymentdetail',views.paymentdetail,name='paymentdetail'),

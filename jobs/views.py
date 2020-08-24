@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import JoobCatagery,JobsTypes,AddJobs,ApplyNow
+from .models import JoobCatagery,JobsTypes,AddJobs,ApplyNow,jobsBookmark
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
@@ -112,7 +112,48 @@ def delete_candidates(request,pk3):
     return redirect('jobs:managecandidates',mid=request.session["mid"])
 
 
+@login_required(login_url="/")
+def edit_jobs(request,id): 
+    edit_jobs=AddJobs.objects.get(id=id)
+    if request.method=='POST':
+        job_title=request.POST.get('jobtitle')
+        job_type=request.POST.get('jobtype') 
+        job_category=request.POST.get('jobcategory') 
+        location =request.POST.get('location')
+        salaryminm=request.POST.get('salaryminm') 
+        salarymaxm =request.POST.get('salarymaxm')
+        tag =request.POST.get('tag') 
+        job_description=request.POST.get('jobdescription')
+        upload_documents = request.FILES.get('docfile')        
+        if upload_documents==None:
+            upload_documents=edit_jobs.upload_documents      
+        edit_jobs.job_title=job_title
+        edit_jobs.job_type=job_type
+        edit_jobs.job_category=job_category
+        edit_jobs.location=location
+        edit_jobs.salaryminm=salaryminm
+        edit_jobs.tag=tag
+        edit_jobs.salarymaxm=salarymaxm
+        edit_jobs.job_description=job_description
+        edit_jobs.upload_documents=upload_documents
+        edit_jobs.save()
+    return render(request,'edit_jobs.html',{'edit_jobs':edit_jobs})
 
+
+def jobbookmark(request):
+    if request.method=='POST':
+        jobid = request.POST.get('jobid_id')
+        a=AddJobs.objects.get(id=jobid)
+        jobsBookmark.objects.create(jobid=a,created_user_id_id=request.user.id,updated_user_id=request.user.id)
+       
+        return render(request,'Upload_Project_2.html')
+    return render(request,'Upload_Project.html')
+
+def jobbookmarkdlt(request,pk6):
+    a=jobsBookmark.objects.get(id=pk6)
+    a.delete()
+    # print('=============upload file2 ==photo=======================================',a)
+    return redirect('accounts:dashboard-bookmark-manage')
 
 
 

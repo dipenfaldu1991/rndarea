@@ -11,5 +11,7 @@ urlpatterns = [
     path('delete_jobs/<int:pk2>',views.delete_jobs,name='delete_jobs'),
     path('managecandidates/<int:mid>',views.managecandidates,name='managecandidates'),
     path('delete_candidates/<int:pk3>',views.delete_candidates,name='delete_candidates'),
-
+    path('edit_jobs/<int:id>',views.edit_jobs,name='edit_jobs'),
+    path('jobbookmark/', views.jobbookmark, name='jobbookmark'),
+    path('jobbookmarkdlt/<int:pk6>/',views.jobbookmarkdlt,name='jobbookmarkdlt'),
 ]
