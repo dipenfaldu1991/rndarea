@@ -1,0 +1,192 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="{% static 'theam/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'theam/css/colors/blue.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+			$('.sd').click(function()
+			{
+				var text="";
+				$('.sd:checked').each(function()
+				{
+					text+= $(this).val()+","; 
+					
+				}
+				);
+				$('#sd_txt').val(text);
+				
+			});
+	}
+	);
+</script>
+<script>
+	$(document).ready(function()
+	{
+			$('.rp').click(function()
+			{
+				var text="";
+				$('.rp:checked').each(function()
+				{
+					text+= $(this).val()+","; 
+					
+				}
+				);
+				$('#rp_txt').val(text);
+			});
+	}
+	);
+</script>
+					
+				
+				
+
+				
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+<!-- Titlebar
+================================================== -->
+
+
+<!-- Page Content
+================================================== -->
+<!-- Container -->
+<div class="dashboard-content-container" data-simplebar>
+	<div class="dashboard-content-inner" >
+			
+		<!-- Dashboard Headline -->
+		<div class="dashboard-headline">
+			<h3>Problematic Solution</h3>
+
+			<!-- Breadcrumbs -->
+			<nav id="breadcrumbs" class="dark">
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Dashboard</a></li>
+					<li>Problematic Solution</li>
+				</ul>
+			</nav>
+		</div>
+		
+	
+
+<div class="container">
+<form method='POST' action="{% url 'rnd_projects:add_projects' %}">
+{% csrf_token %}
+	<div class="row">
+		<div class="col-xl-12">
+			<table border="0" width="100%"> 
+				<tr>
+					<td style="width:15%">Project Headline : </td>
+					<td><input placeholder="Enter Project Healine here" name='Project Headline' required="required"></td>
+				</tr>
+				<tr>
+					<td style="width:15%">Project Description : </td>
+					<td><textarea placeholder="Enter Project Details here" name='Project Description' required="required"></textarea></td>
+				</tr>
+				<tr>
+					<td style="width:15%">Used Technology :</td>
+					<td><div class="keywords-container">
+				<div class="keyword-input-container">
+					<input type="text" class="keyword-input with-border" name='Used Technology' placeholder="Add Project Technology" required="required"/>	
+				</div>
+			</div></td>
+				</tr>
+				<tr>
+					<td style="width:15%">Support Documents : </td>
+					<td><br><br>
+						<div class="checkbox">
+							<input type="checkbox" class='sd' id="sd1" value='Project Documents' >
+							<label for="sd1"><span class="checkbox-icon"></span> Project Documents</label>
+							
+							<input type="checkbox" id="sd2" class='sd' value='Abstract Report' >
+							<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>
+							<input type="checkbox" id="sd3" class='sd' value='Diagrame' >
+							<label for="sd3"><span class="checkbox-icon"></span> Diagrame</label>
+							<input type="text" name='sd_txt' id='sd_txt' class="keyword-input with-border" hidden/>
+						</div>
+					</td>
+				</tr>
+					<tr>
+						<td style="width:15%">Time duration : </td>
+						<td><input placeholder="Time Duration In Weeks Like: 4 Weeks" name='Time duration' required="required"></td>
+				</tr>
+									<tr>
+						<td style="width:15%">Relevant Project for  : </td>
+						<td><div class="checkbox">
+							<input type="checkbox" id="rp1" value='BCA' class='rp' name='bca' >
+							<label for="rp1"><span class="checkbox-icon"></span> BCA</label>
+							
+							<input type="checkbox" id="rp2" value='MCA' class='rp' name='mca' >
+							<label for="rp2"><span class="checkbox-icon"></span> MCA</label>
+							<input type="checkbox" id="rp3" value='MScIT' class='rp' >
+							<label for="rp3"><span class="checkbox-icon"></span> MScIT</label>
+							<input type="text" name='rp_txt' id='rp_txt' class="keyword-input with-border" hidden />
+						</div>
+						</td>
+						
+				</tr>
+				<tr>
+						<td style="width:15%">Project Support : </td>
+						<td>
+						<div class="radio">
+						<input id="radio-1" name="Support" type="radio" value='Available' >
+						<label for="radio-1"><span class="radio-label"></span> Available</label>
+						
+						<input id="radio-2" name="Support" type="radio" value='Not Available' checked>
+						<label for="radio-2"><span class="radio-label"></span> Not Available</label>
+						</div>
+					</td>
+				</tr>
+					<tr>
+						<td style="width:15%">Project Cost : </td>
+						<td><input placeholder="Enter Project Cost In Rupees" name='Project Cost' required="required"></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right"><button type='submit' class="button dark ripple-effect button-sliding-icon">Save & Next <i class="icon-feather-check"></i></button></td>
+				</tr>
+			</table>
+				
+			
+		</div>	
+
+		</div>
+	</div>
+	</div>
+</form>
+</div>
+</div>
+
+<!-- Container / End -->
+
+
+
+
+<!-- Scripts
+================================================== -->
+
+
+<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+// Snackbar for user status switcher
+$('#snackbar-user-status label').click(function() { 
+	Snackbar.show({
+		text: 'Your status has been changed!',
+		pos: 'bottom-center',
+		showAction: false,
+		actionText: "Dismiss",
+		duration: 3000,
+		textColor: '#fff',
+		backgroundColor: '#383838'
+	}); 
+}); 
+</script>
+
+{% endblock %}

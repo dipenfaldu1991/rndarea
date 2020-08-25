@@ -1,0 +1,131 @@
+
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'theam/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'theam/css/colors/blue.css' %}">
+<script type="text/javascript">
+	function validateImage(id) {
+		var formData = new FormData();
+	 
+		var file = document.getElementById(id).files[0];
+	 
+		formData.append("Filedata", file);
+		var t = file.type.split('/').pop().toLowerCase();
+		if (t != "jpeg" && t != "jpg" && t != "png" && t != "bmp" && t != "gif") {
+			alert('Please select a valid image file');
+			document.getElementById(id).value = '';
+			return false;
+		}
+		if (file.size > 2048000) {
+			alert('Max Upload size is 2MB only');
+			document.getElementById(id).value = '';
+			return false;
+		}
+		return true;
+	}
+</script>
+<script type="text/javascript">
+	function validateVideo(id) {
+		var formData = new FormData();
+	 
+		var file = document.getElementById(id).files[0];
+	 
+		formData.append("Filedata", file);
+		var t = file.type.split('/').pop().toLowerCase();
+		if (t != "mp4" && t != "vda") {
+			alert('Please select a valid video file');
+			document.getElementById(id).value = '';
+			return false;
+		}
+		if (file.size > 25600000) {
+			alert('Max Upload size is 25MB only');
+			document.getElementById(id).value = '';
+			return false;
+		}
+		return true;
+	}
+</script>
+
+
+<!-- Wrapper -->
+<div id="wrapper">
+	
+<!-- Container -->
+<div class="clearfix"></div>
+
+<div class="container">
+	
+	<div class="row">
+		<div class="col-xl-12">
+		<form method='POST' action="" enctype="multipart/form-data">
+		{% csrf_token %}
+			<h2>Upload Project</h2>
+			<table border="0" width="100%"> 
+                
+					<tr>
+						<td style="width:15%">Project Icon : </td>										
+						<td><input type="file"  name='project_icon' accept="image/x-png,image/gif,image/jpeg" id="img7" onchange="validateImage('img7')" style="width:90%; font-size:12px"></td>
+						
+						<td style="width:15%">Screenshort 1 : </td>
+						<td><input type="file" name='screenshort_1' accept="image/x-png,image/gif,image/jpeg" id="img1" onchange="validateImage('img1')" style="width:90%; font-size:12px" ></td>
+						
+				</tr>
+					<tr>
+						<td style="width:15%">Project Banner : </td>
+						<td><input type="file" name='project_banner' accept="image/x-png,image/gif,image/jpeg" id="img8" onchange="validateImage('img8')" style="width:90%; font-size:12px" ></td>
+												
+						
+						<td style="width:15%">Screenshort 2 : </td>
+						<td><input type="file" name='screenshort_2' accept="image/x-png,image/gif,image/jpeg" id="img2" onchange="validateImage('img2')" style="width:90%; font-size:12px"></td>
+				</tr>
+				<tr>
+						<td style="width:15%">Documentation : </td>
+						<td><input type="file" name='documentation' accept="application/pdf" style="width:90%; font-size:12px" ></td>
+
+						<td style="width:15%">Screenshort 3 : </td>
+						<td><input type="file" name='screenshort_3' accept="image/x-png,image/gif,image/jpeg" id="img3" onchange="validateImage('img3')" style="width:90%; font-size:12px"></td>
+				</tr>
+				<tr>
+						<td style="width:15%">Intraction Document : </td>
+						<td><input type="file" name='intraction_document' accept="application/pdf" style="width:90%; font-size:12px"></td>
+
+						<td style="width:15%">Screenshort 4 : </td>
+						<td><input type="file" name='screenshort_4' accept="image/x-png,image/gif,image/jpeg" id="img4" onchange="validateImage('img4')" style="width:90%; font-size:12px"></td>
+				</tr>
+
+				<tr>
+						<td style="width:15%">Other Reports : </td>
+						<td><input type="file" name='other_reports' accept="application/pdf" style="width:90%; font-size:12px"></td>
+
+						<td style="width:15%">Screenshort 5 : </td>
+						<td><input type="file" name='screenshort_5' accept="image/x-png,image/gif,image/jpeg" id="img5" onchange="validateImage('img5')" style="width:90%; font-size:12px"></td>
+				</tr>
+				<tr>
+						<td style="width:15%">Upload Video  : </td>
+						<td><input type="file" name='upload_video' id="video1" onchange="validateVideo('video1')" style="width:90%; font-size:12px"></td>
+
+						<td style="width:15%">Screenshort 6 : </td>
+						<td><input type="file" name='screenshort_6' accept="image/x-png,image/gif,image/jpeg" id="img6" onchange="validateImage('img6')" style="width:90%; font-size:12px"></td>
+				</tr>
+				<tr>
+					<td style="width:15%">Zip File: </td>
+					<td><input type="file" name='zip_file' accept=".zip,.rar" style="width:90%; font-size:12px"></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right"><button type='submit'  class="button dark ripple-effect button-sliding-icon">Upload Files <i class="icon-feather-check"></i></button></td>
+				</tr>
+			</table>
+			</form>
+			
+
+		
+    
+</div>
+</div>
+
+
+
+{% endblock %}
+{% comment %} {% endblock %} {% endcomment %}

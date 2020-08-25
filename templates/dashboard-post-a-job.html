@@ -1,0 +1,159 @@
+{% extends 'base2.html' %}
+{% load static %}
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/colors/blue.css">
+{% block css %}
+
+{% endblock css %}
+
+{% block script %}
+
+{% endblock script %}
+{% block content %}
+					
+
+	<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+			
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Post a Job</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Dashboard</a></li>
+						<li>Post a Job</li>
+					</ul>
+				</nav>
+			</div>
+	
+            <!-- Row -->
+            <form method="POST" action="{% url 'jobs:add_jobs' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+			<div class="row">
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+                  
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-feather-folder-plus"></i> Job Submission Form</h3>
+						</div>
+
+						<div class="content with-padding padding-bottom-10">
+							<div class="row">
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Job Title</h5>
+										<input type="text" name="jobtitle" class="with-border">
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">  
+                                        <h5>Job Type</h5>                                       
+										<select name="jobtype">
+											<option disabled="True" selected>Select Job Type</option>
+                                            {% for job in jobtype %}
+                                                <option value="{{job.id}}">{{job.job_name}}</option>
+                                            {% endfor %}
+                                        </select>
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Job Category</h5>
+										<select name="jobcategory">
+											<option disabled="True" selected>Select Job Category</option>
+											{% for i in jobcategory %}
+                                            <option value="{{i.id}}">{{i.job_category}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div> 
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Location</h5>
+										<div class="input-with-icon">
+											<div id="autocomplete-container">
+												<input id="autocomplete-input" name="location" class="with-border" type="text" placeholder="Type Address">
+											</div>
+											<i class="icon-material-outline-location-on"></i>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Salary</h5>
+										<div class="row">
+											<div class="col-xl-6">
+												<div class="input-with-icon">
+													<input class="with-border" name="salaryminm" type="text" placeholder="Min">
+													<i class="currency">USD</i>
+												</div>
+											</div>
+											<div class="col-xl-6">
+												<div class="input-with-icon">
+													<input class="with-border" name="salarymaxm" type="text" placeholder="Max">
+													<i class="currency">USD</i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field"> 
+										<h5>Tags <span>(optional)</span>  <i class="help-icon" data-tippy-placement="right" title="Maximum of 10 tags"></i></h5>
+										<div class="keywords-container">
+											<div class="keyword-input-container">
+												<input type="text" name="tag" class="keyword-input with-border" placeholder="e.g. job title, responsibilites"/>
+												<button class="keyword-input-button ripple-effect"><i class="icon-material-outline-add"></i></button>
+											</div>
+											<div class="keywords-list"><!-- keywords go here --></div>
+											<div class="clearfix"></div>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-xl-12">
+									<div class="submit-field">
+										<h5>Job Description</h5>
+										<textarea cols="30" rows="5" name="jobdescription" class="with-border"></textarea>
+										<div class="uploadButton margin-top-30">
+											<input class="uploadButton-input" name="docfile" type="file" accept="image/*, application/pdf" id="upload" multiple/>
+											<label class="uploadButton-button ripple-effect" for="upload">Upload Files</label>
+											<span class="uploadButton-file-name">Images or documents that might be helpful in describing your job</span>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+                    </div>
+                
+				</div>
+                <div class="col-xl-12">
+					<button type='submit' style="margin: 30px;" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Post a Task</button>
+				</div>
+            </form>
+			</div>
+			<!-- Row / End -->
+
+			<!-- Footer -->
+			<!-- Footer / End -->
+<!-- Scripts
+================================================== -->
+
+{% endblock content %}

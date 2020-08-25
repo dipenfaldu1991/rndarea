@@ -1,0 +1,88 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+
+
+        
+		<div class="col-xl-9 col-lg-8 content-left-offset">
+
+			
+			<!-- Tasks Container -->
+			<div class="tasks-list-container margin-top-35">
+				{% for project in items %}
+				<!-- Task -->
+				<a href="{% url 'accounts:edit_project' project.id %}" class="task-listing">
+
+					<!-- Job Listing Details -->
+					<div class="task-listing-details">
+
+						<!-- Details -->
+						<div class="task-listing-description">
+							<h3 class="task-listing-title">{{project.headline}}</h3>
+							<ul class="task-icons">
+								<li><i class="icon-material-outline-location-on"></i> San Francisco</li>
+								<li><i class="icon-material-outline-access-time"></i> 2 minutes ago</li>
+							</ul>
+							<div class="task-tags">
+								<span>{{project.Technology}}</span>
+								
+							</div>
+							<p class="task-listing-text">{{project.Relevant_Project}}</p>
+							<h4 class="task-listing-title">Available Documents Like : </h4>
+							<div class="task-tags">
+								<span>{{project.Documents}}</span>
+								
+							</div>
+						</div>
+
+					</div>
+
+					<div class="task-listing-bid">
+						<div class="task-listing-bid-inner">
+							<div class="task-offers">
+								<strong>{{project.Cost|floatformat:2}}</strong>
+								<span>Project Price</span>
+							</div>
+							<span class="button button-sliding-icon ripple-effect">Show More <i class="icon-material-outline-arrow-right-alt"></i></span>
+						</div>
+					</div>
+				</a>
+
+				{% endfor %}
+
+	{% if items.paginator.num_pages > 1 %}
+
+    <!-- start -->
+    {% include '_pagination.html' with items=items %}
+    <!-- end -->
+
+{% endif %}
+
+				<!-- Pagination -->
+				{% comment %} <div class="clearfix"></div>
+				<div class="row">
+					<div class="col-md-12">
+						<!-- Pagination -->
+						<div class="pagination-container margin-top-30 margin-bottom-60">
+							<nav class="pagination">
+								<ul>
+									<li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
+									<li><a href="#" class="ripple-effect">1</a></li>
+									<li><a href="#" class="current-page ripple-effect">2</a></li>
+									<li><a href="#" class="ripple-effect">3</a></li>
+									<li><a href="#" class="ripple-effect">4</a></li>
+									<li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div> {% endcomment %}
+				<!-- Pagination / End -->
+
+			</div>
+			<!-- Tasks Container / End -->
+
+		
+
+{% endblock %}

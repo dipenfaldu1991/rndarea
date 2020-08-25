@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/colors/blue.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<style>
+
+	</style>
+
+{% block script %}
+
+{% endblock script %}
+{% block content %}
+					
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+<div class="container">
+
+  <!-- Trigger the modal with a button -->
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<script>
+	$(document).ready(function(){
+	   $("#myModal").modal();
+	});
+</script>  
+</div>
+
+
+
+
+
+
+<!-- Titlebar
+================================================== -->
+
+
+<!-- Page Content
+================================================== -->
+<div class="container">
+	<div class="row">
+
+<div class="section gray padding-top-65 padding-bottom-70 full-width-carousel-fix">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-12">
+
+				<h2>Pricing Plans</h2>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Pages</a></li>
+						<li>Pricing Plans</li>
+					</ul>
+				</nav>
+
+			</div>
+			<div class="col-xl-12">
+
+				<!-- Billing Cycle  -->
+				<div class="billing-cycle-radios margin-bottom-70">
+					<div class="radio billed-monthly-radio">
+						<input id="radio-5" name="radio-payment-type" type="radio" checked>
+						<label for="radio-5"><span class="radio-label"></span> Billed Monthly</label>
+					</div>
+	
+					<div class="radio billed-yearly-radio">
+						<input id="radio-6" name="radio-payment-type" type="radio">
+						<label for="radio-6"><span class="radio-label"></span> Billed Yearly <span class="small-label">Save 10%</span></label>
+					</div>
+				</div>
+			
+			<div class="col-xl-12">
+				<div class="default-slick-carousel freelancers-container freelancers-grid-layout">
+					{% for plan in like_plansdata %}
+					<!--Freelancer -->
+					<div class="freelancer">
+					
+						<!-- Overview -->
+						<div class="overview">
+							<div class="pricing-plan">
+								<h3 style="margin-left: 0px;font-size:30px;">{{plan.like_plan_name}}</h3>
+								<p class="margin-top-10">{{plan.like_description}}</p>
+								<div class="pricing-plan-label billed-monthly-label"><strong>&#x20b9;{{plan.like_price}}</strong>/ {{plan.like}} Like</div>
+								<div class="pricing-plan-label billed-yearly-label"><strong>{{plan.like}}</strong>/ yearly</div>
+								<div class="pricing-plan-features">
+									<strong>Features of Extended Plan</strong>
+									<ul>
+										<li>{{plan.like_features1}}</li>
+										<li>{{plan.like_features2}}</li>
+										<li>{{plan.like_othersfeatures3}}</li>
+									</ul>
+								</div>
+								<a href="{% url 'rnd_projects:pagecheckout_bynow' plan.id %}" class="button full-width margin-top-20">Buy Now</a>
+							</div>
+						</div>
+						
+						<!-- Details -->
+					</div>
+					{% endfor %}
+					<!-- Freelancer / End -->					
+
+				</div>
+			</div>
+			
+
+		</div>
+	</div>
+</div>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="margin-top-80"></div>
+
+<!-- Footer
+================================================== -->
+
+<!-- Footer / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+<!-- Scripts
+================================================== -->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/jquery-migrate-3.1.0.min.js"></script>
+<script src="js/mmenu.min.js"></script>
+<script src="js/tippy.all.min.js"></script>
+<script src="js/simplebar.min.js"></script>
+<script src="js/bootstrap-slider.min.js"></script>
+<script src="js/bootstrap-select.min.js"></script>
+<script src="js/snackbar.js"></script>
+<script src="js/clipboard.min.js"></script>
+<script src="js/counterup.min.js"></script>
+<script src="js/magnific-popup.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/custom.js"></script>
+
+<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+// Snackbar for user status switcher
+$('#snackbar-user-status label').click(function() { 
+	Snackbar.show({
+		text: 'Your status has been changed!',
+		pos: 'bottom-center',
+		showAction: false,
+		actionText: "Dismiss",
+		duration: 3000,
+		textColor: '#fff',
+		backgroundColor: '#383838'
+	}); 
+}); 
+</script>
+
+{% endblock content %}

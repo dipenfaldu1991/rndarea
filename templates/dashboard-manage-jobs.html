@@ -1,0 +1,139 @@
+{% extends 'base2.html' %}
+{% load static %}
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/colors/blue.css">
+
+
+{% block script %}
+
+{% endblock script %}
+{% block content %}
+					
+
+<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+			
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Manage Jobs</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Dashboard</a></li>
+						<li>Manage Jobs</li>
+					</ul>
+				</nav>
+			</div>	
+            <!-- Row -->          
+			<div class="row">
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-assignment"></i> My Jobs</h3>
+						</div>
+                        
+						<div class="content">
+                           
+							<ul class="dashboard-box-list">
+                                {% for i in page_obj %}
+								<li>
+									<!-- Job Listing -->
+									<div class="job-listing">
+
+										<!-- Job Listing Details -->
+										<div class="job-listing-details">
+
+											<!-- Logo -->
+
+											<!-- Details -->
+											<div class="job-listing-description">
+												<h3 class="job-listing-title"><a href="#">{{i.job_category.job_category}}...</a> <span class="dashboard-status-button green">Pending Approval</span></h3>
+
+												<!-- Job Listing Footer -->
+												<div class="job-listing-footer">
+                                                    <p>{{i.job_description|truncatechars:50}}</p>
+													<ul>
+														<li><i class="icon-material-outline-date-range"></i> Posted on {{i.created_date}}</li>
+														<li><i class="icon-material-outline-date-range"></i> Expiring on 10 August, 2019</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Buttons -->
+									{% for k,l in apply_count_dict.items %}
+                                        {% ifequal k i.id %}
+									<div class="buttons-to-right always-visible">
+										
+										<a href="{% url 'jobs:managecandidates' i.id %}" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Candidates <span class="button-info">{{l}}</span></a>
+										<a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+										<a href="{% url 'jobs:delete_jobs' i.id %}" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+									</div>
+									{% endifequal %}{% endfor %}
+								</li>
+                                {% endfor %}
+                            </ul>
+                            
+                        </div>
+                        
+                        </div>
+                        
+                    </div>
+           
+				</div>
+                
+			</div>
+			<!-- Row / End -->
+
+	<!-- Pagination start -->
+    <div class="clearfix"></div>
+    <div class="row">					
+        <div class="col-md-12">
+            <div class="pagination-container margin-top-30 margin-bottom-60">
+                            
+                <div class="pagination" style="margin-left: 350px;">
+                    <ul>
+                    {% if page_obj.has_previous %}
+                    
+                    
+                    <a class="pagination-action" href="?page=1">
+                            <i class="icon-material-outline-keyboard-arrow-left"></i>
+                    </a>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <span class="pagination-number pagination-current">{{ num }}</span>
+                        {% elif num > page_obj.number|add:'-4' and num < page_obj.number|add:'4' %}
+                            <a class="pagination-number" href="?page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        
+                        <a class="pagination-action" href="?page={{ page_obj.paginator.num_pages }}">
+                            <i class="icon-material-outline-keyboard-arrow-right" ></i>
+                        </a>
+                    {% endif %}
+                </ul>	
+                </div>
+                
+            </div>
+    <!-- Pagination / End -->
+		</div>
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+
+
+{% endblock content %}

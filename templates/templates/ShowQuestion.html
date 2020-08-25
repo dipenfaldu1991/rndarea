@@ -1,0 +1,314 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block script %}
+
+{% endblock script %}
+{% block content %}
+
+
+			
+
+<!-- Content
+================================================== -->
+
+<div id="titlebar" class="gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				
+				<h2>Problematic Solution</h2>
+				<span>Give answer of this question/Problems</span>
+				
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Problematic Solution</a></li>
+						<!--<li>Blog Post</li>-->
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Post Content -->
+<div class="container">
+	<div class="row">
+		
+		<!-- Inner Content -->
+		<div class="col-xl-8 col-lg-8">
+			<!-- Blog Post -->
+			<div class="blog-post single-post">
+
+				<!-- Blog Post Thumbnail -->
+				<div class="blog-post-thumbnail">
+					<div class="blog-post-thumbnail-inner">
+						<span class="blog-item-tag">{{question.technology}}</span>
+						
+						<img src="{% static 'theam/images/job-category-01.jpg' %}" alt="">
+					</div>
+				</div>
+
+				<!-- Blog Post Content -->
+				<div class="blog-post-content">
+					<h3 class="margin-bottom-10">{{question.title}}</h3>
+
+					<div class="blog-post-info-list margin-bottom-20">
+						<a href="#" class="blog-post-info">{{question.date_posted}}</a>
+						<a href="#"  class="blog-post-info">5 Answer</a>
+					</div>
+
+					
+					<p>{{question.description}}</p>
+					{% if  question.screenshort %}
+					<div class="one">
+					<a href="{{ question.screenshort.url }}">
+						
+						<img id="" src="{{ question.screenshort.url }}" height='100' weight='200' />
+					</a>
+					</div>
+					{% endif %}
+					
+					
+				</div>
+			</div>
+
+			
+			
+
+			<!-- Comments -->
+			
+			
+			<div class="row">
+				<div class="col-xl-12">
+					<section class="comments">
+					<h3 class="margin-top-45 margin-bottom-0">Comments <span class="comments-amount">(5)</span></h3>
+					{% for answer in ans1 %}
+					
+					<ul>
+						<li>
+							
+                                
+                            
+                            
+							
+							
+							
+							
+							
+							{% if answer.get_user_object.image %}
+							
+							<div class="avatar"><img src="{{ answer.get_image_url }}" style="width: 66px;height: 70px;" alt=""></div>
+						
+							{% else %}
+                                <img src="{% static 'theam/images/user-avatar-placeholder.png' %}" alt="...">
+							{% endif %}
+							
+							<div class="comment-content"><div class="arrow-comment"></div>
+								<div class="comment-by">
+									<a href="">
+									<strong>{{ answer.created_user_id }}</strong>
+									</a>
+									</div>
+									<span class="date">Posted {{ answer.created|timesince }}</span>	
+																			
+									<div class="panel-body">
+										<p>
+											{{ answer.answer|linebreaksbr}}
+			
+										</p>
+										
+									</div>																																														
+								
+									<strong>
+										<a href="#" class="comment-reply-btn"> Replay </a>
+										|
+										{% if answer.children.count > 0 %}
+											{{ answer.children.count }} Comments
+										{% endif %}
+										|
+		
+										<a href="{{ answer.get_like_url }}">
+											
+											
+											{% if request.user in answer.get_like_instances %}
+											
+
+											</p>
+												<i class="fa fa-thumbs-o-up" style="color: #993333"></i>
+												
+												{% else %}
+												<i class="fa fa-thumbs-o-down" style="color: #6028c8"></i>
+												
+											{% endif %}
+										</a>
+										{{ answer.likes.count }}
+										{% if answer.likes.count > 1 %}
+										<p>check plans</p>
+										{% endif %}
+									</strong>
+									<div class="comment-reply" style="display: none">
+										<div class="comment-content"></div>
+										<blockquote class="blockquote">
+											
+											{% for replay in answer.children %}
+											
+												<p>{{ replay.answer }}</p>
+												<footer>
+													<a href="">
+														{{ replay.created_user_id }}
+													</a>  | {{ replay.created|timesince }} ago
+												</footer>
+											{% endfor %}
+										</blockquote>
+
+										{% if request.user.is_authenticated %}
+									   
+										<form method="POST"
+											  action="{% url 'accounts:profile_detail' %}">{% csrf_token %}
+											
+											<textarea  name="answer" cols="30" rows="5" placeholder="Solution here"></textarea> 
+											<input type="hidden" name="parent_id" value="{{ answer.id }}">
+											<input type="submit" class="btn reply" value="Reply">
+										</form>
+										
+										{% endif %}
+									</div>	
+							</div>		
+						</li>
+					</ul>
+					{% endfor %}
+					
+					
+
+					</section>
+				</div>		
+			</div>
+			
+			
+				
+			
+
+			<!-- Leava a Comment -->
+			<div class="row">
+				<div class="col-xl-12">
+					
+					<h3 class="margin-top-35 margin-bottom-30">Give Answer</h3>
+
+					<!-- Form -->
+					<form method="post" action="{% url 'rnd_projects:getanswer' %}" %}>
+						{% csrf_token %}
+						
+
+						<textarea  name="answer" cols="30" rows="5" placeholder="Solution here"></textarea>
+						
+					
+						<button type='submit' class="button dark ripple-effect button-sliding-icon">Add Answer<i class="icon-feather-check"></i></button>
+					<!-- Button -->
+					<!-- <button class="button button-sliding-icon ripple-effect margin-bottom-40" type="submit" form="add-comment">Add Answer <i class="icon-material-outline-arrow-right-alt"></i></button> -->
+				</form>
+				</div>
+			</div>
+			<!-- Leava a Comment / End -->
+
+		</div>
+		<!-- Inner Content / End -->
+
+
+		<div class="col-xl-4 col-lg-4 content-left-offset">
+			<div class="sidebar-container">
+				
+				<!-- Location -->
+			<!--	<div class="sidebar-widget margin-bottom-40">
+					<div class="input-with-icon">
+						<input id="autocomplete-input" type="text" placeholder="Search">
+						<i class="icon-material-outline-search"></i>
+					</div>
+				</div>-->
+
+				<!-- Widget -->
+				<div class="sidebar-widget">
+
+					<h3>Trending Questions</h3>
+					<ul class="widget-tabs">
+						{% for i in que1 %}
+						<!-- Post #1 -->
+						<li>
+							
+							<a href="#" class="widget-content active">
+								
+							<img src="{% static 'theam/images/blog-02a.jpg' %}" alt="">
+							<div class="widget-text">
+								<h5>{{i.description}}</h5>
+								<span>{{i.date_posted}}</span>
+							</div>
+							
+							</a>
+						</li>
+						{% endfor %}
+						<!-- Post #2 -->
+						<!-- <li>
+							<a href="#" class="widget-content">
+								<img src="images/blog-07a.jpg" alt="">
+								<div class="widget-text">
+									<h5>What It Really Takes to Make $100k Before You Turn 30</h5>
+									<span>3 June 2019</span>
+								</div>
+							</a>
+						</li> -->
+						<!-- Post #3 -->
+						<!-- <li>
+							<a href="#" class="widget-content">
+								<img src="images/blog-04a.jpg" alt="">
+								<div class="widget-text">
+									<h5>5 Myths That Prevent Job Seekers from Overcoming Failure</h5>
+									<span>5 June 2019</span>
+								</div>
+							</a>
+						</li>
+					</ul> -->
+
+				</div>
+				<!-- Widget / End-->
+
+
+				<!-- Widget -->
+				<!--<div class="sidebar-widget">
+					<h3>Social Profiles</h3>
+					<div class="freelancer-socials margin-top-25">
+						<ul>
+							<li><a href="#" title="Dribbble" data-tippy-placement="top"><i class="icon-brand-dribbble"></i></a></li>
+							<li><a href="#" title="Twitter" data-tippy-placement="top"><i class="icon-brand-twitter"></i></a></li>
+							<li><a href="#" title="Behance" data-tippy-placement="top"><i class="icon-brand-behance"></i></a></li>
+							<li><a href="#" title="GitHub" data-tippy-placement="top"><i class="icon-brand-github"></i></a></li>
+						</ul>
+					</div>
+				</div>-->
+
+				<!-- Widget -->
+				
+
+				<div class="sidebar-widget">
+					<h3>skills</h3>
+					<div class="task-tags">
+						{% for i in l1 %}
+						
+						<span>{{i}}</span>
+	
+						{% endfor %}
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- Spacer -->
+<div class="padding-top-40"></div>
+<!-- Spacer -->
+{% endblock %}
+
+

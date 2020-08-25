@@ -1,0 +1,208 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+
+	<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >									
+		<div class="col-xl-9 col-lg-8 content-left-offset">
+			<div class="listings-container margin-top-35">
+				
+				<!-- Job Listing -->
+				{% for que in page_obj  %}
+				<a href="{% url 'accounts:edit_questions' que.id%}" class="job-listing">
+					
+					<!-- Job Listing Details -->
+					<div class="job-listing-details">
+						<!-- Logo -->
+						<div class="job-listing-company-logo">
+							<img src="images/company-logo-01.png" alt="">
+						</div>
+
+						<!-- Details -->
+						<div class="job-listing-description">
+							
+							<h4 class="job-listing-company">{{que.title}}<span class="verified-badge" title="Verified Employer" data-tippy-placement="top"></span></h4>	
+							<h3 class="job-listing-title">{{que.technology}}</h3>
+							<p class="job-listing-text">{{que.description}}</p>
+						</div>
+						
+						<!-- Bookmark -->
+						<span class="bookmark-icon"></span>
+					</div>
+					
+					<!-- Job Listing Footer -->
+					<div class="job-listing-footer">
+						<ul>
+							<li><i class="icon-material-outline-location-on"></i>{{que.created_user}}</li>			
+							<li><i class="icon-material-outline-access-time"></i> {{que.date_posted}}</li>
+						</ul>
+					</div>
+					
+				</a>		
+				{% endfor %}
+
+				
+				
+				
+
+				<!-- Job Listing -->
+				<!-- <a href="single-job-page.html" class="job-listing"> -->
+
+					<!-- Job Listing Details -->
+					<!-- <div class="job-listing-details"> -->
+						<!-- Logo -->
+						<!-- <div class="job-listing-company-logo">
+							<img src="images/company-logo-02.png" alt="">
+						</div> -->
+
+						<!-- Details -->
+						<!-- <div class="job-listing-description">
+							<h4 class="job-listing-company">Coffee</h4>
+							<h3 class="job-listing-title">Barista and Cashier</h3>
+							<p class="job-listing-text">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value.</p>
+						</div> -->
+
+						<!-- Bookmark -->
+						<!-- <span class="bookmark-icon"></span>
+					</div> -->
+
+					<!-- Job Listing Footer -->
+					<!-- <div class="job-listing-footer">
+						<ul>
+							<li><i class="icon-material-outline-location-on"></i> San Francissco</li>
+							<li><i class="icon-material-outline-business-center"></i> Full Time</li>
+							<li><i class="icon-material-outline-account-balance-wallet"></i> $35000-$38000</li>
+							<li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+						</ul>
+					</div>
+				</a>
+				 -->
+
+				<!-- Job Listing -->
+				<!-- <a href="single-job-page.html" class="job-listing"> -->
+
+					<!-- Job Listing Details -->
+					<!-- <div class="job-listing-details"> -->
+						<!-- Logo -->
+						<!-- <div class="job-listing-company-logo">
+							<img src="images/company-logo-03.png" alt="">
+						</div> -->
+
+						<!-- Details -->
+						<!-- <div class="job-listing-description">
+							<h4 class="job-listing-company">King <span class="verified-badge" title="Verified Employer" data-tippy-placement="top"></span></h4>
+							<h3 class="job-listing-title">Restaurant General Manager</h3>
+							<p class="job-listing-text">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value.</p>
+						</div> -->
+
+						<!-- Bookmark -->
+						<!-- <span class="bookmark-icon"></span>
+					</div> -->
+
+					<!-- Job Listing Footer -->
+					<!-- <div class="job-listing-footer">
+						<ul>
+							<li><i class="icon-material-outline-location-on"></i> San Francissco</li>
+							<li><i class="icon-material-outline-business-center"></i> Full Time</li>
+							<li><i class="icon-material-outline-account-balance-wallet"></i> $35000-$38000</li>
+							<li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+						</ul>
+					</div>
+				</a> -->
+
+				<!-- Job Listing -->
+				<!-- <a href="single-job-page.html" class="job-listing"> -->
+
+					<!-- Job Listing Details -->
+					<!-- <div class="job-listing-details"> -->
+						<!-- Logo -->
+						<!-- <div class="job-listing-company-logo">
+							<img src="images/company-logo-04.png" alt="">
+						</div> -->
+
+						<!-- Details -->
+						<!-- <div class="job-listing-description">
+							<h4 class="job-listing-company">Mates</h4>
+							<h3 class="job-listing-title">Administrative Assistant</h3>
+							<p class="job-listing-text">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value.</p>
+						</div> -->
+
+						<!-- Bookmark -->
+						<!-- <span class="bookmark-icon"></span>
+					</div> -->
+
+					<!-- Job Listing Footer -->
+					<!-- <div class="job-listing-footer">
+						<ul>
+							<li><i class="icon-material-outline-location-on"></i> San Francissco</li>
+							<li><i class="icon-material-outline-business-center"></i> Full Time</li>
+							<li><i class="icon-material-outline-account-balance-wallet"></i> $35000-$38000</li>
+							<li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+						</ul>
+					</div>
+				</a> -->
+
+
+				<!-- Pagination -->
+				
+				<div class="row">					
+					<div class="col-md-12">
+						<div class="pagination-container margin-top-30 margin-bottom-60">
+										
+							<div class="pagination">
+								<ul>
+								{% if page_obj.has_previous %}
+								
+								
+								<a class="pagination-action" href="?page=1">
+										<i class="icon-material-outline-keyboard-arrow-left"></i>
+								</a>
+								{% endif %}
+								{% for num in page_obj.paginator.page_range %}
+									{% if page_obj.number == num %}
+										<span class="pagination-number pagination-current">{{ num }}</span>
+									{% elif num > page_obj.number|add:'-4' and num < page_obj.number|add:'4' %}
+										<a class="pagination-number" href="?page={{ num }}">{{ num }}</a>
+									{% endif %}
+								{% endfor %}
+								{% if page_obj.has_next %}
+									
+									<a class="pagination-action" href="?page={{ page_obj.paginator.num_pages }}">
+										<i class="icon-material-outline-keyboard-arrow-right" ></i>
+									</a>
+								{% endif %}
+							</ul>	
+							</div>
+							
+						</div>
+						<!-- Pagination -->
+						<!-- <div class="pagination-container margin-top-30 margin-bottom-60">
+							<nav class="pagination">
+								<ul>
+									
+									<li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
+									
+									<li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
+								</ul>
+							</nav>
+						</div> -->
+					</div>
+				</div> 
+				</div>
+				<!-- Pagination / End -->
+
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endblock %}

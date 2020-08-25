@@ -1,0 +1,27 @@
+{% extends 'base4.html' %}
+<!--set navigation-->
+ 
+<!--set main container background-->
+{% block site %}
+    <!--topbar with activity title-->
+    <div class="w3-teal" id="appbar">
+
+        <!--hamburger for open/close menu (responsive only)-->
+        <button class="w3-button w3-teal w3-xlarge w3-hide-large" id="open-menu" onclick="w3_open()">&#9776;</button>
+        <!--end hamburger-->
+
+        <!--activity title-->
+        <h1>{% block activity_title %}[ACTIVITY_NAME]{% endblock activity_title %}</h1>
+        <!--end activity title-->
+
+    </div>
+    <!--end topbar-->
+
+    <!--main container-->
+    <div class="w3-container" id="standard" onclick="w3_close()">
+        {% block main_container %}{% endblock main_container %}
+    </div>
+    <!--main container end-->
+
+{% endblock site %}
+

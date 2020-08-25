@@ -1,0 +1,253 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block script %}
+
+{% endblock script %}
+{% block content %}
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="{% static 'theam/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'theam/css/colors/blue.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+			$('.sd').click(function()
+			{
+				var text="";
+				$('.sd:checked').each(function()
+				{
+					text+= $(this).val()+","; 
+					
+				}
+				);
+				$('#sd_txt').val(text);
+				
+			});
+	}
+	);
+</script>
+<script>
+	$(document).ready(function()
+	{
+			$('.rp').click(function()
+			{
+				var text="";
+				$('.rp:checked').each(function()
+				{
+					text+= $(this).val()+","; 
+					
+				}
+				);
+				$('#rp_txt').val(text);
+			});
+	}
+	);
+</script>
+					
+				
+				
+
+				
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+<!-- Titlebar
+================================================== -->
+
+
+<!-- Page Content
+================================================== -->
+<!-- Container -->
+<div class="dashboard-content-container" data-simplebar>
+	<div class="dashboard-content-inner" >
+			
+		<!-- Dashboard Headline -->
+		<div class="dashboard-headline">
+			<h3>Problematic Solution</h3>
+
+			<!-- Breadcrumbs -->
+			<nav id="breadcrumbs" class="dark">
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Dashboard</a></li>
+					<li>Problematic Solution</li>
+				</ul>
+			</nav>
+		</div>
+		
+	
+
+<div class="container">
+<form method='POST' action="" enctype="multipart/form-data">
+{% csrf_token %}
+	<div class="row">
+		<div class="col-xl-12">
+			<table border="0" width="100%"> 
+				<tr>
+					<td style="width:15%">Project Headline : </td>
+					<td><input type="text" name='Project Headline' required="required" value="{{project.headline}}"></td>
+				</tr>
+				<tr>
+					<td style="width:15%">Project Description : </td>
+					<td><input type="text" name='Project Description' required="required" value="{{project.Description}}"></td>
+				</tr>
+				<tr>
+					<td style="width:15%">Used Technology :</td>
+					<td><div class="keywords-container">
+				<div class="keyword-input-container">
+					<input type="text" class="keyword-input with-border" name='Used Technology'  value="{{project.Technology}}">	
+				</div>
+			</div></td>
+				</tr>
+				<tr>
+					
+					<td style="width:15%">Support Documents : </td>
+					
+					<td><br><br>
+					
+						<div class="checkbox">																																				
+							{% ifequal pro.0 'Project Documents' %}
+									<input type="checkbox" class='sd' id="sd1" value='Project Documents' checked>
+									<label for="sd1"><span class="checkbox-icon"></span> Project Documents</label>
+							{% else %}
+										<input type="checkbox" class='sd' id="sd1" value='Project Documents'>
+										<label for="sd1"><span class="checkbox-icon"></span> Project Documents</label>	
+							{% endifequal %}
+							
+						
+							{% ifequal pro.1 'Abstract Report'%}
+									<input type="checkbox" id="sd2" class='sd' value='Abstract Report' checked>
+									<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>
+							{% else %}
+									<input type="checkbox" id="sd2" class='sd' value='Abstract Report'>
+									<label for="sd2"><span class="checkbox-icon"></span> Abstract Report</label>							
+							{% endifequal %}
+
+							{% ifequal pro.2 'Diagrame'%}
+									<input type="checkbox" id="sd3" class='sd' value='Diagrame' checked>
+									<label for="sd3"><span class="checkbox-icon"></span> Diagrame</label>
+							{% else %}
+									<input type="checkbox" id="sd3" class='sd' value='Diagrame'>
+									<label for="sd3"><span class="checkbox-icon"></span> Diagrame</label>
+							{% endifequal %}
+							<input type="text" name='sd_txt' id='sd_txt' class="keyword-input with-border" value="{{project.Documents}}"/>
+							
+						</div>
+						
+					</td>
+				
+				</tr>
+					<tr>
+						<td style="width:15%">Time duration : </td>
+						<td><input placeholder="Time Duration In Weeks Like: 4 Weeks" name='Time duration' required="required" value="{{project.duration}}"></td>
+					</tr>
+					<!-- <script>
+					$("input:checkbox[name=rp_txt]:checked").each(function(){
+						yourArray.push($(this).val());
+					});
+					</script> -->
+					<tr>
+						<td style="width:15%">Relevant Project for  : </td>
+						<td><div class="checkbox">
+						{% ifequal pro1.0 'MCA' %}					
+							<input type="checkbox" id="rp2" value='MCA' class='rp' name='mca' checked>
+							<label for="rp2"><span class="checkbox-icon"></span> MCA</label>
+						{% else %}	
+							<input type="checkbox" id="rp2" value='MCA' class='rp' name='mca'>
+							<label for="rp2"><span class="checkbox-icon"></span> MCA</label>
+						{% endifequal %}
+
+						{% ifequal pro1.1 'BCA' %}
+							<input type="checkbox" id="rp1" value='BCA' class='rp' name='bca' checked>
+							<label for="rp1"><span class="checkbox-icon"></span> BCA</label>
+						{% else %}
+							<input type="checkbox" id="rp1" value='BCA' class='rp' name='bca'>
+							<label for="rp1"><span class="checkbox-icon"></span> BCA</label>
+						{% endifequal %}	
+
+						{% ifequal pro1.2 'MScIT' %}
+							<input type="checkbox" id="rp3" value='MScIT' class='rp' name='mscit' checked>
+							<label for="rp3"><span class="checkbox-icon"></span> MScIT </label>
+						{% else %}	
+							<input type="checkbox" id="rp3" value='MScIT' class='rp' name='mscit'>
+							<label for="rp3"><span class="checkbox-icon"></span> MScIT </label>
+						{% endifequal %}		
+							
+																																	
+							<input type="text" name='rp_txt'  id='rp_txt' class="keyword-input with-border" value={{project.Relevant_Project}}/>
+							
+						</div>
+						</td>
+						
+				</tr>
+				</tr>
+				
+					
+					
+					<td style="width:15%">Project Support : </td>
+					<td>
+						
+					<div class="radio">
+					{% for i in l2 %}	
+						{% ifequal 'Available' i %} 	
+							<input id="radio_1" name="Support" type="radio" value='Available' checked="checked" />
+							<label for="radio_1"><span class="radio-label"></span> Available</label>
+							<input id="radio-2" name="Support" type="radio"  value='Not Available'/>
+							<label for="radio-2"><span class="radio-label"></span> Not Available</label>	
+						{% else %}
+							<input id="radio_1" name="Support" type="radio" value='Available'/>
+							<label for="radio_1"><span class="radio-label"></span> Available</label>
+							<input id="radio-2" name="Support" type="radio"  value='Not Available' checked="checked"/>
+							<label for="radio-2"><span class="radio-label"></span> Not Available</label>					
+						{% endifequal %}
+				{% endfor %}	
+					</div>
+					</td>
+					
+				</tr>
+					<tr>
+						<td style="width:15%">Project Cost : </td>
+						<td><input placeholder="Enter Project Cost In Rupees" name='Project Cost' required="required" value="{{project.Cost}}"></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right"><button type='submit'  class="button dark ripple-effect button-sliding-icon">Save & Next <i class="icon-feather-check"></i></button></td>
+				</tr>
+			</table>
+				
+			
+		</div>	
+
+		</div>
+	</div>
+	</div>
+</form>
+</div>
+</div>
+
+<!-- Container / End -->
+
+
+
+
+<!-- Scripts
+================================================== -->
+
+<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+// Snackbar for user status switcher
+$('#snackbar-user-status label').click(function() { 
+	Snackbar.show({
+		text: 'Your status has been changed!',
+		pos: 'bottom-center',
+		showAction: false,
+		actionText: "Dismiss",
+		duration: 3000,
+		textColor: '#fff',
+		backgroundColor: '#383838'
+	}); 
+}); 
+</script>
+
+{% endblock %}

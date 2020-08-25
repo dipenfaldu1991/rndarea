@@ -1,0 +1,168 @@
+{% extends 'base2.html' %}
+{% load static %}
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/colors/blue.css">
+{% block css %}
+
+{% endblock css %}
+
+{% block script %}
+
+{% endblock script %}
+{% block content %}
+					
+<!-- Page Content
+================================================== -->
+<div class="clearfix"></div>
+
+		<div class="col-xl-9 col-lg-8 content-left-offset">
+
+			
+
+			
+			
+			<!-- Tasks Container -->
+			<div class="tasks-list-container margin-top-75">
+				{% for i in page_obj %}
+				<!-- Task --> 
+				<!-- single-task-page.html -->
+				<a href="{% url 'accounts:edit_task' i.id %}" class="task-listing">
+
+					<!-- Job Listing Details -->
+					<div class="task-listing-details">
+						<!-- Details -->
+						
+						<div class="task-listing-description">
+							<h3 class="task-listing-title">{{i.project_name}}</h3>
+							<ul class="task-icons">
+								<li><i class="icon-material-outline-location-on"></i>{{i.Location}}</li>
+								<li><i class="icon-material-outline-access-time"></i>{{i.date_posted}}</li>
+							</ul>
+							<p class="task-listing-text">{{i.Describe_Your_Post|truncatechars:200}}</p>
+							<div class="task-tags">
+								{% for k,u in l1.items %}
+									
+									
+										{% ifequal k i.id %}
+											{% for j in u %}
+												<span>{{j}}</span>
+											{% endfor %}
+										{% endifequal %}
+									
+								{% endfor %}
+							</div>
+						</div>
+						
+					</div>
+
+					<div class="task-listing-bid">
+						<div class="task-listing-bid-inner">
+							<div class="task-offers">
+								<strong>&#x20b9;1,000 - &#x20b9;2,500</strong>
+								<span>Fixed Price</span>
+							</div>
+							<span class="button button-sliding-icon ripple-effect">Bid Now <i class="icon-material-outline-arrow-right-alt"></i></span>
+						</div>
+					</div>
+				</a>
+				{% endfor %}
+				<!-- Pagination -->
+				<div class="clearfix"></div>
+				<div class="row">					
+					<div class="col-md-12">
+						<div class="pagination-container margin-top-30 margin-bottom-60">
+										
+							<div class="pagination">
+								<ul>
+								{% if page_obj.has_previous %}
+								
+								
+								<a class="pagination-action" href="?page=1">
+										<i class="icon-material-outline-keyboard-arrow-left"></i>
+								</a>
+								{% endif %}
+								{% for num in page_obj.paginator.page_range %}
+									{% if page_obj.number == num %}
+										<span class="pagination-number pagination-current">{{ num }}</span>
+									{% elif num > page_obj.number|add:'-4' and num < page_obj.number|add:'4' %}
+										<a class="pagination-number" href="?page={{ num }}">{{ num }}</a>
+									{% endif %}
+								{% endfor %}
+								{% if page_obj.has_next %}
+									
+									<a class="pagination-action" href="?page={{ page_obj.paginator.num_pages }}">
+										<i class="icon-material-outline-keyboard-arrow-right" ></i>
+									</a>
+								{% endif %}
+							</ul>	
+							</div>
+							
+						</div>
+				<!-- Pagination / End -->
+
+			</div>
+			<!-- Tasks Container / End -->
+
+		
+		
+		</div>
+	
+
+<!-- Footer
+================================================== -->
+
+<!-- Footer / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+<!-- Scripts
+================================================== -->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/jquery-migrate-3.1.0.min.js"></script>
+<script src="js/mmenu.min.js"></script>
+<script src="js/tippy.all.min.js"></script>
+<script src="js/simplebar.min.js"></script>
+<script src="js/bootstrap-slider.min.js"></script>
+<script src="js/bootstrap-select.min.js"></script>
+<script src="js/snackbar.js"></script>
+<script src="js/clipboard.min.js"></script>
+<script src="js/counterup.min.js"></script>
+<script src="js/magnific-popup.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/custom.js"></script>
+
+<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+// Snackbar for user status switcher
+$('#snackbar-user-status label').click(function() { 
+	Snackbar.show({
+		text: 'Your status has been changed!',
+		pos: 'bottom-center',
+		showAction: false,
+		actionText: "Dismiss",
+		duration: 3000,
+		textColor: '#fff',
+		backgroundColor: '#383838'
+	}); 
+}); 
+</script>
+
+<!-- Google Autocomplete -->
+<script>
+	function initAutocomplete() {
+		 var options = {
+		  types: ['(cities)'],
+		  // componentRestrictions: {country: "us"}
+		 };
+
+		 var input = document.getElementById('autocomplete-input');
+		 var autocomplete = new google.maps.places.Autocomplete(input, options);
+	}
+</script>
+
+<!-- Google API & Maps -->
+<!-- Geting an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key -->
+<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places"></script>
+
+{% endblock content %}

@@ -1,0 +1,291 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+{% block script %}
+{% endblock script %}
+
+
+{% block content %}
+					
+
+<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+			
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Manage Tasks</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Dashboard</a></li>
+						<li>Manage Tasks</li>
+					</ul>
+				</nav>
+			</div>
+	
+            <!-- Row -->
+           
+			<div class="row">
+
+				<!-- Dashboard Box -->
+            <!-- Dashboard Box -->
+            
+            <div class="col-xl-12">
+               
+                <div class="dashboard-box margin-top-0">
+
+                    <!-- Headline -->
+                    <div class="headline">
+                        <h3><i class="icon-material-outline-supervisor-account"></i> 3 Bidders</h3>
+                        <div class="sort-by">
+                            <select class="selectpicker hide-tick">
+                                <option>Highest First</option>
+                                <option>Lowest First</option>
+                                <option>Fastest First</option>
+                            </select>
+                        </div>
+                    </div>
+                   
+                     
+                    <div class="content">
+                        <ul class="dashboard-box-list">
+                            {% for bid_datas in bid_data %}
+                            <li>
+                                
+                                <!-- Overview -->
+                                <div class="freelancer-overview manage-candidates">
+                                    
+                                    <div class="freelancer-overview-inner">
+
+                                        <!-- Avatar -->
+                                        <div class="freelancer-avatar">
+                                            <div class="verified-badge"></div>
+                                            <a href="#"><img src="/static/theam/images/user-avatar-small-01.jpg" alt="Italian Trulli"></a>
+                                        </div>
+                                       
+                                        <!-- Name -->
+                                        <div class="freelancer-name">
+                                         
+                                             {% for uid,uname in bid_userlist.items %}
+                                             
+                                             {% ifequal uid bid_datas.bid_user_id_id %}
+                                             
+                                             <h4 name=""><a href="#">{{uname}}<img class="flag" src="/static/theam/images/user-avatar-small-01.jpg" alt="Italian Trulli" title="Germany" data-tippy-placement="top"></a></h4>                          
+                                            
+                                             
+                                             {% endifequal %}
+                                            {% endfor %}
+
+                                            <!-- Details -->
+                                            <span class="freelancer-detail-item"><a href="#"><i class="icon-feather-mail"></i> david@example.com</a></span>
+
+                                            <!-- Rating -->
+                                            <div class="freelancer-rating">
+                                                <div class="star-rating" data-rating="5.0"></div>
+                                            </div>
+                                    
+                                            <!-- Bid Details -->
+                                            
+                                            <ul class="dashboard-task-info bid-info">
+                                                                                       
+                                                <li name="rices"><strong>${{bid_datas.bid_price}}</strong><span>Fixed Price</span></li>                    
+                                            
+                                                <li><strong>14 Days</strong><span>Delivery Time</span></li>
+                                            </ul>
+
+                                            <!-- Buttons -->
+                                            <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
+                                                <a href="#small-dialog-{{bid_datas.bid_user_id_id}}"  class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-check"></i> Accept Offer</a>
+                                                
+                                                
+                                                
+                                                <a href="{% url 'accounts:createsss_chat' bid_datas.bid_user_id_id %}" class=""><i class="icon-feather-mail"></i>Send Message</a> 
+                                                <!-- <a style="text-decoration:none;color:red" class="btn" href="{% url 'accounts:delete_biddata' bid_datas.id %}">Delete<i class='fa fa-trash'></i></a> -->
+
+                                                
+                                                <!-- <a href="#small-dialogss-{{bid_datas.bid_user_id_id}}" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message</a>  -->
+                                                <a href="{% url 'accounts:delete_biddata' bid_datas.id %}" class="button gray ripple-effect ico" title="Remove Bid" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                  
+                                </div>
+                                
+                            </li>
+                            {% endfor %} 
+
+                        </ul>
+                    </div>
+               
+                   
+                </div>
+              
+            </div>
+          
+                </div>
+                
+              
+			</div>
+			<!-- Row / End -->
+
+	<!-- Pagination start -->
+   
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+
+
+<!-- Bid Acceptance Popup
+================================================== -->
+{% for bid_datas in bid_data %}
+<form id="terms{{bid_datas.bid_user_id_id}}" action="{% url 'accounts:acceptbids' bid_datas.id %}" method="POST">
+    {% csrf_token %}
+<div id="small-dialog-{{bid_datas.bid_user_id_id}}" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+	
+	<!--Tabs -->
+	<div class="sign-in-form">
+
+		<ul class="popup-tabs-nav">
+			<li><a href="#tab{{bid_datas.bid_user_id_id}}">Accept Offer</a></li>
+		</ul>
+
+		<div class="popup-tabs-container">
+
+			<!-- Tab -->
+			<div class="popup-tab-content" id="tab">
+                
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+                    {% for uid,uname in bid_userlist.items %}                                            
+                    {% ifequal uid bid_datas.bid_user_id_id %}
+
+                    <h3 name="biduserid">Accept Offer From {{uname}}</h3>
+                    {% endifequal %}
+                    {% endfor %}
+					<div class="bid-acceptance margin-top-15">
+						${{bid_datas.bid_price}}
+					</div>
+				</div>
+  
+               	<div class="radio">
+						<input id="radio-{{bid_datas.bid_user_id_id}}" name="radio" type="radio" value="check" required>
+						<label for="radio-{{bid_datas.bid_user_id_id}}" id="radio{{bid_datas.bid_user_id_id}}"><span class="radio-label"></span>  I have read and agree to the Terms and Conditions</label>
+                        
+                    </div>
+                    <div id='radio_error-{{bid_datas.bid_user_id_id}}' style="color:#ee8929;"></div>    
+             
+            
+				<!-- Button -->
+				<button class="margin-top-15 button full-width button-sliding-icon ripple-effect" id='submit-{{bid_datas.bid_user_id_id}}' type="submit" form="terms{{bid_datas.bid_user_id_id}}">Accept <i class="icon-material-outline-arrow-right-alt"></i></button>
+            </div>
+			
+
+		</div>
+    </div>
+  
+</div>
+
+</form>
+<script>
+    $(document).ready(function () {
+        $('#submit-{{bid_datas.bid_user_id_id}}').click(function(){
+
+            var accept=$('#radio-{{bid_datas.bid_user_id_id}}').val();
+            if ($("#radio-{{bid_datas.bid_user_id_id}}:checked").length == 0){
+                
+                $('#radio_error-{{bid_datas.bid_user_id_id}}').text("Radio is required.");
+              
+                return false;
+            }
+            else{
+                return true;
+            }
+        });
+    });
+</script>    
+{% endfor%}
+
+<!-- Bid Acceptance Popup / End -->
+
+<!-- Send Direct Message Popup
+================================================== -->
+{% for bid_datas in bid_data %}
+<form method="post" id="send-pm{{bid_datas.bid_user_id_id}}">
+<div class="containers">
+<div id="small-dialogss-{{bid_datas.bid_user_id_id}}" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+	<!--Tabs -->
+	<div class="sign-in-form" style="background-color: rgb(250, 253, 253); width: 500px;height:500px; position: absolute;  left: 50%;top: 50%;transform: translate(-50%, -50%);">
+
+		<ul class="popup-tabs-nav">
+            <li><a href="#tab2{{bid_datas.bid_user_id_id}}">Send Message</a></li>
+            <a href="#" style="margin-left: 250px;">&#xf00d;</i></a>
+		</ul>
+
+		<div class="popup-tabs-container">
+
+			<!-- Tab -->
+			<div class="popup-tab-content" id="tab2{{bid_datas.bid_user_id_id}}">
+                {% for uid,uname in bid_userlist.items %}                                            
+                {% ifequal uid bid_datas.bid_user_id_id %}
+
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Direct Message To {{uname}}</h3>
+				</div>
+                {% endifequal %}
+                {% endfor %}	
+				<!-- Form -->
+				<div id="messaggi"></div>
+			<div id="barra">
+                <input type="text" id="messaggio" autocomplete="off" maxlength="255">
+                <button id="invio">SEND</button>			
+			</div>
+				<!-- Button -->
+			</div>
+
+		</div>
+	</div>
+</div>
+</div>
+</form>
+{% endfor %}  
+<!-- Send Direct Message Popup / End -->
+
+
+<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+// Snackbar for user status switcher
+$('#snackbar-user-status label').click(function() { 
+	Snackbar.show({
+		text: 'Your status has been changed!',
+		pos: 'bottom-center',
+		showAction: false,
+		actionText: "Dismiss",
+		duration: 3000,
+		textColor: '#fff',
+		backgroundColor: '#383838'
+	}); 
+}); 
+
+</script>
+
+<!-- Send Direct Message Popup / End -->
+{% endblock content %}

@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'rnd_projects',
     'sorl.thumbnail',
     'chat',
+    'jobs',
     
-    
+   
 ]
 
 MIDDLEWARE = [
