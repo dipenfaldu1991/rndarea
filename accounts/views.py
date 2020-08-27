@@ -52,6 +52,14 @@ from django.db.models import Count
 
 
 
+def u_profileimg(request):
+    user_img=''
+    if request.user.is_authenticated:
+        u = profile.objects.get(user_id=request.user)
+        user_img=u.image
+        print('user image====================',user_img)
+    return user_img
+
 
 def profile_detail(request):
     que1 = Questions.objects.get(pk=int(request.session["question_id"]))
@@ -119,7 +127,9 @@ def ragister(request):
     questions_c=Questions.objects.all().count()
     poject_c=Projects_add.objects.all().count()
     like_plansdata=LikePlans.objects.all()
-    
+    addtasck_count=AddPostdatas.objects.all().count()
+    addjob_count=AddJobs.objects.all().count()
+
     chat_list=['']    
     if request.user.is_authenticated:
         chat_list = chat_utility_functions.get_user_private_chats(request) 
@@ -130,6 +140,9 @@ def ragister(request):
         like_count=like_count.count()
         print(like_count)
     alert = {
+        'user_img':u_profileimg(request),
+        'addjob_count':addjob_count,
+        'addtasck_count':addtasck_count,
         'project_count':poject_c,
         'questions_count':questions_c,
         'que':que,
@@ -221,7 +234,7 @@ def user_login(request):
             print("They used email: {} and password: {}".format(email,password))
             return HttpResponse("Invalid login details given")
     else:
-        return render(request, 'index.html', {})
+        return render(request, 'index.html', { 'user_img':u_profileimg(request)})
 
 @login_required(login_url="/")
 def user_logout(request):
@@ -231,7 +244,7 @@ def user_logout(request):
 @login_required(login_url="/")    
 def dashboard(request):
     user_count = Questions.objects.filter(created_user_id=request.user).count()    
-    return render(request,'dashboard.html',{'user_count':user_count})
+    return render(request,'dashboard.html',{'user_count':user_count,'user_img':u_profileimg(request)})
 
 @login_required(login_url="/")  
 def show_list_dash(request):
@@ -240,7 +253,7 @@ def show_list_dash(request):
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request,'show_list_dash.html',{'show_questions':show_questions,'page_obj':page_obj})
+    return render(request,'show_list_dash.html',{'show_questions':show_questions,'page_obj':page_obj,'user_img':u_profileimg(request)})
 
 
 
@@ -273,7 +286,7 @@ def edit_questions(request,id):
         question.skill=skill
         question.screenshort=screenshort
         question.save()
-    return render(request,'edit_questions.html',{'question':question})   
+    return render(request,'edit_questions.html',{'question':question,'user_img':u_profileimg(request)})   
 
 @login_required(login_url="/")
 def update_show_project(request):
@@ -281,7 +294,7 @@ def update_show_project(request):
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
-    return render(request,'update_show_project.html',{'items': posts})     
+    return render(request,'update_show_project.html',{'items': posts,'user_img':u_profileimg(request)})     
 
 @login_required(login_url="/") 
 def edit_project(request,id):
@@ -304,15 +317,12 @@ def edit_project(request,id):
         proj_check[1]='Abstract Report'
     if 'Diagrame' in project_document:
         proj_check[2]='Diagrame' 
-
     if 'MCA' in project_document1:
         proj_check1[0]='MCA'
     if 'BCA' in project_document1:
         proj_check1[1]='BCA'
     if 'MScIT' in project_document1:
         proj_check1[2]='MScIT'    
-
-
 
     if request.method=='POST':
         headline = request.POST.get('Project Headline')
@@ -343,7 +353,7 @@ def edit_project(request,id):
         project.Cost=Cost
         project.save()
         return redirect('accounts:edit_project_file', id=project.id)
-    return render(request,'edit_project.html',{'project':project,'pro':proj_check,'pro1':proj_check1,'l2':l2})
+    return render(request,'edit_project.html',{'project':project,'pro':proj_check,'pro1':proj_check1,'l2':l2,'user_img':u_profileimg(request)})
 
 @login_required(login_url="/") 
 def edit_project_file(request,id):
@@ -402,7 +412,7 @@ def edit_project_file(request,id):
         project1.screenshort_6=screenshort_6
         project1.zip_file=zip_file
         project1.save()
-    return render(request,'edit_project_file.html',{'project1':project1})
+    return render(request,'edit_project_file.html',{'project1':project1,'user_img':u_profileimg(request)})
 
 
 
@@ -447,7 +457,7 @@ def show_task(request):
     page_obj = paginator.get_page(page_number)
     print("addprice",addprice)
 
-    return render(request,'dashboard-manage-tasks.html',{'show_task':show_task,'page_obj':page_obj,'bid_count_dict':bid_count_dict,'average_of_price':addprice})
+    return render(request,'dashboard-manage-tasks.html',{'show_task':show_task,'page_obj':page_obj,'bid_count_dict':bid_count_dict,'average_of_price':addprice,'user_img':u_profileimg(request)})
 
 
 def managebidders(request,mid):
@@ -464,7 +474,7 @@ def managebidders(request,mid):
                        
     print(bid_userlist)
 
-    return render(request,'dashboard-manage-bidders.html',{'bid_userlist':bid_userlist,'bid_data':bid_data})
+    return render(request,'dashboard-manage-bidders.html',{'bid_userlist':bid_userlist,'bid_data':bid_data,'user_img':u_profileimg(request)})
 
 @login_required(login_url="/")
 def delete_biddata(request,pk2):
@@ -489,7 +499,7 @@ def createsss_chat(request,id):
     new_chat = PrivateChat.add_this(private_chat, request.user, other_user)
     messages = Message.objects.all().filter(chat=new_chat)
     return redirect('accounts:create_chat')
-    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
+    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages,'user_img':u_profileimg(request)})
 
 
 
@@ -499,7 +509,7 @@ def create_chat(request):
     private_chat = PrivateChat()
     new_chat = PrivateChat.add_this(private_chat, request.user, other_user)
     messages = Message.objects.all().filter(chat=new_chat)
-    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
+    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages,'user_img':u_profileimg(request)})
 
 @login_required
 def send_message(request):
@@ -534,7 +544,7 @@ def private_chat(request):
         participant = chat.participant2
     else:
         participant = chat.participant1
-    return render(request, 'chat.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages})
+    return render(request, 'chat.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages,'user_img':u_profileimg(request)})
 
 
 
@@ -542,9 +552,8 @@ def private_chat(request):
 @login_required()
 def chat_list(request):
     chat_list = chat_utility_functions.get_user_private_chats(request)
-    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%',chat_list)
     return render(request, 'private-chat-list.html',
-                  {'private_chats': chat_list, 'len_chats': len(chat_list)})
+                  {'private_chats': chat_list, 'len_chats': len(chat_list),'user_img':u_profileimg(request)})
 
 
 
@@ -566,11 +575,10 @@ def acceptbids(request,pk):
         request.session["id"]=pk
         print(pk)
         taskuid=AddPostdatas.objects.get(id=biddingid.task_id_id)
-        print('=============upload file2 ==photo=======================================',taskuid)
         taskuser=User.objects.get(id=taskuid.created_user_id)
         AcceptBiddata.objects.create(taskid=taskuid,task_userid=taskuser,bid_userid=User.objects.get(id=biddingid.bid_user_id_id),biddingid=biddingid.id,created_datetime=request.user) 
         
-    return render(request,'dashboard-manage-bidders.html')
+    return render(request,'dashboard-manage-bidders.html',{'user_img':u_profileimg(request)})
 
 
 @login_required(login_url="/")
@@ -596,7 +604,7 @@ def edit_task(request,id):
         edit_task.Describe_Your_Post=Describe_Your_Post
         edit_task.upload_file=upload_file
         edit_task.save()
-    return render(request,'edit_task.html',{'edit_task':edit_task})
+    return render(request,'edit_task.html',{'edit_task':edit_task,'user_img':u_profileimg(request)})
 
 # def edit_project(request):
 #     return render(request,'edit_project.html')
@@ -656,7 +664,7 @@ def dashboard_settings(request):
             u.save()
             
             return redirect('accounts:dashboard_settings')
-    return render(request,'dashboard_settings.html',context)
+    return render(request,'dashboard_settings.html',context,{'user_img':u_profileimg(request)})
 
 def dd(request):
     us=TaskBookmark.objects.filter(created_user_id_id=request.user).values_list('taskid_id', flat=True)
@@ -669,26 +677,16 @@ def dd(request):
     for w in us1:
         questionb=Questions.objects.get(id=w)
         question[w]=questionb
-    print('jgkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',question)
-
     job={}
     for r in us3:
         jobs=AddJobs.objects.get(id=r)
         job[r]=jobs
-    print('jgkkkkkkkkk',job)
-
-
     bid_userlist={}
     for i in us:
         bid=AddPostdatas.objects.get(id=i)
         u_id=bid.id
-        print('u_id================',u_id)
-  
-        bid_userlist[i]=bid 
-                      
-    print('fffffffffffffffffffffff',bid_userlist)   
-           
-    return render(request,'dashboard-bookmarks.html',{'bid_data':bid_data,'bid_userlist':bid_userlist,'us2':us2,'question':question,'job':job,'bid_data2':bid_data2})
+        bid_userlist[i]=bid           
+    return render(request,'dashboard-bookmarks.html',{'bid_data':bid_data,'bid_userlist':bid_userlist,'us2':us2,'question':question,'job':job,'bid_data2':bid_data2,'user_img':u_profileimg(request)})
 
 
 def bookmarkdlt(request,pk4):
@@ -710,6 +708,7 @@ def dashboard_message(request):
         chat_list = chat_utility_functions.get_user_private_chats(request) 
         print(chat_list[3])
     alert = {
+        'user_img':u_profileimg(request),
         'private_chats': chat_list[0],
         'private_chatss':chat_list,
         'len_chats': len(chat_list),

@@ -10,6 +10,17 @@ from django.http import JsonResponse
 import json
 from django.db.models import Max
 from contacts import utility_functions as contacts_utility_functions
+from accounts.models import profile
+
+
+def u_profileimg(request):
+    user_img=''
+    if request.user.is_authenticated:
+        u = profile.objects.get(user_id=request.user)
+        user_img=u.image
+        print('user image====================',user_img)
+    return user_img
+
 
 
 # restituisce la lista di chat private dell'utente corrente
@@ -17,14 +28,14 @@ from contacts import utility_functions as contacts_utility_functions
 def chat_list(request):
     chat_list = chat_utility_functions.get_user_private_chats(request)
     return render(request, 'private-chat-list.html',
-                  {'private_chats': chat_list, 'len_chats': len(chat_list)})
+                  {'private_chats': chat_list, 'len_chats': len(chat_list),'user_img':u_profileimg(request)})
 
 
 #ci porta alla pagina per creare (o continuare) una chat privata, genera la lista di utenti con cui posso chattare
 @login_required()
 def new_chat(request):
     addable = chat_utility_functions.get_addable_users_private_chat(request)
-    return render(request, 'new-chat.html', {'users': addable, 'len_addable': len(addable)})
+    return render(request, 'new-chat.html', {'users': addable, 'len_addable': len(addable),'user_img':u_profileimg(request)})
 
 
 # Genera una chat privata tra luser corrente e un altro dato partecipante, ci reindirizza direttamente alla pagina della chat.
@@ -35,7 +46,7 @@ def create_chat(request):
     private_chat = PrivateChat()
     new_chat = PrivateChat.add_this(private_chat, request.user, other_user)
     messages = Message.objects.all().filter(chat=new_chat)
-    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
+    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages,'user_img':u_profileimg(request)})
 
 @login_required
 def createnew_chat(request):
@@ -43,7 +54,7 @@ def createnew_chat(request):
     private_chat = PrivateChat()
     new_chat = PrivateChat.add_this(private_chat, request.user, other_user)
     messages = Message.objects.all().filter(chat=new_chat)
-    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
+    return render(request, 'chat.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages,'user_img':u_profileimg(request)})
 
 
 
@@ -57,7 +68,7 @@ def private_chat(request):
         participant = chat.participant2
     else:
         participant = chat.participant1
-    return render(request, 'chat.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages})
+    return render(request, 'chat.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages,'user_img':u_profileimg(request)})
 
 
 

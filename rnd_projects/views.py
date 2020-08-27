@@ -19,6 +19,20 @@ from django.shortcuts import (
     get_object_or_404,
     redirect,
 )
+from accounts.models import profile
+
+
+def u_profileimg(request):
+    user_img=''
+    if request.user.is_authenticated:
+        u = profile.objects.get(user_id=request.user)
+        user_img=u.image
+        print('user image====================',user_img)
+    return user_img
+
+
+
+
 
 @csrf_exempt
 def wishlist(request):
@@ -27,8 +41,8 @@ def wishlist(request):
         a=AddPostdatas.objects.get(id=taskid)
         TaskBookmark.objects.create(taskid=a,created_user_id_id=request.user.id,updated_user_id=request.user.id)
        
-        return render(request,'Upload_Project_2.html')
-    return render(request,'Upload_Project.html')
+        return render(request,'Upload_Project_2.html',{'user_img':u_profileimg(request)})
+    return render(request,'Upload_Project.html',{'user_img':u_profileimg(request)})
 
 @csrf_exempt
 def quebookmak(request):
@@ -37,15 +51,15 @@ def quebookmak(request):
         a=Questions.objects.get(id=question_id)
         QuestionBookmark.objects.create(question_id=a,created_user_id_id=request.user.id,updated_user_id=request.user.id)
        
-        return render(request,'Upload_Project_2.html')
-    return render(request,'Upload_Project.html')
+        return render(request,'Upload_Project_2.html',{'user_img':u_profileimg(request)})
+    return render(request,'Upload_Project.html',{'user_img':u_profileimg(request)})
 
 
 
 
 @csrf_exempt
 def paymentpage(request):
-    return render(request,'pages-invoice-template.html')
+    return render(request,'pages-invoice-template.html',{'user_img':u_profileimg(request)})
 
 @login_required(login_url="/")   
 def add_projects(request):
@@ -63,7 +77,7 @@ def add_projects(request):
         proj_add_id=Projects_add.objects.get(headline=headline,Description=description,Technology=technology,Documents=documents,duration=duration,Relevant_Project=relevant_project,Support=project_support,Cost=cost,created_user=request.user)
         request.session["priject_add_get"] =proj_add_id.id
         return redirect('rnd_projects:Upload_Project_2')
-    return render(request,'Upload_Project.html')
+    return render(request,'Upload_Project.html',{'user_img':u_profileimg(request)})
 
 @login_required(login_url="/")   
 def Upload_Project_2(request):
@@ -85,13 +99,13 @@ def Upload_Project_2(request):
         pro_doc=Projects_add_documents.objects.create(project_icon=icon,project_banner=project_banner,documentation=documentation,intraction_document=intraction_document,other_reports=other_reports,upload_video=upload_video,screenshort_1=screenshort_1,screenshort_2=screenshort_2,screenshort_3=screenshort_3,screenshort_4=screenshort_4,screenshort_5=screenshort_5,screenshort_6=screenshort_6,project_add=request.session["priject_add_get"],created_user=request.user,zip_file=zip_file)
         pro_doc.save()
         return redirect('rnd_projects:ReadyProjectShow')
-    return render(request,'Upload_Project_2.html')
+    return render(request,'Upload_Project_2.html',{'user_img':u_profileimg(request)})
 
 
 def ReadyProjectDetails(request,pk):
     posts = Projects_add.objects.get(pk=pk)
     proj=Projects_add_documents.objects.get(project_add=pk)
-    return render(request,'ReadyProjectDetails.html',{'items': posts,'pro':proj})
+    return render(request,'ReadyProjectDetails.html',{'items': posts,'pro':proj,'user_img':u_profileimg(request)})
 
  
 def ReadyProjectShow(request):
@@ -99,7 +113,7 @@ def ReadyProjectShow(request):
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
-    return render(request,'ReadyProjectShow.html',{'items': posts})
+    return render(request,'ReadyProjectShow.html',{'items': posts,'user_img':u_profileimg(request)})
  
 @login_required(login_url="/")
 def project_pagecheckout_bynow(request,pid):
@@ -116,7 +130,7 @@ def project_pagecheckout_bynow(request,pid):
     request.session["plan_price"] =pricess
     request.session["plan_gst"] =gsts
     request.session["plan_total_price"] =totals
-    return render(request,'projectpage-checkout-page.html',{'posts': posts,'pricess':pricess,'gsts':gsts,'totals':totals})
+    return render(request,'projectpage-checkout-page.html',{'posts': posts,'pricess':pricess,'gsts':gsts,'totals':totals,'user_img':u_profileimg(request)})
 
 def project_order_plan(request):
     pass
@@ -133,7 +147,7 @@ def add_questions(request):
         que=Questions.objects.create(title=title,technology=technology,skill=skill,description=description,screenshort=screenshort,created_user=request.user)
         que.save()
         return redirect('rnd_projects:show_question_list')
-    return render(request,'Add_Question.html')
+    return render(request,'Add_Question.html',{'user_img':u_profileimg(request)})
 
 
 @login_required(login_url="/")     
@@ -143,7 +157,7 @@ def show_question_list(request):
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request,'show_question_list.html',{'items': que,'page_obj':page_obj})
+    return render(request,'show_question_list.html',{'items': que,'page_obj':page_obj,'user_img':u_profileimg(request)})
 
 
 @login_required(login_url="/")     
@@ -156,7 +170,7 @@ def ShowQuestion(request,pk):
     print(l1)
     request.session["question_id"] =que.id
     
-    return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1})
+    return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1,'user_img':u_profileimg(request)})
 
 
 
@@ -172,7 +186,7 @@ def getanswer(request):
         updated_user_id=request.user.id)
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
 
-    return render(request,'ShowQuestion.html', content)
+    return render(request,'ShowQuestion.html', content,{'user_img':u_profileimg(request)})
 
 
 
@@ -189,7 +203,7 @@ def add_task(request):
         upload_file=request.FILES.get('uploadfile')
         addpost=AddPostdatas.objects.create(project_name=project_name,Category=Category,Location=Location,your_estimated_budget_minimum=your_estimated_budget_minimum,your_estimated_budget_maximum=your_estimated_budget_maximum,skills_are_required=skills_are_required,Describe_Your_Post=Describe_Your_Post,upload_file=upload_file,created_user=request.user)
         return redirect('rnd_projects:viewtask')
-    return render(request,'addpost.html')
+    return render(request,'addpost.html',{'user_img':u_profileimg(request)})
 
  
  
@@ -211,7 +225,7 @@ def viewtask(request):
     paginator = Paginator(viewpost,5) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request,'tasks_list_layout_2.html',{'viewpost':viewpost,'l1':dic,'page_obj':page_obj})
+    return render(request,'tasks_list_layout_2.html',{'viewpost':viewpost,'l1':dic,'page_obj':page_obj,'user_img':u_profileimg(request)})
 
 
 from django.contrib.auth.models import User
@@ -220,7 +234,6 @@ def taskdetails(request,id):
     bidcount=BidCount.objects.get(user_id=request.user.id)
     print(type(bidcount.id))
     print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++hellothis is user id++++++++++++++++++++++++++++++++++++++++++++++++++")
-  
     count=bidcount.number_of_bid
     show_task=AddPostdatas.objects.get(pk=id)
     task_id=show_task.id
@@ -228,8 +241,7 @@ def taskdetails(request,id):
     str=show_task.skills_are_required
     l1 = str.split (",")
     # print(l1)
-
-    return render(request,'single-task-page.html',{'show_task':show_task,'l1':l1,'count_bid':count})
+    return render(request,'single-task-page.html',{'show_task':show_task,'l1':l1,'count_bid':count,'user_img':u_profileimg(request)})
 
 
 @login_required(login_url="/")
@@ -238,7 +250,6 @@ def bidding(request):
     Bid_user_id=int(request.user.id)
     count=bidcount.number_of_bid
     task_user=AddPostdatas.objects.get(id=request.session["taskid_bid"])
-    
     upload_img=[]
     simsge=''
     if request.method=='POST' and request.FILES:
@@ -251,15 +262,26 @@ def bidding(request):
             upload_img.append(str(file))
             img = ','.join(upload_img)
             print(img)
-  
-
     Bidding.objects.create(task_id_id=request.session["taskid_bid"],proposal=proposaleyourpost,add_files=img,bid_price=int(bid_price),bid_user_id_id=request.user.id,bid_type=bid_type,delivery_time=delivery_time) 
     count=count-1
     bidcount.number_of_bid=count
     bidcount.save()
-    return render(request,'single-task-page.html')
+    return render(request,'single-task-page.html',{'user_img':u_profileimg(request)})
 
 
+@login_required(login_url="/")
+def like_planspamentbyid(request,planid):
+    pagecheckout_data=LikePlans.objects.get(pk=planid)
+    plan_id=pagecheckout_data.id
+    plan_price=pagecheckout_data.like_price
+    prices=plan_price
+    gst=prices*18/100
+    total=prices+gst
+    request.session["plan_price"]=prices
+    request.session["plan_gst"] =gst
+    request.session["plan_total_price"] =total
+    print("like_plansdata========================================",pagecheckout_data)
+    return render(request,'lick_plane_checkout-page.html',{'pagecheckout_data':pagecheckout_data,'prices':prices,'gst':gst,'total':total,'user_img':u_profileimg(request)})
 
 
 
@@ -267,7 +289,7 @@ def bidding(request):
 @login_required(login_url="/")
 def buybid(request):
     plansdata=Plans.objects.all()
-    return render(request,'pages-pricing-plans.html',{'plansdata':plansdata})
+    return render(request,'pages-pricing-plans.html',{'plansdata':plansdata,'user_img':u_profileimg(request)})
 
 
 
@@ -282,7 +304,7 @@ def pagecheckout_bynow(request,mid):
     request.session["plan_price"]=prices
     request.session["plan_gst"] =gst
     request.session["plan_total_price"] =total
-    return render(request,'pages-checkout-page.html',{'pagecheckout_data':pagecheckout_data,'gst':gst,'total':total})
+    return render(request,'pages-checkout-page.html',{'pagecheckout_data':pagecheckout_data,'gst':gst,'total':total,'user_img':u_profileimg(request)})
 
 
 
@@ -301,7 +323,7 @@ def payments_home(request):
 
         total_amount = total_amount
 
-    return render(request, 'payments/payments_home.html', {'title': 'Payments', 'status': status, 'trns': trns, 'bill_amount': bill_amount, 'total_amount': total_amount,'gst':gst})
+    return render(request, 'payments/payments_home.html', {'title': 'Payments', 'status': status, 'trns': trns, 'bill_amount': bill_amount, 'total_amount': total_amount,'gst':gst,'user_img':u_profileimg(request)})
 
 @login_required
 @ensure_csrf_cookie
@@ -316,11 +338,7 @@ def paytm(request):
     P_URL = 'https://securegw-stage.paytm.in/theia/processTransaction'
     CUST_ID = user.email
     order_id = Checksum.__id_generator__()
-
     bill_amount = request.session["plan_total_price"]
-    
-
-
     if bill_amount:
         data_dict = {
                     'MID':MERCHANT_ID,
@@ -332,35 +350,30 @@ def paytm(request):
                     'CHANNEL_ID':'WEB',
                     'CALLBACK_URL':'http://localhost:8000/rnd_projects/response',
                 }
-        param_dict = data_dict
-        
+        param_dict = data_dict       
         param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(data_dict, MERCHANT_KEY)
-        return render(request,"payments/paytm.html",{'paytmdict':param_dict, 'user': user, 'paytmurl' :P_URL, 'title': 'Paytm'})
+        return render(request,"payments/paytm.html",{'paytmdict':param_dict, 'user': user, 'paytmurl' :P_URL, 'title': 'Paytm','user_img':u_profileimg(request)})
     return HttpResponse("Bill Amount Could not find. ?bill_amount=10")
 
 @csrf_exempt
 def recipt(request):
     if request.method == "POST":
         user=request.user
-        data_dict = {}
-        
+        data_dict = {}      
         data_dict = dict(request.POST.items())
         data_dict['PLANPRICE']=request.session["plan_price"]
         data_dict['GST']=request.session["plan_gst"]
         print(data_dict)
-
         Paytm_history.objects.create(user=request.user, **data_dict)
 
-    status = 'TXN_FAILURE'
-    
+    status = 'TXN_FAILURE' 
     for key,value in data_dict.items():
         if key == 'STATUS':
             # user.user_details.status = value
             # user.user_details.save()
             # if value == 'TXN_SUCCESS':
             status = value
-
-    return render(request, "payments/pages-invoice-template.html", {"paytmr": data_dict, 'title': 'Recipt', "status": status})
+    return render(request, "payments/pages-invoice-template.html", {"paytmr": data_dict, 'title': 'Recipt', "status": status,'user_img':u_profileimg(request)})
 
 
 
@@ -382,7 +395,7 @@ def response(request):
                 elif key == "TXNAMOUNT":
                     data_dict[key] = float(request.POST[key])
             # Paytm_history.objects.create(user=settings.USER, **data_dict)
-            return render(request, "payments/response.html", {"paytm":data_dict, 'title': 'Confirm'})
+            return render(request, "payments/response.html", {"paytm":data_dict, 'title': 'Confirm','user_img':u_profileimg(request)})
         else:
             return HttpResponse("checksum verify failed")
     return HttpResponse(status=200)
@@ -392,7 +405,7 @@ def response(request):
 @login_required(login_url="/")
 def buylike(request):
     like_plansdata=LikePlans.objects.all()
-    return render(request,'like-pricing-plans.html',{'like_plansdata':like_plansdata})
+    return render(request,'like-pricing-plans.html',{'like_plansdata':like_plansdata,'user_img':u_profileimg(request)})
 
 
 

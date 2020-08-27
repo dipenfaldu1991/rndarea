@@ -33,6 +33,9 @@ urlpatterns = [
 
     path('wishlist/', views.wishlist, name='wishlist'),
     path('quebookmak/', views.quebookmak, name='quebookmak'),
+
+    path('like_planspamentbyid/<int:planid>',views.like_planspamentbyid,name='like_planspamentbyid'),
+
     # path('order_plan/<int:mids>',views.order_plan,name='order_plan'),
     # path('handlerequest', views.handlerequest, name='handlerequest'),
     # path('paymentdetail',views.paymentdetail,name='paymentdetail'),

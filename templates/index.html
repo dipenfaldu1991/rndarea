@@ -50,7 +50,7 @@
 																<li>{{plan.like_othersfeatures3}}</li>
 															</ul>
 														</div>
-														<a href="{% url 'rnd_projects:pagecheckout_bynow' plan.id %}" class="button full-width margin-top-20">Buy Now</a>
+														<a href="{% url 'rnd_projects:like_planspamentbyid' plan.id %}" class="button full-width margin-top-20">Buy Now</a>
 													</div>
 												</div>
 												
@@ -137,11 +137,11 @@
 			<div class="col-md-12">
 				<ul class="intro-stats margin-top-45 hide-under-992px">
 					<li>
-						<strong class="counter">1,586</strong>
+						<strong class="counter">{{addjob_count}}</strong>
 						<span>Jobs Posted</span>
 					</li>
 					<li>
-						<strong class="counter">3,543</strong>
+						<strong class="counter">{{addtasck_count}}</strong> 
 						<span>Tasks Posted</span>
 					</li>
 					<li>

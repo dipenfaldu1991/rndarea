@@ -4,6 +4,18 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+from accounts.models import profile
+
+
+def u_profileimg(request):
+    user_img=''
+    if request.user.is_authenticated:
+        u = profile.objects.get(user_id=request.user)
+        user_img=u.image
+        print('user image====================',user_img)
+    return user_img
+
+
 
 def add_jobs(request):
     jobcategory=JoobCatagery.objects.all()
@@ -23,7 +35,7 @@ def add_jobs(request):
         user_id=User.objects.get(username=request.user)
         adddata=AddJobs.objects.create(job_title=job_title,job_type_id=job_type,job_category_id=jobcategory,location=location,salaryminm=salaryminm,salarymaxm=salarymaxm,tags=tag,job_description=jobdescription,upload_documents=docfile,created_user_id=user_id.id,updated_user_id=user_id.id)
 
-    return render(request,'dashboard-post-a-job.html',{'jobtype':jobtype,'jobcategory':jobcategory})
+    return render(request,'dashboard-post-a-job.html',{'jobtype':jobtype,'jobcategory':jobcategory,'user_img':u_profileimg(request)})
 
 
 def view_joblist(request):
@@ -32,7 +44,7 @@ def view_joblist(request):
     paginator = Paginator(add_jobslist,3) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request,'jobs-list-layout-2.html',{'add_jobslist':add_jobslist,'page_obj':page_obj})
+    return render(request,'jobs-list-layout-2.html',{'add_jobslist':add_jobslist,'page_obj':page_obj,'user_img':u_profileimg(request)})
 
 def jobdetails_byid(request,id):
     show_jovdetails=AddJobs.objects.get(pk=id)
@@ -40,12 +52,10 @@ def jobdetails_byid(request,id):
     request.session["show_jovdetails"]=job
     request.session['id']=id  
     print("show_jovdetails+++++++++++++++++++++++++++++++++++++++++",show_jovdetails)
-    return render(request,'single-job-page.html',{'show_jovdetails':show_jovdetails})
+    return render(request,'single-job-page.html',{'show_jovdetails':show_jovdetails,'user_img':u_profileimg(request)})
 
 def jobapply_now(request):
-
-    show_jovdetails=request.session["show_jovdetails"]
-    
+    show_jovdetails=request.session["show_jovdetails"]   
     print("show_jovdetails+++++++++++++++++++++++++++++++++++++++++",show_jovdetails)
     if request.method=='POST' and request.FILES:
         name=request.POST.get('name')
@@ -54,9 +64,8 @@ def jobapply_now(request):
         contact_number=request.POST.get('contectno')
         user_id=User.objects.get(username=request.user)
         jobadddata=ApplyNow.objects.create(name=name,email=email,contact_number=contact_number,addjob_id_id=show_jovdetails,upload_doc=upload_doc,created_user_id=user_id.id)
-
         return redirect('jobs:jobdetails_byid',id=request.session['id'])
-    return render(request,'single-job-page.html')
+    return render(request,'single-job-page.html',{'user_img':u_profileimg(request)})
 
 
 @login_required(login_url="/")  
@@ -71,13 +80,13 @@ def managejobs(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     print("=========================================",apply_count_dict)
-    return render(request,'dashboard-manage-jobs.html',{'page_obj':page_obj,'apply_count_dict':apply_count_dict})
+    return render(request,'dashboard-manage-jobs.html',{'page_obj':page_obj,'apply_count_dict':apply_count_dict,'user_img':u_profileimg(request)})
 
 @login_required(login_url="/")
 def delete_jobs(request,pk2):   
     jobs=AddJobs.objects.get(id=pk2)
     jobs.delete()
-    return redirect('jobs:managejobs')
+    return redirect('jobs:managejobs',{'user_img':u_profileimg(request)})
 
  
 @login_required(login_url="/")  
@@ -102,7 +111,7 @@ def managecandidates(request,mid):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)                
     print("apply_count_dict=========================================",page_obj)
-    return render(request,'dashboard-manage-candidates.html',{'u_data':u_data,'j_type':j_type,'apply_userlist':apply_userlist,'page_obj':page_obj})
+    return render(request,'dashboard-manage-candidates.html',{'u_data':u_data,'j_type':j_type,'apply_userlist':apply_userlist,'page_obj':page_obj,'user_img':u_profileimg(request)})
 
 
 @login_required(login_url="/")
@@ -137,17 +146,16 @@ def edit_jobs(request,id):
         edit_jobs.job_description=job_description
         edit_jobs.upload_documents=upload_documents
         edit_jobs.save()
-    return render(request,'edit_jobs.html',{'edit_jobs':edit_jobs})
+    return render(request,'edit_jobs.html',{'edit_jobs':edit_jobs,'user_img':u_profileimg(request)})
 
 
 def jobbookmark(request):
     if request.method=='POST':
         jobid = request.POST.get('jobid_id')
         a=AddJobs.objects.get(id=jobid)
-        jobsBookmark.objects.create(jobid=a,created_user_id_id=request.user.id,updated_user_id=request.user.id)
-       
+        jobsBookmark.objects.create(jobid=a,created_user_id_id=request.user.id,updated_user_id=request.user.id)       
         return render(request,'Upload_Project_2.html')
-    return render(request,'Upload_Project.html')
+    return render(request,'Upload_Project.html',{'user_img':u_profileimg(request)})
 
 def jobbookmarkdlt(request,pk6):
     a=jobsBookmark.objects.get(id=pk6)

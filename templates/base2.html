@@ -328,7 +328,7 @@
 					<!-- Messages -->
 					<div class="header-notifications user-menu">
 						<div class="header-notifications-trigger">
-							<a href="#"><div class="user-avatar status-online"><img src="{% static 'theam/images/user-avatar-small-01.jpg' %}" alt=""></div></a>
+							<a href="#"><div class="user-avatar status-online"><img src="{{user_img.url}}" alt=""></div></a>
 						</div>
 
 						<!-- Dropdown -->
@@ -339,7 +339,7 @@
 
 								<!-- User Name / Avatar -->
 								<div class="user-details">
-									<div class="user-avatar status-online"><img src="{% static 'theam/images/user-avatar-small-01.jpg' %}" alt=""></div>
+									<div class="user-avatar status-online"><img src="{{user_img.url}}" alt=""></div>
 									{% if user.is_authenticated %}
 									<div class="user-name">
 										{{user.username}} <span>Freelancer</span>
