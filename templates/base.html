@@ -276,6 +276,43 @@
 									<i class="icon-feather-check-square"></i>
 								</button>
 							</div>
+							{% for private_chat1 in jobprivate_chats %}
+											
+										<form name="begin_chat{{ private_chat1.id_chat }}" action="{% url 'jobs:private_chat' %}" method="post" style="cursor:pointer">
+										
+										<!-- <li class="notifications-not-read"> -->
+											
+											<!-- <a href="dashboard-messages.html"> -->
+												
+												<img src="images/user-avatar-small-03.jpg" alt="">
+												
+												<div class="card-main" onclick="document.forms['begin_chat{{ private_chat1.id_chat }}'].submit();">
+													<div class="notification-text">
+													<h4 class="h4-contacts">
+													{% if private_chat1.participant1 == user %}
+														
+													<strong>{{ private_chat1.participant2 }}</strong>
+														
+													{% elif private_chat1.participant2 == user %}
+													<strong>{{ private_chat1.participant1 }}</strong>
+													{% endif %}
+													
+													<!-- <strong></strong> -->
+													<!-- <p class="notification-msg-text">Thanks for reaching out. I'm quite busy right now on many...</p>
+													<span class="color">4 hours ago</span> -->
+													
+													<input type="hidden" name="id_chat" value="{{ private_chat1.id_chat }}">
+													{% csrf_token %}
+													</h4>
+													</div>
+												</div>
+											<!-- </a> -->
+										<!-- </li> -->
+											</form>
+							{% endfor %}
+
+
+
 
 							{% for private_chat in private_chats %}
 											

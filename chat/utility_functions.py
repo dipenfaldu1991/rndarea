@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import Count
 from django.conf import settings
 from django.contrib.auth.models import User
-from chat.models import Chat, PrivateChat, Message,Warning
+from chat.models import Chat, PrivateChat, Message,Warning,JobChat,JobPrivateChat,JobMessage
 from django.contrib.auth.models import User
 
 # controlla fra tutte le chat private nel sistema e restituisce quelle in cui l'user corrente
@@ -23,6 +23,21 @@ def get_user_private_chats(request):
 def get_addable_users_private_chat(request):
     contacts = [user for user in contacts_utility_function.get_contacts(request)]
     return contacts
+
+
+def get_user_jobprivate_chats(request):
+    user_in_p1 = JobPrivateChat.objects.all().filter(participant1=request.user)
+    user_in_p2 = JobPrivateChat.objects.all().filter(participant2=request.user)
+    userp = JobPrivateChat.objects.filter(participant1=request.user)
+    user=User.objects.get(username=request.user)   
+    return user_in_p1 | user_in_p2 
+
+
+
+# restituisce gli utenti con cui posso avere una chat privata.
+def get_addable_users_jobprivate_chat(request):
+    contacts = [user for user in contacts_utility_function.get_contacts(request)]
+    return contacts    
 
 
 #restituisce gli utenti presenti nei contatti che ancora non ho aggiunto a un dato gruppo

@@ -3,6 +3,21 @@ from .models import JoobCatagery,JobsTypes,AddJobs,ApplyNow,jobsBookmark
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
+
+## chat model
+from chat.models import JobChat,JobPrivateChat,JobMessage
+import json
+import re
+import random
+from django.http import JsonResponse
+from hashlib import md5
+from django.core import serializers
+from chat import utility_functions as chat_utility_functions
+from django.db.models.query import QuerySet
+from django.db.models import Count
+
+
+
 # Create your views here.
 from accounts.models import profile
 
@@ -162,6 +177,89 @@ def jobbookmarkdlt(request,pk6):
     a.delete()
     # print('=============upload file2 ==photo=======================================',a)
     return redirect('accounts:dashboard-bookmark-manage')
+
+@login_required
+def createsss_chat(request,id):    
+    other_user = User.objects.get(id=id)
+    print('99999999999999999999999999999999999999',id)
+    request.session["id"]=id
+    private_chat = JobPrivateChat()
+    new_chat = JobPrivateChat.add_this(private_chat, request.user, other_user)
+    messages = JobMessage.objects.all().filter(chat=new_chat)
+    return redirect('jobs:create_chat')
+    return render(request, 'chat1.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
+
+
+
+@login_required
+def create_chat(request):    
+    other_user = User.objects.get(id=request.session["id"])
+    private_chat = JobPrivateChat()
+    new_chat = JobPrivateChat.add_this(private_chat, request.user, other_user)
+    messages = JobMessage.objects.all().filter(chat=new_chat)
+    return render(request, 'chat1.html', {'user2': other_user, 'id_chat': new_chat.id_chat, 'messages': messages})
+
+@login_required
+def send_message(request):
+    chat_id = request.POST.get("id_chat")
+    chat = JobChat.objects.get(id_chat=chat_id)
+    print('chat_iddddddddddddddddddddddd',id)
+    text_message = request.POST.get("text-message-input")
+    regex = '^(\+\d{1,3})?,?\s?\d{8,13}' 
+    regex1 = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'       
+    if len(text_message) > 0:
+        if(re.search(regex,text_message)) or (re.search(regex1,text_message)) :  
+            messaggio=JobMessage.add_this(JobMessage(), chat, request.user, text_message) 
+        else:    
+            messaggio=JobMessage.add_this(JobMessage(), chat, request.user, text_message)
+    response = HttpResponse("200")
+    return response
+
+# recupera un messaggio dato il suo id
+@login_required
+def get_message_by_id(id):
+    return JobMessage.objects.all().get(id=id)
+
+
+@login_required
+def private_chat(request):
+    chat_id = request.POST.get("id_chat")
+    
+    print('chat_idddddddddddddddddddddd',chat_id)
+    chat = JobPrivateChat.objects.get(id_chat=chat_id)
+    messages = JobMessage.objects.all().filter(chat=chat)
+    print('++++++++++++++===========================================',messages)
+    if chat.participant1 == request.user:
+        participant = chat.participant2
+    else:
+        participant = chat.participant1
+    return render(request, 'chat1.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages})
+
+
+
+
+@login_required()
+def chat_list(request):
+    chat_list = chat_utility_functions.get_user_jobprivate_chats(request)
+    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%',chat_list)
+    return render(request, 'private-chat-list1.html',
+                  {'private_chats': chat_list, 'len_chats': len(chat_list)})
+
+
+
+
+def get_json_chat_messages(request):    
+    chat = JobChat.objects.get(id_chat=request.session["id"])
+    messaggi_query = JobMessage.objects.filter(chat=chat)
+    messaggi_json_array = []
+    for messaggio in messaggi_query:
+        msg = {'username': messaggio.sender.username, 'text': messaggio.text,
+               'timestamp': messaggio.timestamp.strftime('%Y-%m-%d %H:%M')}
+        messaggi_json_array.append(msg)
+    return JsonResponse(messaggi_json_array, safe=False)
+
+
+
 
 
 

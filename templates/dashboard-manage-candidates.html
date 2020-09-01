@@ -71,6 +71,7 @@
 												</div>
 
 												<!-- Buttons -->
+												<a href="{% url 'jobs:createsss_chat' i.created_user_id %}">add</a>
 												<div class="buttons-to-right always-visible margin-top-25 margin-bottom-5">
                                                     <!-- <a href="{{freelancers_profile_details.cover_letter.url}}" download class="attachment-box ripple-effect" ><span>{{freelancers_profile_details.cover_letter|cut:'cover_letter/' }}</span><i> Download CV</i></a> -->
 													<a href="{{i.upload_doc.url}}" download class="button ripple-effect"><i class="icon-feather-file-text"><span>{{i.jobfiles|cut:'jobfiles/'}}</span></i> Download CV</a>

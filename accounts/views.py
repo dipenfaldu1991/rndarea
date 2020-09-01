@@ -130,6 +130,12 @@ def ragister(request):
     addtasck_count=AddPostdatas.objects.all().count()
     addjob_count=AddJobs.objects.all().count()
 
+    
+    chat_list1=['']    
+    if request.user.is_authenticated:
+        chat_list1 = chat_utility_functions.get_user_jobprivate_chats(request) 
+        print(chat_list1)
+
     chat_list=['']    
     if request.user.is_authenticated:
         chat_list = chat_utility_functions.get_user_private_chats(request) 
@@ -139,6 +145,7 @@ def ragister(request):
         print(like_count)
         like_count=like_count.count()
         print(like_count)
+
     alert = {
         'user_img':u_profileimg(request),
         'addjob_count':addjob_count,
@@ -151,6 +158,7 @@ def ragister(request):
         'private_chats': chat_list[0],
         'private_chatss':chat_list,
         'len_chats': len(chat_list),
+        'jobprivate_chats': chat_list1,
     }
         
     if request.method=='POST':

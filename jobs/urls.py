@@ -14,4 +14,13 @@ urlpatterns = [
     path('edit_jobs/<int:id>',views.edit_jobs,name='edit_jobs'),
     path('jobbookmark/', views.jobbookmark, name='jobbookmark'),
     path('jobbookmarkdlt/<int:pk6>/',views.jobbookmarkdlt,name='jobbookmarkdlt'),
+
+    #####chat
+    path('create_chat/',views.create_chat, name='create_chat'),
+    path('createsss_chat/<int:id>',views.createsss_chat, name='createsss_chat'),
+    path('send_message/', views.send_message, name='send_message'),
+    path('profile/',views.chat_list, name='profile'),
+    path('private_chat/',views.private_chat, name='private_chat'),
+    path('get_private_chat_messages/',views.get_json_chat_messages, name='get_private_chat_messages1'),
+    
 ]
