@@ -1,0 +1,477 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/colors/blue.css">
+<script src="https://docraptor.com/docraptor-1.0.0.js"></script>
+<style>
+	@media print {
+	  #pdf-button {
+		display: none;
+	  }
+	}
+  </style>
+{% block script %}
+
+{% endblock script %}
+{% block content %}
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+<!-- Titlebar
+================================================== -->
+<div class="single-page-header freelancer-header" data-background-image="images/single-freelancer.jpg">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="single-page-header-inner">
+					<div class="left-side">
+						<div class="header-image freelancer-avatar"><img src="/media/{{freelancers_profile_details.image}}" alt=""></div>
+						<div class="header-details">
+							<h3>{{freelancersUserDetails.username}}
+									<span>																	
+											{{l2}}														
+									</span>																	
+							</h3>
+							<ul>
+								<li><div class="star-rating" data-rating="5.0"></div></li>
+								<li><img class="flag" src="images/flags/de.svg" alt=""> Germany</li>
+								<li><div class="verified-badge-with-title">Verified</div></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Page Content
+================================================== -->
+<div class="container">
+	<div class="row">
+		
+		<!-- Content -->
+		<div class="col-xl-8 col-lg-8 content-right-offset">
+			
+			<!-- Page Content -->
+			<div class="single-page-section">
+				<h3 class="margin-bottom-25">About Me</h3>
+	<p>{{freelancers_profile_details.introduce_yourself}}</p>
+			</div>
+
+			<!-- Boxed List -->
+			<div class="boxed-list margin-bottom-60">
+				<div class="boxed-list-headline">
+					<h3><i class="icon-material-outline-thumb-up"></i> Work History and Feedback</h3>
+				</div>
+				<ul class="boxed-list-ul">
+					<li>
+						<div class="boxed-list-item">
+							<!-- Content -->
+							<div class="item-content">
+								<h4>Web, Database and API Developer <span>Rated as Freelancer</span></h4>
+								<div class="item-details margin-top-10">
+									<div class="star-rating" data-rating="5.0"></div>
+									<div class="detail-item"><i class="icon-material-outline-date-range"></i> August 2019</div>
+								</div>
+								<div class="item-description">
+									<p>Excellent programmer - fully carried out my project in a very professional manner. </p>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="boxed-list-item">
+							<!-- Content -->
+							<div class="item-content">
+								<h4>WordPress Theme Installation <span>Rated as Freelancer</span></h4>
+								<div class="item-details margin-top-10">
+									<div class="star-rating" data-rating="5.0"></div>
+									<div class="detail-item"><i class="icon-material-outline-date-range"></i> June 2019</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="boxed-list-item">
+							<!-- Content -->
+							<div class="item-content">
+								<h4>Fix Python Selenium Code <span>Rated as Employer</span></h4>
+								<div class="item-details margin-top-10">
+									<div class="star-rating" data-rating="5.0"></div>
+									<div class="detail-item"><i class="icon-material-outline-date-range"></i> May 2019</div>
+								</div>
+								<div class="item-description">
+									<p>I was extremely impressed with the quality of work AND how quickly he got it done. He then offered to help with another side part of the project that we didn't even think about originally.</p>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="boxed-list-item">
+							<!-- Content -->
+							<div class="item-content">
+								<h4>PHP Core Website Fixes <span>Rated as Freelancer</span></h4>
+								<div class="item-details margin-top-10">
+									<div class="star-rating" data-rating="5.0"></div>
+									<div class="detail-item"><i class="icon-material-outline-date-range"></i> May 2019</div>
+								</div>
+								<div class="item-description">
+									<p>Awesome work, definitely will rehire. Poject was completed not only with the requirements, but on time, within our small budget.</p>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+
+				<!-- Pagination -->
+
+
+				<!-- Pagination / End -->
+
+			</div>
+			<!-- Boxed List / End -->
+			
+			<!-- Boxed List -->
+			<div class="boxed-list margin-bottom-60">
+				<div class="boxed-list-headline">
+					<h3><i class="icon-material-outline-business"></i> Employment History</h3>
+				</div>
+				<ul class="boxed-list-ul">
+					<li>
+						<div class="boxed-list-item">
+							<!-- Avatar -->
+							<div class="item-image">
+								<img src="images/browse-companies-03.png" alt="">
+							</div>
+							
+							<!-- Content -->
+							<div class="item-content">
+								<h4>Development Team Leader</h4>
+								<div class="item-details margin-top-7">
+									<div class="detail-item"><a href="#"><i class="icon-material-outline-business"></i> Acodia</a></div>
+									<div class="detail-item"><i class="icon-material-outline-date-range"></i> May 2019 - Present</div>
+								</div>
+								<div class="item-description">
+									<p>Focus the team on the tasks at hand or the internal and external customer requirements.</p>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="boxed-list-item">
+							<!-- Avatar -->
+							<div class="item-image">
+								<img src="images/browse-companies-04.png" alt="">
+							</div>
+							
+							<!-- Content -->
+							<div class="item-content">
+								<h4><a href="#">Lead UX/UI Designer</a></h4>
+								<div class="item-details margin-top-7">
+									<div class="detail-item"><a href="#"><i class="icon-material-outline-business"></i> Acorta</a></div>
+									<div class="detail-item"><i class="icon-material-outline-date-range"></i> April 2014 - May 2019</div>
+								</div>
+								<div class="item-description">
+									<p>I designed and implemented 10+ custom web-based CRMs, workflow systems, payment solutions and mobile apps.</p>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<!-- Boxed List / End -->
+
+		</div>
+		
+		<!-- Sidebar -->
+		<div class="col-xl-4 col-lg-4">
+			<div class="sidebar-container">
+			
+				<!-- Profile Overview -->
+				<div class="profile-overview">
+					<div class="overview-item"><strong>${{freelancers_profile_details.hourly_rate}}</strong><span>Hourly Rate</span></div>
+				
+					<div class="overview-item"><strong>{{bid_count}}</strong><span>bids</span></div>
+				</div>
+
+				<!-- Button -->
+				<a href="#small-dialog" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Make an Offer <i class="icon-material-outline-arrow-right-alt"></i></a>
+
+				<!-- Freelancer Indicators -->
+ 
+				<!-- Widget -->
+
+				<!-- Widget -->
+				<div class="sidebar-widget">
+					<h3>Skills</h3>
+					<div class="task-tags">
+						{% for i in l1 %}					
+						<span>{{i}}</span>	
+						{% endfor %}
+					</div>
+				</div>
+
+				<!-- Widget -->
+				<div class="sidebar-widget">
+					<h3>Attachments</h3>
+					<div class="attachments-container">
+						<a href="{{freelancers_profile_details.cover_letter.url}}" download class="attachment-box ripple-effect" ><span>{{freelancers_profile_details.cover_letter|cut:'cover_letter/' }}</span><i>PDF</i></a>
+						
+					</div>
+				</div>
+
+				<!-- Sidebar Widget -->
+				<div class="sidebar-widget">
+					<h3>Bookmark or Share</h3>
+
+					<!-- Bookmark Button -->
+					<button class="bookmark-button margin-bottom-25">
+						<span class="bookmark-icon"></span>
+						<span class="bookmark-text">Bookmark</span>
+						<span class="bookmarked-text">Bookmarked</span>
+					</button>
+
+					<!-- Copy URL -->
+					<div class="copy-url">
+						<input id="copy-url" type="text" value="" class="with-border">
+						<button class="copy-url-button ripple-effect" data-clipboard-target="#copy-url" title="Copy to Clipboard" data-tippy-placement="top"><i class="icon-material-outline-file-copy"></i></button>
+					</div>
+
+					<!-- Share Buttons -->
+					<div class="share-buttons margin-top-25">
+						<div class="share-buttons-trigger"><i class="icon-feather-share-2"></i></div>
+						<div class="share-buttons-content">
+							<span>Interesting? <strong>Share It!</strong></span>
+							<ul class="share-buttons-icons">
+								<li><a href="#" data-button-color="#3b5998" title="Share on Facebook" data-tippy-placement="top"><i class="icon-brand-facebook-f"></i></a></li>
+								<li><a href="#" data-button-color="#1da1f2" title="Share on Twitter" data-tippy-placement="top"><i class="icon-brand-twitter"></i></a></li>
+								<li><a href="#" data-button-color="#dd4b39" title="Share on Google Plus" data-tippy-placement="top"><i class="icon-brand-google-plus-g"></i></a></li>
+								<li><a href="#" data-button-color="#0077b5" title="Share on LinkedIn" data-tippy-placement="top"><i class="icon-brand-linkedin-in"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+<!-- Spacer -->
+<div class="margin-top-15"></div>
+<!-- Spacer / End-->
+
+<!-- Footer
+================================================== -->
+
+<!-- Footer / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+
+<!-- Make an Offer Popup
+================================================== -->
+<div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+	<!--Tabs -->
+	<div class="sign-in-form">
+
+		<ul class="popup-tabs-nav">
+			<li><a href="#tab">Make an Offer</a></li>
+		</ul>
+
+		<div class="popup-tabs-container">
+
+			<!-- Tab -->
+			<div class="popup-tab-content" id="tab">
+				
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Discuss your project with David</h3>
+				</div>
+					
+				<!-- Form -->
+				<form method="post">
+
+					<div class="input-with-icon-left">
+						<i class="icon-material-outline-account-circle"></i>
+						<input type="text" class="input-text with-border" name="name" id="name" placeholder="First and Last Name"/>
+					</div>
+
+					<div class="input-with-icon-left">
+						<i class="icon-material-baseline-mail-outline"></i>
+						<input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address"/>
+					</div>
+
+					<textarea name="textarea" cols="10" placeholder="Message" class="with-border"></textarea>
+
+					<div class="uploadButton margin-top-25">
+						<input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple/>
+						<label class="uploadButton-button ripple-effect" for="upload">Add Attachments</label>
+						<span class="uploadButton-file-name">Allowed file types: zip, pdf, png, jpg <br> Max. files size: 50 MB.</span>
+					</div>
+
+				</form>
+				
+				<!-- Button -->
+				<button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit">Make an Offer <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+			</div>
+			<!-- Login -->
+			<div class="popup-tab-content" id="loginn">
+				
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Discuss Your Project With Tom</h3>
+				</div>
+					
+				<!-- Form -->
+				<form method="post" id="make-an-offer-form">
+
+					<div class="input-with-icon-left">
+						<i class="icon-material-outline-account-circle"></i>
+						<input type="text" class="input-text with-border" name="name2" id="name2" placeholder="First and Last Name" required/>
+					</div>
+
+					<div class="input-with-icon-left">
+						<i class="icon-material-baseline-mail-outline"></i>
+						<input type="text" class="input-text with-border" name="emailaddress2" id="emailaddress2" placeholder="Email Address" required/>
+					</div>
+
+					<textarea name="textarea" cols="10" placeholder="Message" class="with-border"></textarea>
+
+					<div class="uploadButton margin-top-25">
+						<input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload-cv" multiple/>
+						<label class="uploadButton-button" for="upload-cv">Add Attachments</label>
+						<span class="uploadButton-file-name">Allowed file types: zip, pdf, png, jpg <br> Max. files size: 50 MB.</span>
+					</div>
+
+				</form>
+				
+				<!-- Button -->
+				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="make-an-offer-form">Make an Offer <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- Make an Offer Popup / End -->
+
+
+
+<!-- Scripts
+================================================== -->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/jquery-migrate-3.1.0.min.js"></script>
+<script src="js/mmenu.min.js"></script>
+<script src="js/tippy.all.min.js"></script>
+<script src="js/simplebar.min.js"></script>
+<script src="js/bootstrap-slider.min.js"></script>
+<script src="js/bootstrap-select.min.js"></script>
+<script src="js/snackbar.js"></script>
+<script src="js/clipboard.min.js"></script>
+<script src="js/counterup.min.js"></script>
+<script src="js/magnific-popup.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/custom.js"></script>
+
+<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+// Snackbar for user status switcher
+$('#snackbar-user-status label').click(function() { 
+	Snackbar.show({
+		text: 'Your status has been changed!',
+		pos: 'bottom-center',
+		showAction: false,
+		actionText: "Dismiss",
+		duration: 3000,
+		textColor: '#fff',
+		backgroundColor: '#383838'
+	}); 
+}); 
+
+// Snackbar for "place a bid" button
+$('#snackbar-place-bid').click(function() { 
+	Snackbar.show({
+		text: 'Your bid has been placed!',
+	}); 
+}); 
+
+
+// Snackbar for copy to clipboard button
+$('.copy-url-button').click(function() { 
+	Snackbar.show({
+		text: 'Copied to clipboard!',
+	}); 
+}); 
+</script>
+
+/* click pdf download pdf file script*/
+<script>
+	// Snackbar for user status switcher
+	$('#snackbar-user-status label').click(function() { 
+		Snackbar.show({
+			text: 'Your status has been changed!',
+			pos: 'bottom-center',
+			showAction: false,
+			actionText: "Dismiss",
+			duration: 3000,
+			textColor: '#fff',
+			backgroundColor: '#383838'
+		}); 
+	}); 
+	
+	// Snackbar for "place a bid" button
+	$('#snackbar-place-bid').click(function() { 
+		Snackbar.show({
+			text: 'Your bid has been placed!',
+		}); 
+	}); 
+	
+	
+	// Snackbar for copy to clipboard button
+	$('.copy-url-button').click(function() { 
+		Snackbar.show({
+			text: 'Copied to clipboard!',
+		}); 
+	}); 
+	</script>
+	
+	<script>
+		//click image  Get the Image
+		var modal = document.getElementById('myModal');
+		
+		// Get the image and insert it inside the modal - use its "alt" text as a caption
+		var img = document.getElementById('myImg');
+		var modalImg = document.getElementById("img01");
+		var captionText = document.getElementById("caption");
+		img.onclick = function(){
+		  modal.style.display = "block";
+		  modalImg.src = this.src;
+		  captionText.innerHTML = this.alt;
+		}
+		
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+		
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() { 
+		  modal.style.display = "none";
+		}
+		</script>
+
+
+{% endblock content %}

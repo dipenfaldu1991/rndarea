@@ -59,7 +59,7 @@ def u_profileimg(request):
         user_img=u.image
         print('user image====================',user_img)
     return user_img
-
+  
 
 def profile_detail(request):
     que1 = Questions.objects.get(pk=int(request.session["question_id"]))
@@ -96,7 +96,7 @@ def profile_detail(request):
         "profile":profile_instance,
         "user_": user_,
         "comments": qs_comments,
-      
+        "user_img":u_profileimg(request)
     }
     return redirect('rnd_projects:ShowQuestion',pk=que_id)
     return render(request, "ShowQuestion.html", content)
@@ -555,15 +555,11 @@ def private_chat(request):
     return render(request, 'chat.html', {'user2': participant, 'id_chat': chat_id, 'messages': messages,'user_img':u_profileimg(request)})
 
 
-
-
 @login_required()
 def chat_list(request):
     chat_list = chat_utility_functions.get_user_private_chats(request)
     return render(request, 'private-chat-list.html',
                   {'private_chats': chat_list, 'len_chats': len(chat_list),'user_img':u_profileimg(request)})
-
-
 
 
 def get_json_chat_messages(request):    
@@ -584,8 +580,7 @@ def acceptbids(request,pk):
         print(pk)
         taskuid=AddPostdatas.objects.get(id=biddingid.task_id_id)
         taskuser=User.objects.get(id=taskuid.created_user_id)
-        AcceptBiddata.objects.create(taskid=taskuid,task_userid=taskuser,bid_userid=User.objects.get(id=biddingid.bid_user_id_id),biddingid=biddingid.id,created_datetime=request.user) 
-        
+        AcceptBiddata.objects.create(taskid=taskuid,task_userid=taskuser,bid_userid=User.objects.get(id=biddingid.bid_user_id_id),biddingid=biddingid.id,created_datetime=request.user)        
     return render(request,'dashboard-manage-bidders.html',{'user_img':u_profileimg(request)})
 
 
@@ -722,4 +717,79 @@ def dashboard_message(request):
         'len_chats': len(chat_list),
     }    
     return render(request,'dashboard-messages.html',alert)
+
+@login_required(login_url="/")
+def freelancers_list(request):
+    freelancerslist=User.objects.filter(is_active=1)
+    # freelancerslists_id=User.objects.filter(is_active=1).values_list('id', flat=True)   
+    print('freelancerslist====================================',freelancerslist)
+    freel_Profiledic=[]
+    for i in freelancerslist:
+        freelancers_Profilelist=profile.objects.get(user_id=i)
+        freel_Profiledic.append(freelancers_Profilelist)    
+    paginator = Paginator(freelancerslist,3) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)    
+    print('page_obj====================================',freel_Profiledic)
+    
+    return render(request,'freelancers_list_layout.html',{'page_obj':page_obj,'freelancerslist':freelancerslist,'freelancers_Profilelist':freelancers_Profilelist,'freel_Profiledic':freel_Profiledic,'user_img':u_profileimg(request)})
+
+
+@login_required(login_url="/")
+def freelancers_listdata_byid(request,fid):
+    bidcount=BidCount.objects.get(user_id=request.user.id)
+    print(type(bidcount.id))
+    freelancersUserDetails=User.objects.get(is_active=1,id=fid)
+    print("+++++++++++++++++++++ freelancersUserDetails is user id ++++++++++++++++++++++",freelancersUserDetails)
+
+    bid_count=bidcount.number_of_bid
+    print("+++++++++++++++++++++bidcount is user id++++++++++++++++++++++",bid_count)
+
+    freelancers_profile_details=profile.objects.get(id=fid)
+    print("freelancers_details+++++++++++freelancers_profile_details is user id++++++++++++++",freelancers_profile_details)
+    freelancers_id=freelancers_profile_details.id
+    print("freelancers_id+++++++++++++++++++++freelancers_id is user id++++++++++++++++",freelancers_id)
+
+    str=freelancers_profile_details.skill
+    l1 = str.split (",")
+    print(l1)
+    l2 = str.replace(",","+")
+    print(l2) 
+    # l2 ="+".join(l1)
+    return render(request,'single-freelancer-profile.html',{'l2':l2, 'l1':l1,'freelancersUserDetails':freelancersUserDetails,'bid_count':bid_count,'freelancers_profile_details':freelancers_profile_details,'user_img':u_profileimg(request)})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

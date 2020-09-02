@@ -42,4 +42,28 @@ urlpatterns = [
     path('delete_Taskdata/<int:pk3>/',views.delete_Taskdata,name='delete_Taskdata'),
     path('bookmarkdlt/<int:pk4>/',views.bookmarkdlt,name='bookmarkdlt'),
     path('quebookmarkdlt/<int:pk5>/',views.quebookmarkdlt,name='quebookmarkdlt'),
+
+    path('freelancers_list',views.freelancers_list,name='freelancers_list'),
+    path('freelancers_listdata_byid/<int:fid>/',views.freelancers_listdata_byid,name='freelancers_listdata_byid'),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ]

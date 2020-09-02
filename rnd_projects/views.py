@@ -13,7 +13,7 @@ MERCHANT_KEY='dRqXXn5!k6v&EA6f'
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 from django.http import HttpResponse
 import json
-
+import simplejson as json
 from django.shortcuts import (
     render,
     get_object_or_404,
@@ -53,9 +53,6 @@ def quebookmak(request):
        
         return render(request,'Upload_Project_2.html',{'user_img':u_profileimg(request)})
     return render(request,'Upload_Project.html',{'user_img':u_profileimg(request)})
-
-
-
 
 @csrf_exempt
 def paymentpage(request):
@@ -105,18 +102,18 @@ def Upload_Project_2(request):
 def ReadyProjectDetails(request,pk):
     posts = Projects_add.objects.get(pk=pk)
     proj=Projects_add_documents.objects.get(project_add=pk)
-    return render(request,'ReadyProjectDetails.html',{'items': posts,'pro':proj,'user_img':u_profileimg(request)})
+    return render(request,'ReadyProjectDetails.html',{'items': posts,'pro':proj})
 
- 
 def ReadyProjectShow(request):
-    posts = Projects_add.objects.all().order_by('-id')
+    posts = Projects_add.objects.all()
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
-    return render(request,'ReadyProjectShow.html',{'items': posts,'user_img':u_profileimg(request)})
- 
-@login_required(login_url="/")
-def project_pagecheckout_bynow(request,pid):
+    return render(request,'ReadyProjectShow.html',{'items': posts})
+
+
+@login_required(login_url="/")  
+def project_pagecheckout_bynow(request,pk):
     posts = Projects_add.objects.get(pk=pk)
     project_id=posts.id
     print("===============================")
@@ -124,17 +121,16 @@ def project_pagecheckout_bynow(request,pid):
     plans_prices=posts.Cost
     print("===============================")
     print(plans_prices)
-    pricess=plans_prices
-    gsts=pricess*18/100
-    totals=gsts+pricess
-    request.session["plan_price"] =pricess
-    request.session["plan_gst"] =gsts
-    request.session["plan_total_price"] =totals
-    return render(request,'projectpage-checkout-page.html',{'posts': posts,'pricess':pricess,'gsts':gsts,'totals':totals,'user_img':u_profileimg(request)})
+    prices=int(plans_prices)
+    gst=prices*18/100
+    total=gst+prices
+    request.session["plan_price"] =prices
+    request.session["plan_gst"] =gst
+    request.session["plan_total_price"] =total
+    return render(request,'projectpage-checkout-page.html',{'posts': posts,'prices':prices,'gst':gst,'total':total})
 
 def project_order_plan(request):
     pass
-
 
 @login_required(login_url="/")     
 def add_questions(request):
@@ -173,8 +169,6 @@ def ShowQuestion(request,pk):
     return render(request,'ShowQuestion.html',{'question': que,'que1':que1,'ans1':ans1,'l1':l1,'user_img':u_profileimg(request)})
 
 
-
-
 @login_required(login_url="/")     
 def getanswer(request):    
     que1 = Questions.objects.get(pk=int(request.session["question_id"]))
@@ -187,7 +181,6 @@ def getanswer(request):
         return redirect('rnd_projects:ShowQuestion',pk=que_id)
 
     return render(request,'ShowQuestion.html', content,{'user_img':u_profileimg(request)})
-
 
 
 @login_required(login_url="/")     
@@ -206,8 +199,6 @@ def add_task(request):
     return render(request,'addpost.html',{'user_img':u_profileimg(request)})
 
  
- 
-
 @login_required(login_url="/")     
 def viewtask(request):
     viewpost=AddPostdatas.objects.all().order_by('-id') 
@@ -284,13 +275,10 @@ def like_planspamentbyid(request,planid):
     return render(request,'lick_plane_checkout-page.html',{'pagecheckout_data':pagecheckout_data,'prices':prices,'gst':gst,'total':total,'user_img':u_profileimg(request)})
 
 
-
-
 @login_required(login_url="/")
 def buybid(request):
     plansdata=Plans.objects.all()
     return render(request,'pages-pricing-plans.html',{'plansdata':plansdata,'user_img':u_profileimg(request)})
-
 
 
 @login_required(login_url="/")
@@ -305,7 +293,6 @@ def pagecheckout_bynow(request,mid):
     request.session["plan_gst"] =gst
     request.session["plan_total_price"] =total
     return render(request,'pages-checkout-page.html',{'pagecheckout_data':pagecheckout_data,'gst':gst,'total':total,'user_img':u_profileimg(request)})
-
 
 
 

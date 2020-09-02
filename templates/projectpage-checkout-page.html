@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
-<style>
-
-</style>
 {% block content %}
 <div class="clearfix"></div>
+<!-- Header Container / End -->
 <!-- Header Container / End -->
 <!-- Titlebar
 ================================================== -->
@@ -13,7 +11,7 @@
 		<div class="row">
 			<div class="col-md-12">
 
-				<h2>Checkout</h2>
+				<h1><b>{{posts.headline}}</b></h1>
 
 				<!-- Breadcrumbs -->
 				<nav id="breadcrumbs" class="dark">
@@ -39,36 +37,10 @@
 			
 
 			<!-- Hedaline -->
-			<h3>Billing Cycle</h3>
+			<h3>{{posts.Description}}</h3>
 
 			<!-- Billing Cycle Radios  -->
-			<div class="billing-cycle margin-top-25">
 
-				<!-- Radio -->
-				<div class="radio">
-					<input id="radio-5" name="radio-payment-type" type="radio" checked>
-					<label for="radio-5">
-						<span class="radio-label"></span>
-						Billed Monthly
-						<span class="billing-cycle-details">
-							<span class="regular-price-tag">$49.00 / month</span>
-						</span>
-					</label>
-				</div>
-			
-				<!-- Radio -->
-				<div class="radio">
-					<input id="radio-6" name="radio-payment-type" type="radio">
-					<label for="radio-6"><span class="radio-label"></span>
-						Billed Yearly
-						<span class="billing-cycle-details">
-							<span class="discounted-price-tag">$529.20 / year</span>
-							<span class="regular-price-tag line-through">588.00 / year</span>
-						</span>
-					</label>
-				</div>
-			</div>
-			
 
 			<!-- Hedline -->
 			<h3 class="margin-top-50">Payment Method</h3>
@@ -79,7 +51,7 @@
 				<div class="payment-tab payment-tab-active">
 					<div class="payment-tab-trigger">
 						<input checked id="paypal" name="cardType" type="radio" value="paypal">
-						<label for="paypal">PayPal</label>
+						<label for="paypal">PayTm</label>
 						<img class="payment-logo paypal" src="https://i.imgur.com/ApBxkXU.png" alt="">
 					</div>
 
@@ -137,10 +109,10 @@
 			</div>
 			<!-- Payment Methods Accordion / End -->
 		
-			<a href="{% url 'rnd_projects:project_order_plan' projectcheckout_data.id %}" class="button big ripple-effect margin-top-40 margin-bottom-65">Proceed Payment</a>
+			<a href="{% url 'rnd_projects:paytm' %}" class="button big ripple-effect margin-top-40 margin-bottom-65">Proceed Payment</a>
 		</div>
 
-
+		
 		<!-- Summary -->
 		<div class="col-xl-4 col-lg-4 margin-top-0 margin-bottom-60">
 			
@@ -151,7 +123,7 @@
 				</div>
 				<div class="boxed-widget-inner">
 					<ul> 
-						<li name="">{{pagecheckout_data.plan_name}} <span>&#x20b9; {{pagecheckout_data.price}}</span></li>
+						<li name=""><p><b> {{posts.headline}}<span> &#x20b9;{{prices}}</span></b></p></li>
 						<li>GST (18%) <span>&#x20b9; {{gst}}</span></li>
 						<li class="total-costs">Final Price <span>&#x20b9; {{total}}</span></li>
 					</ul>
@@ -206,5 +178,4 @@ $('#snackbar-user-status label').click(function() {
 	}); 
 }); 
 </script>
-<!-- Container / End -->
 {% endblock %}
